@@ -26,8 +26,22 @@ namespace Notepad.UI
             var mnuFile =new ToolStripMenuItem("file");
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("New",null,new EventHandler(New_Click)));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click)));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click)));
             _notepadMainMenu.Items.Add(mnuFile);
             _notepadMainMenu.Dock = DockStyle.Top;
+        }
+
+        private void Open_Click(object sender, EventArgs e)
+        {
+            var openFileDialog1=new OpenFileDialog();
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.IO.StreamReader sr = new
+                    System.IO.StreamReader(openFileDialog1.FileName);
+               // MessageBox.Show(sr.ReadToEnd());
+               text.Text = sr.ReadToEnd();
+                sr.Close();
+            }
         }
 
         private void Save_Click(object sender, EventArgs e)
