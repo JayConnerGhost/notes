@@ -3,6 +3,7 @@ using System.Data.SqlTypes;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Notepad.UI;
 
 namespace Notepad.UI
 {
@@ -12,6 +13,7 @@ namespace Notepad.UI
         private readonly Panel _notepadControlHolder;
         private readonly MenuStrip _notepadMainMenu;
         private  RichTextBox text;
+        private readonly FormState formState = new FormState();
         public NotepadController(NotepadFrame notepadFrame)
         {
             _notepadFrame = notepadFrame;
@@ -58,11 +60,24 @@ namespace Notepad.UI
             mnuView.DropDownItems.Add(new ToolStripMenuItem("High Contrast", null, new EventHandler(HighContrast_Click), Keys.Alt | Keys.C));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Regular", null, new EventHandler(RegularContrast_Click), Keys.Alt | Keys.R));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click), Keys.Alt | Keys.H));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Distraction Free", null, new EventHandler(DistractionFree_Click), Keys.Alt | Keys.D));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Utillity Free", null, new EventHandler(Utility_Click), Keys.Alt | Keys.U));
+
 
             _notepadMainMenu.Items.Add(mnuFile);
             _notepadMainMenu.Items.Add(mnuEdit);
             _notepadMainMenu.Items.Add(mnuView);
             _notepadMainMenu.Dock = DockStyle.Top;
+        }
+
+        private void Utility_Click(object sender, EventArgs e)
+        {
+            formState.Restore(_notepadFrame);
+        }
+
+        private void DistractionFree_Click(object sender, EventArgs e)
+        {
+          formState.Maximize(_notepadFrame);
         }
 
         private void HackerContrast_Click(object sender, EventArgs e)
