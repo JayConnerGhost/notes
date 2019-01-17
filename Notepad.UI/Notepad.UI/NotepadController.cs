@@ -19,7 +19,16 @@ namespace Notepad.UI
             _notepadMainMenu = notepadFrame.menuMain;
             CompositionStepTwo_addMenu();
             CompositionStepOne_addText();
+            CompositionStepThree_setStyle();
 
+        }
+
+        private void CompositionStepThree_setStyle()
+        {
+            text.BackColor = Color.White;
+            text.ForeColor = Color.Black;
+            text.SelectionBackColor = Color.AliceBlue;
+            text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
         private void CompositionStepOne_addText()
@@ -34,6 +43,7 @@ namespace Notepad.UI
         {
             var mnuFile =new ToolStripMenuItem("File");
             var mnuEdit = new ToolStripMenuItem("Edit");
+            var mnuView = new ToolStripMenuItem("View");
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("New",null,new EventHandler(New_Click),Keys.Control | Keys.F));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click),Keys.Control | Keys.S));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click),Keys.Control | Keys.O));
@@ -45,9 +55,35 @@ namespace Notepad.UI
             mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Select All", null, new EventHandler(SelectAll_Click), Keys.Control | Keys.A));
             mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Search", null, new EventHandler(Search_Click), Keys.Control | Keys.H));
 
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("High Contrast", null, new EventHandler(HighContrast_Click), Keys.Alt | Keys.C));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Regular", null, new EventHandler(RegularContrast_Click), Keys.Alt | Keys.R));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click), Keys.Alt | Keys.H));
+
             _notepadMainMenu.Items.Add(mnuFile);
             _notepadMainMenu.Items.Add(mnuEdit);
+            _notepadMainMenu.Items.Add(mnuView);
             _notepadMainMenu.Dock = DockStyle.Top;
+        }
+
+        private void HackerContrast_Click(object sender, EventArgs e)
+        {
+            text.BackColor = Color.Black;
+            text.ForeColor = Color.ForestGreen;
+            text.SelectionBackColor = Color.AliceBlue;
+            text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+        }
+
+        private void RegularContrast_Click(object sender, EventArgs e)
+        {
+            CompositionStepThree_setStyle();
+        }
+
+        private void HighContrast_Click(object sender, EventArgs e)
+        {
+            text.BackColor=Color.Black;
+            text.ForeColor=Color.Yellow;
+            text.SelectionBackColor=Color.Chartreuse;
+            text.Font=new Font(FontFamily.GenericSerif, 20,FontStyle.Regular,GraphicsUnit.Pixel);
         }
 
         private void Close_Click(object sender, EventArgs e)
