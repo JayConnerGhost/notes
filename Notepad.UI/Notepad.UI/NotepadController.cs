@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -10,7 +11,7 @@ namespace Notepad.UI
         private readonly NotepadFrame _notepadFrame;
         private readonly Panel _notepadControlHolder;
         private readonly MenuStrip _notepadMainMenu;
-        TextBox text;
+        private  RichTextBox text;
         public NotepadController(NotepadFrame notepadFrame)
         {
             _notepadFrame = notepadFrame;
@@ -21,14 +22,86 @@ namespace Notepad.UI
 
         }
 
+        private void CompositionStepOne_addText()
+        {
+
+            text = new RichTextBox() { Dock = DockStyle.Fill, Multiline = true };
+
+            _notepadControlHolder.Controls.Add(text);
+        }
+
         private void CompositionStepTwo_addMenu()
         {
-            var mnuFile =new ToolStripMenuItem("file");
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("New",null,new EventHandler(New_Click)));
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click)));
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click)));
+            var mnuFile =new ToolStripMenuItem("File");
+            var mnuEdit = new ToolStripMenuItem("Edit");
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("New",null,new EventHandler(New_Click),Keys.Control | Keys.F));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click),Keys.Control | Keys.S));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click),Keys.Control | Keys.O));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Close", null, new EventHandler(Close_Click), Keys.Control | Keys.X));
+
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Copy", null, new EventHandler(Copy_Click), Keys.Control | Keys.C));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Cut", null, new EventHandler(Cut_Click), Keys.Control | Keys.U));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Paste", null, new EventHandler(Paste_Click), Keys.Control | Keys.P));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Select All", null, new EventHandler(SelectAll_Click), Keys.Control | Keys.A));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Search", null, new EventHandler(Search_Click), Keys.Control | Keys.H));
+
             _notepadMainMenu.Items.Add(mnuFile);
+            _notepadMainMenu.Items.Add(mnuEdit);
             _notepadMainMenu.Dock = DockStyle.Top;
+        }
+
+        private void Close_Click(object sender, EventArgs e)
+        {
+            _notepadFrame.Close();
+        }
+
+        private void Search_Click(object sender, EventArgs e)
+        {
+            //https://www.youtube.com/watch?v=kfbkLxH8xDI
+
+            int index = 0;
+            String temp = text.Text;
+            text.Text = "";
+            text.Text = temp;
+
+            var searchController=new SearchController();
+           var searchTerm= searchController.ShowDialog();
+
+           while (index < text.Text.LastIndexOf(searchTerm))
+           {
+               text.Find(searchTerm, index, text.TextLength, RichTextBoxFinds.None);
+               text.SelectionBackColor = Color.Aqua;
+               index = text.Text.IndexOf(searchTerm, index) + 1;
+           }
+        
+
+        }
+
+
+        private void SelectAll_Click(object sender, EventArgs e)
+        {
+            text.SelectAll();
+        }
+
+        private void Paste_Click(object sender, EventArgs e)
+        {
+           text.Paste();
+        }
+
+        private void Cut_Click(object sender, EventArgs e)
+        {
+            if (text.SelectedText.Length > 0)
+            {
+                text.Cut();
+            }
+        }
+
+        private void Copy_Click(object sender, EventArgs e)
+        {
+            if (text.SelectedText.Length > 0)
+            {
+                text.Copy();
+            }
         }
 
         private void Open_Click(object sender, EventArgs e)
@@ -38,7 +111,7 @@ namespace Notepad.UI
             {
                 System.IO.StreamReader sr = new
                     System.IO.StreamReader(openFileDialog1.FileName);
-               // MessageBox.Show(sr.ReadToEnd());
+            
                text.Text = sr.ReadToEnd();
                 sr.Close();
             }
@@ -68,13 +141,7 @@ namespace Notepad.UI
             text.Text = null;
         }
 
-        private void CompositionStepOne_addText()
-        {
-           
-            text = new TextBox {Dock = DockStyle.Fill, Multiline = true};
-
-            _notepadControlHolder.Controls.Add(text);
-        }
+        
         
     }
 }
