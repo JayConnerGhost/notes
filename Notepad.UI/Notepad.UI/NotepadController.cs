@@ -3,6 +3,7 @@ using System.Data.SqlTypes;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using NetSpell.SpellChecker;
 using Notepad.UI;
 
 namespace Notepad.UI
@@ -14,6 +15,8 @@ namespace Notepad.UI
         private readonly MenuStrip _notepadMainMenu;
         private  RichTextBox text;
         private readonly FormState formState = new FormState();
+        internal Spelling SpellChecker;
+
         public NotepadController(NotepadFrame notepadFrame)
         {
             _notepadFrame = notepadFrame;
@@ -22,15 +25,25 @@ namespace Notepad.UI
             CompositionStepTwo_addMenu();
             CompositionStepOne_addText();
             CompositionStepThree_setStyle();
+            CompositionStepFour_setUpSpelling();
 
+        }
+
+        private void CompositionStepFour_setUpSpelling()
+        {
+            //http://www.loresoft.com/The-NetSpell-project
+            SpellChecker = new Spelling();
+            SpellChecker.ShowDialog = true;
+            SpellChecker.MisspelledWord += new Spelling.MisspelledWordEventHandler(SpellChecker_MisspelledWord);
+            SpellChecker.EndOfText += new Spelling.EndOfTextEventHandler(SpellChecker_EndOfText);
+            SpellChecker.DoubledWord += new Spelling.DoubledWordEventHandler(SpellChecker_DoubledWord);
         }
 
         private void CompositionStepThree_setStyle()
         {
             text.BackColor = Color.White;
             text.ForeColor = Color.Black;
-            text.SelectionBackColor = Color.AliceBlue;
-            text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+           text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
         private void CompositionStepOne_addText()
@@ -46,6 +59,7 @@ namespace Notepad.UI
             var mnuFile =new ToolStripMenuItem("File");
             var mnuEdit = new ToolStripMenuItem("Edit");
             var mnuView = new ToolStripMenuItem("View");
+            var mnuTools = new ToolStripMenuItem("Tools");
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("New",null,new EventHandler(New_Click),Keys.Control | Keys.F));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click),Keys.Control | Keys.S));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click),Keys.Control | Keys.O));
@@ -61,16 +75,44 @@ namespace Notepad.UI
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Regular", null, new EventHandler(RegularContrast_Click), Keys.Alt | Keys.R));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click), Keys.Alt | Keys.H));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Distraction Free", null, new EventHandler(DistractionFree_Click), Keys.Alt | Keys.D));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Utillity Free", null, new EventHandler(Utility_Click), Keys.Alt | Keys.U));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Normal Mode", null, new EventHandler(NormalMode_Click), Keys.Alt | Keys.U));
 
+            mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click), Keys.Alt | Keys.S));
 
             _notepadMainMenu.Items.Add(mnuFile);
             _notepadMainMenu.Items.Add(mnuEdit);
             _notepadMainMenu.Items.Add(mnuView);
+            _notepadMainMenu.Items.Add(mnuTools);
             _notepadMainMenu.Dock = DockStyle.Top;
         }
 
-        private void Utility_Click(object sender, EventArgs e)
+        private void SpellCheck_Click(object sender, EventArgs e)
+        {
+            SpellChecker.Text = text.Text;
+            SpellChecker.SpellCheck();
+        }
+
+        private void SpellChecker_DoubledWord(object sender, SpellingEventArgs args)
+        {
+            // update text  
+            text.Text = SpellChecker.Text;
+        }
+
+        private void SpellChecker_EndOfText(object sender, EventArgs args)
+        {
+            // update text  
+            text.Text = SpellChecker.Text;
+        }
+
+        private void SpellChecker_MisspelledWord(object sender, SpellingEventArgs args)
+        {
+            // update text  
+            text.Text = SpellChecker.Text;
+        }
+
+
+
+        private void NormalMode_Click(object sender, EventArgs e)
         {
             formState.Restore(_notepadFrame);
         }
@@ -84,7 +126,6 @@ namespace Notepad.UI
         {
             text.BackColor = Color.Black;
             text.ForeColor = Color.ForestGreen;
-            text.SelectionBackColor = Color.AliceBlue;
             text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
@@ -97,7 +138,6 @@ namespace Notepad.UI
         {
             text.BackColor=Color.Black;
             text.ForeColor=Color.Yellow;
-            text.SelectionBackColor=Color.Chartreuse;
             text.Font=new Font(FontFamily.GenericSerif, 20,FontStyle.Regular,GraphicsUnit.Pixel);
         }
 
