@@ -210,7 +210,7 @@ namespace Notepad.UI
 
         private void Save_Click(object sender, EventArgs e)
         {
-            var saveFileDialog1 = new SaveFileDialog {Filter = "txt|*.txt", Title = "Save a Text File"};
+            var saveFileDialog1 = new SaveFileDialog {Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*", Title = "Save a Text File"};
             saveFileDialog1.ShowDialog();
             if (saveFileDialog1.FileName != "")
             {
