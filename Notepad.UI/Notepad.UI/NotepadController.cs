@@ -60,30 +60,57 @@ namespace Notepad.UI
             var mnuEdit = new ToolStripMenuItem("Edit");
             var mnuView = new ToolStripMenuItem("View");
             var mnuTools = new ToolStripMenuItem("Tools");
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("New",null,new EventHandler(New_Click),Keys.Control | Keys.F));
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click),Keys.Control | Keys.S));
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click),Keys.Control | Keys.O));
-            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Close", null, new EventHandler(Close_Click), Keys.Control | Keys.X));
-
-            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Copy", null, new EventHandler(Copy_Click), Keys.Control | Keys.C));
-            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Cut", null, new EventHandler(Cut_Click), Keys.Control | Keys.U));
-            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Paste", null, new EventHandler(Paste_Click), Keys.Control | Keys.P));
-            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Select All", null, new EventHandler(SelectAll_Click), Keys.Control | Keys.A));
-            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Search", null, new EventHandler(Search_Click), Keys.Control | Keys.H));
-
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("High Contrast", null, new EventHandler(HighContrast_Click), Keys.Alt | Keys.C));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Regular", null, new EventHandler(RegularContrast_Click), Keys.Alt | Keys.R));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click), Keys.Alt | Keys.H));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Distraction Free", null, new EventHandler(DistractionFree_Click), Keys.Alt | Keys.D));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Normal Mode", null, new EventHandler(NormalMode_Click), Keys.Alt | Keys.U));
-
-            mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click), Keys.Alt | Keys.S));
+            ComposeFileMenu(mnuFile);
+            ComposeEditMenu(mnuEdit);
+            ComposeViewMenu(mnuView);
+            ComposeToolsMenu(mnuTools);
 
             _notepadMainMenu.Items.Add(mnuFile);
             _notepadMainMenu.Items.Add(mnuEdit);
             _notepadMainMenu.Items.Add(mnuView);
             _notepadMainMenu.Items.Add(mnuTools);
             _notepadMainMenu.Dock = DockStyle.Top;
+        }
+
+        private void ComposeToolsMenu(ToolStripMenuItem mnuTools)
+        {
+            mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click),
+                Keys.Alt | Keys.S));
+        }
+
+        private void ComposeViewMenu(ToolStripMenuItem mnuView)
+        {
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("High Contrast", null, new EventHandler(HighContrast_Click),
+                Keys.Alt | Keys.C));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Regular", null, new EventHandler(RegularContrast_Click),
+                Keys.Alt | Keys.R));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click),
+                Keys.Alt | Keys.H));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Distraction Free", null, new EventHandler(DistractionFree_Click),
+                Keys.Alt | Keys.D));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Normal Mode", null, new EventHandler(NormalMode_Click),
+                Keys.Alt | Keys.U));
+        }
+
+        private void ComposeEditMenu(ToolStripMenuItem mnuEdit)
+        {
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Copy", null, new EventHandler(Copy_Click), Keys.Control | Keys.C));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Cut", null, new EventHandler(Cut_Click), Keys.Control | Keys.U));
+            mnuEdit.DropDownItems.Add(
+                new ToolStripMenuItem("Paste", null, new EventHandler(Paste_Click), Keys.Control | Keys.P));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Select All", null, new EventHandler(SelectAll_Click),
+                Keys.Control | Keys.A));
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Search", null, new EventHandler(Search_Click),
+                Keys.Control | Keys.H));
+        }
+
+        private void ComposeFileMenu(ToolStripMenuItem mnuFile)
+        {
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("New", null, new EventHandler(New_Click), Keys.Control | Keys.F));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click), Keys.Control | Keys.S));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click), Keys.Control | Keys.O));
+            mnuFile.DropDownItems.Add(
+                new ToolStripMenuItem("Close", null, new EventHandler(Close_Click), Keys.Control | Keys.X));
         }
 
         private void SpellCheck_Click(object sender, EventArgs e)
