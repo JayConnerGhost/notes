@@ -49,7 +49,7 @@ namespace Notepad.UI
         private void CompositionStepOne_addText()
         {
 
-            text = new RichTextBox() { Dock = DockStyle.Fill, Multiline = true };
+            text = new RichTextBox() { Dock = DockStyle.Fill, Multiline = true, AcceptsTab = true, AllowDrop = true, BorderStyle=BorderStyle.None};
 
             _notepadControlHolder.Controls.Add(text);
         }
