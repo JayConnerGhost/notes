@@ -30,13 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuMain = new System.Windows.Forms.MenuStrip();
-            this.pnlControlHolder = new System.Windows.Forms.Panel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitControlArea = new System.Windows.Forms.SplitContainer();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitControlArea)).BeginInit();
+            this.splitControlArea.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuMain
@@ -46,14 +48,6 @@
             this.menuMain.Size = new System.Drawing.Size(806, 24);
             this.menuMain.TabIndex = 0;
             this.menuMain.Text = "menuStrip1";
-            // 
-            // pnlControlHolder
-            // 
-            this.pnlControlHolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlControlHolder.Location = new System.Drawing.Point(0, 24);
-            this.pnlControlHolder.Name = "pnlControlHolder";
-            this.pnlControlHolder.Size = new System.Drawing.Size(806, 431);
-            this.pnlControlHolder.TabIndex = 1;
             // 
             // contextMenuStrip1
             // 
@@ -89,18 +83,29 @@
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.selectAllToolStripMenuItem.Text = "Select All";
             // 
+            // splitControlArea
+            // 
+            this.splitControlArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitControlArea.Location = new System.Drawing.Point(0, 24);
+            this.splitControlArea.Name = "splitControlArea";
+            this.splitControlArea.Size = new System.Drawing.Size(806, 431);
+            this.splitControlArea.SplitterDistance = 268;
+            this.splitControlArea.TabIndex = 3;
+            // 
             // NotepadFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(806, 455);
-            this.Controls.Add(this.pnlControlHolder);
+            this.Controls.Add(this.splitControlArea);
             this.Controls.Add(this.menuMain);
             this.MainMenuStrip = this.menuMain;
             this.Name = "NotepadFrame";
             this.Text = "Notepad";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitControlArea)).EndInit();
+            this.splitControlArea.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -109,12 +114,12 @@
         #endregion
 
         public System.Windows.Forms.MenuStrip menuMain;
-        public System.Windows.Forms.Panel pnlControlHolder;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
+        public System.Windows.Forms.SplitContainer splitControlArea;
     }
 }
 

@@ -11,16 +11,20 @@ namespace Notepad.UI
     public class NotepadController
     {
         private readonly NotepadFrame _notepadFrame;
-        private readonly Panel _notepadControlHolder;
+        private readonly SplitterPanel _notepadControlHolderPanel1;
         private readonly MenuStrip _notepadMainMenu;
-        private  RichTextBox text;
-        private readonly FormState formState = new FormState();
+        private  RichTextBox _text;
+        private readonly FormState _formState = new FormState();
         internal Spelling SpellChecker;
+        private readonly SplitterPanel _notepadControlHolderPanel2;
+        private FileBrowserController _fileBrowserController;
 
         public NotepadController(NotepadFrame notepadFrame)
         {
             _notepadFrame = notepadFrame;
-            _notepadControlHolder = notepadFrame.pnlControlHolder;
+            _notepadControlHolderPanel1 = notepadFrame.splitControlArea.Panel1;
+            _notepadControlHolderPanel2 = notepadFrame.splitControlArea.Panel2;
+            _fileBrowserController=new FileBrowserController(_notepadControlHolderPanel1);
             _notepadMainMenu = notepadFrame.menuMain;
             CompositionStepTwo_addMenu();
             CompositionStepOne_addText();
@@ -36,7 +40,7 @@ namespace Notepad.UI
             contextMenu.MenuItems.Add(new MenuItem("Cut", Cut_Click));
             contextMenu.MenuItems.Add(new MenuItem("Copy", Copy_Click));
             contextMenu.MenuItems.Add(new MenuItem("Paste", Paste_Click));
-            text.ContextMenu = contextMenu;
+            _text.ContextMenu = contextMenu;
         }
 
         private void CompositionStepFour_setUpSpelling()
@@ -51,21 +55,21 @@ namespace Notepad.UI
 
         private void CompositionStepThree_setStyle()
         {
-            text.BackColor = Color.White;
-            text.ForeColor = Color.Black;
-            text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+            _text.BackColor = Color.White;
+            _text.ForeColor = Color.Black;
+            _text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
         private void CompositionStepOne_addText()
         {
 
-            text = new RichTextBox()
+            _text = new RichTextBox()
             {
                 Dock = DockStyle.Fill, Multiline = true, AcceptsTab = true, AllowDrop = true,
                 BorderStyle = BorderStyle.None
             };
 
-            _notepadControlHolder.Controls.Add(text);
+            _notepadControlHolderPanel2.Controls.Add(_text);
         }
 
         private void CompositionStepTwo_addMenu()
@@ -129,45 +133,45 @@ namespace Notepad.UI
 
         private void SpellCheck_Click(object sender, EventArgs e)
         {
-            SpellChecker.Text = text.Text;
+            SpellChecker.Text = _text.Text;
             SpellChecker.SpellCheck();
         }
 
         private void SpellChecker_DoubledWord(object sender, SpellingEventArgs args)
         {
             // update text  
-            text.Text = SpellChecker.Text;
+            _text.Text = SpellChecker.Text;
         }
 
         private void SpellChecker_EndOfText(object sender, EventArgs args)
         {
             // update text  
-            text.Text = SpellChecker.Text;
+            _text.Text = SpellChecker.Text;
         }
 
         private void SpellChecker_MisspelledWord(object sender, SpellingEventArgs args)
         {
             // update text  
-            text.Text = SpellChecker.Text;
+            _text.Text = SpellChecker.Text;
         }
 
 
 
         private void NormalMode_Click(object sender, EventArgs e)
         {
-            formState.Restore(_notepadFrame);
+            _formState.Restore(_notepadFrame);
         }
 
         private void DistractionFree_Click(object sender, EventArgs e)
         {
-          formState.Maximize(_notepadFrame);
+          _formState.Maximize(_notepadFrame);
         }
 
         private void HackerContrast_Click(object sender, EventArgs e)
         {
-            text.BackColor = Color.Black;
-            text.ForeColor = Color.ForestGreen;
-            text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+            _text.BackColor = Color.Black;
+            _text.ForeColor = Color.ForestGreen;
+            _text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
         private void RegularContrast_Click(object sender, EventArgs e)
@@ -177,9 +181,9 @@ namespace Notepad.UI
 
         private void HighContrast_Click(object sender, EventArgs e)
         {
-            text.BackColor=Color.Black;
-            text.ForeColor=Color.Yellow;
-            text.Font=new Font(FontFamily.GenericSerif, 20,FontStyle.Regular,GraphicsUnit.Pixel);
+            _text.BackColor=Color.Black;
+            _text.ForeColor=Color.Yellow;
+            _text.Font=new Font(FontFamily.GenericSerif, 20,FontStyle.Regular,GraphicsUnit.Pixel);
         }
 
         private void Close_Click(object sender, EventArgs e)
@@ -192,18 +196,18 @@ namespace Notepad.UI
             //https://www.youtube.com/watch?v=kfbkLxH8xDI
 
             int index = 0;
-            String temp = text.Text;
-            text.Text = "";
-            text.Text = temp;
+            String temp = _text.Text;
+            _text.Text = "";
+            _text.Text = temp;
 
             var searchController=new SearchController();
            var searchTerm= searchController.ShowDialog();
 
-           while (index < text.Text.LastIndexOf(searchTerm))
+           while (index < _text.Text.LastIndexOf(searchTerm))
            {
-               text.Find(searchTerm, index, text.TextLength, RichTextBoxFinds.None);
-               text.SelectionBackColor = Color.Aqua;
-               index = text.Text.IndexOf(searchTerm, index) + 1;
+               _text.Find(searchTerm, index, _text.TextLength, RichTextBoxFinds.None);
+               _text.SelectionBackColor = Color.Aqua;
+               index = _text.Text.IndexOf(searchTerm, index) + 1;
            }
         
 
@@ -212,27 +216,27 @@ namespace Notepad.UI
 
         private void SelectAll_Click(object sender, EventArgs e)
         {
-            text.SelectAll();
+            _text.SelectAll();
         }
 
         private void Paste_Click(object sender, EventArgs e)
         {
-           text.Paste();
+           _text.Paste();
         }
 
         private void Cut_Click(object sender, EventArgs e)
         {
-            if (text.SelectedText.Length > 0)
+            if (_text.SelectedText.Length > 0)
             {
-                text.Cut();
+                _text.Cut();
             }
         }
 
         private void Copy_Click(object sender, EventArgs e)
         {
-            if (text.SelectedText.Length > 0)
+            if (_text.SelectedText.Length > 0)
             {
-                text.Copy();
+                _text.Copy();
             }
         }
 
@@ -244,7 +248,7 @@ namespace Notepad.UI
                 System.IO.StreamReader sr = new
                     System.IO.StreamReader(openFileDialog1.FileName);
             
-               text.Text = sr.ReadToEnd();
+               _text.Text = sr.ReadToEnd();
                 sr.Close();
             }
         }
@@ -257,7 +261,7 @@ namespace Notepad.UI
             {
                 System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
 
-                string data = text.Text;
+                string data = _text.Text;
                 byte[] info = new UTF8Encoding(true).GetBytes(data);
                 fs.Write(info,0,info.Length);
                 byte[] btData = new byte[] { 0x0 };
@@ -270,7 +274,7 @@ namespace Notepad.UI
 
         private void New_Click(object sender, EventArgs e)
         {
-            text.Text = null;
+            _text.Text = null;
         }
 
         
