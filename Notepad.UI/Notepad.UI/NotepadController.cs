@@ -26,7 +26,17 @@ namespace Notepad.UI
             CompositionStepOne_addText();
             CompositionStepThree_setStyle();
             CompositionStepFour_setUpSpelling();
+            CompositionStepFive_setUpContextMenu();
 
+        }
+
+        private void CompositionStepFive_setUpContextMenu()
+        {
+            var contextMenu=new ContextMenu();
+            contextMenu.MenuItems.Add(new MenuItem("Cut", Cut_Click));
+            contextMenu.MenuItems.Add(new MenuItem("Copy", Copy_Click));
+            contextMenu.MenuItems.Add(new MenuItem("Paste", Paste_Click));
+            text.ContextMenu = contextMenu;
         }
 
         private void CompositionStepFour_setUpSpelling()
@@ -43,13 +53,17 @@ namespace Notepad.UI
         {
             text.BackColor = Color.White;
             text.ForeColor = Color.Black;
-           text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+            text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
         private void CompositionStepOne_addText()
         {
 
-            text = new RichTextBox() { Dock = DockStyle.Fill, Multiline = true, AcceptsTab = true, AllowDrop = true, BorderStyle=BorderStyle.None};
+            text = new RichTextBox()
+            {
+                Dock = DockStyle.Fill, Multiline = true, AcceptsTab = true, AllowDrop = true,
+                BorderStyle = BorderStyle.None
+            };
 
             _notepadControlHolder.Controls.Add(text);
         }
