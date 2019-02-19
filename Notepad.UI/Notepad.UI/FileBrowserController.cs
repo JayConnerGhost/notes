@@ -131,7 +131,12 @@ namespace Notepad.UI
             outerContainer.Panel1.Name = "folderView";
             outerContainer.Panel2.Name = "fileView";
             _folderView = new TreeView { Dock = DockStyle.Fill };
-            _fileView =new ListView{Dock = DockStyle.Fill};
+            _fileView =new ListView
+            {
+                Dock = DockStyle.Fill,
+                GridLines = true,
+                View = View.List
+            };
             outerContainer.Panel1.Controls.Add(_folderView);
             outerContainer.Panel2.Controls.Add(_fileView);
             return outerContainer;
