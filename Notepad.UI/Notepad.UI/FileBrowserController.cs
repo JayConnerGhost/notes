@@ -1,53 +1,113 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace Notepad.UI
 {
     public class FileBrowserController
     {
         private readonly SplitterPanel _container;
-        private TreeView _treeView;
+        private TreeView _folderView;
+        private ListView _fileView;
         public FileBrowserController(SplitterPanel container)
         {
             _container = container;
             BuildFileBrowser();
-            PopulateLocal(@"C:\");
+            _folderView.NodeMouseClick += FolderViewNodeMouseClick;
+            PopulateLocal(GetStartingDirectory());
         }
 
-        private static TreeNode CreateDirectoryNode(DirectoryInfo directoryInfo)
+        private string GetStartingDirectory()
         {
-            // https://stackoverflow.com/questions/6239544/populate-treeview-with-file-system-directory-structure
-            var directoryNode = new TreeNode(directoryInfo.Name);
-            try
-            {
-               foreach (var directory in directoryInfo.GetDirectories())
-                    directoryNode.Nodes.Add(CreateDirectoryNode(directory));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                e = null;
-            }
-            return directoryNode;
+            var startingDirectory = string.Empty;
+            var appSettingsReader =new System.Configuration.AppSettingsReader();
+            startingDirectory = (string)appSettingsReader.GetValue("startingFolder",typeof(string));
+            return startingDirectory;
         }
 
-        private void ListDirectory(TreeView treeView, string path)
+        private void FolderViewNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            treeView.Nodes.Clear();
-            var rootDirectoryInfo = new DirectoryInfo(path);
-            treeView.Nodes.Add(CreateDirectoryNode(rootDirectoryInfo));
+            //work here to expand tree
+            TreeNode newSelected = e.Node;
+            _fileView.Items.Clear();
+            DirectoryInfo directory=(DirectoryInfo)newSelected.Tag;
+
         }
+
+        private  void PopulateFolderView(string path)
+        {
+            TreeNode rootNode;
+            DirectoryInfo info= new DirectoryInfo(path);
+            if (info.Exists)
+            {
+                rootNode=new TreeNode(info.Name);
+                rootNode.Tag = info;
+                GetDirectories(info.GetDirectories(), rootNode);
+                _folderView.Nodes.Add(rootNode);
+
+            }
+        }
+
+        private void GetDirectories(DirectoryInfo[] getDirectories, TreeNode rootNode)
+        {
+            TreeNode aNode;
+            DirectoryInfo[] subSubDirs;
+            foreach (DirectoryInfo subDir in getDirectories)
+            {
+                aNode=new TreeNode(subDir.Name,0,0);
+                aNode.Tag = subDir;
+                aNode.ImageKey = "folder";
+                try
+                {
+                    subSubDirs = subDir.GetDirectories();
+                    if (subSubDirs.Length != 0)
+                    {
+                        GetDirectories(subSubDirs, aNode);
+                    }
+                }
+                catch (System.UnauthorizedAccessException uae)
+                {
+                    Console.WriteLine(uae.Message);
+                }
+               
+               
+
+                rootNode.Nodes.Add(aNode);
+            }
+        }
+
         private void BuildFileBrowser()
         {
-            _treeView = new TreeView {Dock = DockStyle.Fill};
-            this._container.Controls.Add(_treeView);
+            this._container.Controls.Add(BuildOuterBrowser());
+
+        }
+
+        public SplitContainer BuildOuterBrowser()
+        {
+            var outerContainer = new SplitContainer
+            {
+                Orientation = Orientation.Horizontal,
+                Dock = DockStyle.Fill,
+                SplitterDistance = 125,
+                SplitterWidth = 6
+                
+            };
+            outerContainer.Panel1.Name = "folderView";
+            outerContainer.Panel2.Name = "fileView";
+            _folderView = new TreeView { Dock = DockStyle.Fill };
+            _fileView =new ListView{Dock = DockStyle.Fill};
+            outerContainer.Panel1.Controls.Add(_folderView);
+            outerContainer.Panel2.Controls.Add(_fileView);
+            return outerContainer;
         }
 
         public void PopulateLocal(string path)
         {
-            _treeView.Nodes.Clear();
-            ListDirectory(_treeView, path);
+            _folderView.Nodes.Clear();
+            PopulateFolderView(path);
         }
     }
 }
