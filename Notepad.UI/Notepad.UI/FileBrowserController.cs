@@ -34,6 +34,39 @@ namespace Notepad.UI
             TreeNode newSelected = e.Node;
             _fileView.Items.Clear();
             DirectoryInfo directory=(DirectoryInfo)newSelected.Tag;
+            ListViewItem.ListViewSubItem[] subItems;
+            ListViewItem item = null;
+
+            foreach (var dir in directory.GetDirectories())
+            {
+                item = new ListViewItem(dir.Name, 0);
+                subItems = new ListViewItem.ListViewSubItem[]
+                {
+                    new ListViewItem.ListViewSubItem(item, "Directory"),
+                    new ListViewItem.ListViewSubItem(item, dir.LastAccessTime.ToShortDateString())
+                };
+
+                item.SubItems.AddRange(subItems);
+                _fileView.Items.Add(item);
+            }
+
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                item=new ListViewItem(file.Name,1);
+                subItems=new ListViewItem.ListViewSubItem[]
+                {
+                    new ListViewItem.ListViewSubItem(item,"File"),
+                    new ListViewItem.ListViewSubItem(item,
+                        file.LastAccessTime.ToShortDateString())
+                   
+                };
+
+                item.SubItems.AddRange(subItems);
+                _fileView.Items.Add(item);
+
+            }
+
+            _fileView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
         }
 
