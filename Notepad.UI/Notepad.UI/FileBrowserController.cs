@@ -10,14 +10,14 @@ namespace Notepad.UI
     public class FileBrowserController
     {
         private readonly SplitterPanel _container;
-        private TreeView _folderView;
-        private ListView _fileView;
+        public TreeView FolderView;
+        public ListView FileView;
         public EventHandler OpenFile;
         public FileBrowserController(SplitterPanel container)
         {
             _container = container;
             BuildFileBrowser();
-            _folderView.NodeMouseClick += FolderViewNodeMouseClick;
+            FolderView.NodeMouseClick += FolderViewNodeMouseClick;
             PopulateLocal(GetStartingDirectory());
         }
 
@@ -33,7 +33,7 @@ namespace Notepad.UI
         {
             //work here to expand tree
             TreeNode newSelected = e.Node;
-            _fileView.Items.Clear();
+            FileView.Items.Clear();
             DirectoryInfo directory = (DirectoryInfo)newSelected.Tag;
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
@@ -49,7 +49,7 @@ namespace Notepad.UI
                     };
 
                     item.SubItems.AddRange(subItems);
-                    _fileView.Items.Add(item);
+                    FileView.Items.Add(item);
                 }
 
                 foreach (FileInfo file in directory.GetFiles())
@@ -64,7 +64,7 @@ namespace Notepad.UI
                        };
 
                     item.SubItems.AddRange(subItems);
-                    _fileView.Items.Add(item);
+                    FileView.Items.Add(item);
 
                 }
             }
@@ -72,7 +72,7 @@ namespace Notepad.UI
             {
                 Console.WriteLine(uae.Message);
             }
-            _fileView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            FileView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
         }
 
@@ -85,7 +85,7 @@ namespace Notepad.UI
                 rootNode = new TreeNode(info.Name);
                 rootNode.Tag = info;
                 GetDirectories(info.GetDirectories(), rootNode);
-                _folderView.Nodes.Add(rootNode);
+                FolderView.Nodes.Add(rootNode);
             }
         }
 
@@ -131,17 +131,17 @@ namespace Notepad.UI
             };
             outerContainer.Panel1.Name = "folderView";
             outerContainer.Panel2.Name = "fileView";
-            _folderView = new TreeView { Dock = DockStyle.Fill };
-            _fileView = new ListView
+            FolderView = new TreeView { Dock = DockStyle.Fill };
+            FileView = new ListView
             {
                 Dock = DockStyle.Fill,
                 GridLines = true,
                 View = View.List
             };
 
-            _fileView.ItemSelectionChanged += _fileView_ItemSelectionChanged;
-            outerContainer.Panel1.Controls.Add(_folderView);
-            outerContainer.Panel2.Controls.Add(_fileView);
+            FileView.ItemSelectionChanged += _fileView_ItemSelectionChanged;
+            outerContainer.Panel1.Controls.Add(FolderView);
+            outerContainer.Panel2.Controls.Add(FileView);
             return outerContainer;
         }
 
@@ -153,7 +153,7 @@ namespace Notepad.UI
 
         public void PopulateLocal(string path)
         {
-            _folderView.Nodes.Clear();
+            FolderView.Nodes.Clear();
             PopulateFolderView(path);
         }
     }

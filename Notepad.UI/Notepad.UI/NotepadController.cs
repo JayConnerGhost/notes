@@ -41,10 +41,7 @@ namespace Notepad.UI
         private void OpenFile(object sender, EventArgs e)
         {
             var eventArgs = (ListViewItemSelectionChangedEventArgs) e;
-
-            // MessageBox.Show((string)eventArgs.Item.Tag);
             openFile((string) eventArgs.Item.Tag);
-
         }
 
         private void CompositionStepFive_setUpContextMenu()
