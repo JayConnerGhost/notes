@@ -25,12 +25,22 @@ namespace Notepad.UI
             _notepadControlHolderPanel1 = notepadFrame.splitControlArea.Panel1;
             _notepadControlHolderPanel2 = notepadFrame.splitControlArea.Panel2;
             _fileBrowserController=new FileBrowserController(_notepadControlHolderPanel1);
+            _fileBrowserController.OpenFile+=OpenFile;
             _notepadMainMenu = notepadFrame.menuMain;
             CompositionStepTwo_addMenu();
             CompositionStepOne_addText();
             CompositionStepThree_setStyle();
             CompositionStepFour_setUpSpelling();
             CompositionStepFive_setUpContextMenu();
+
+        }
+
+        private void OpenFile(object sender, EventArgs e)
+        {
+            var eventArgs = (ListViewItemSelectionChangedEventArgs) e;
+
+            // MessageBox.Show((string)eventArgs.Item.Tag);
+            openFile((string) eventArgs.Item.Tag);
 
         }
 
@@ -245,12 +255,23 @@ namespace Notepad.UI
             var openFileDialog1=new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                System.IO.StreamReader sr = new
-                    System.IO.StreamReader(openFileDialog1.FileName);
-            
-               _text.Text = sr.ReadToEnd();
-                sr.Close();
+                var fileName = openFileDialog1.FileName;
+                openFile(fileName);
             }
+        }
+
+        private void openFile(string fileName)
+        {
+            if (fileName == null)
+            {
+                return;
+            }
+
+            System.IO.StreamReader sr = new
+                System.IO.StreamReader(fileName);
+
+            _text.Text = sr.ReadToEnd();
+            sr.Close();
         }
 
         private void Save_Click(object sender, EventArgs e)

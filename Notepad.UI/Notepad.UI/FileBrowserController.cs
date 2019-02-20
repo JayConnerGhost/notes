@@ -12,6 +12,7 @@ namespace Notepad.UI
         private readonly SplitterPanel _container;
         private TreeView _folderView;
         private ListView _fileView;
+        public EventHandler OpenFile;
         public FileBrowserController(SplitterPanel container)
         {
             _container = container;
@@ -56,6 +57,7 @@ namespace Notepad.UI
                 foreach (FileInfo file in directory.GetFiles())
                 {
                     item = new ListViewItem(file.Name, 1);
+                    item.Tag = file.FullName;
                     subItems = new ListViewItem.ListViewSubItem[]
                     {
                     new ListViewItem.ListViewSubItem(item,"File"),
@@ -72,7 +74,7 @@ namespace Notepad.UI
             {
                 Console.WriteLine(uae.Message);
             }
-            _fileView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            _fileView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
         }
 
@@ -148,7 +150,8 @@ namespace Notepad.UI
 
         private void _fileView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-
+            var openFile =  OpenFile;
+            openFile?.Invoke(sender, e);
         }
 
         public void PopulateLocal(string path)
