@@ -11,6 +11,12 @@ namespace Notepad.UI
 {
     public class NotepadController
     {
+        private enum ViewMode
+        {
+            normal,
+            focused
+        }
+
         private readonly NotepadFrame _notepadFrame;
         private readonly SplitterPanel _notepadControlHolderPanel1;
         private readonly MenuStrip _notepadMainMenu;
@@ -20,6 +26,7 @@ namespace Notepad.UI
         private readonly SplitterPanel _notepadControlHolderPanel2;
         private FileBrowserController _fileBrowserController;
         private BrandController _brandController;
+        private ViewMode _viewMode;
 
         public NotepadController(NotepadFrame notepadFrame)
         {
@@ -62,8 +69,6 @@ namespace Notepad.UI
             SpellChecker.EndOfText += new Spelling.EndOfTextEventHandler(SpellChecker_EndOfText);
             SpellChecker.DoubledWord += new Spelling.DoubledWordEventHandler(SpellChecker_DoubledWord);
         }
-
-      
 
         private void CompositionStepOne_addText()
         {
@@ -159,17 +164,25 @@ namespace Notepad.UI
             // update text  
             Text.Text = SpellChecker.Text;
         }
-
-
-
+        
         private void NormalMode_Click(object sender, EventArgs e)
         {
+            if (_viewMode == ViewMode.normal)
+            {
+                return;
+            }
             _formState.Restore(_notepadFrame);
+            _viewMode = ViewMode.normal;
         }
 
         private void DistractionFree_Click(object sender, EventArgs e)
         {
-          _formState.Maximize(_notepadFrame);
+            if (_viewMode == ViewMode.focused)
+            {
+                return;
+            }
+            _formState.Maximize(_notepadFrame);
+            _viewMode = ViewMode.focused;
         }
 
         private void HackerContrast_Click(object sender, EventArgs e)
@@ -293,8 +306,5 @@ namespace Notepad.UI
         {
             Text.Text = null;
         }
-
-        
-        
-    }
+   }
 }
