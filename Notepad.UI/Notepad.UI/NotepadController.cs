@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlTypes;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using NetSpell.SpellChecker;
@@ -219,8 +220,6 @@ namespace Notepad.UI
                _text.SelectionBackColor = Color.Aqua;
                index = _text.Text.IndexOf(searchTerm, index) + 1;
            }
-        
-
         }
 
 
@@ -253,11 +252,10 @@ namespace Notepad.UI
         private void Open_Click(object sender, EventArgs e)
         {
             var openFileDialog1=new OpenFileDialog();
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                var fileName = openFileDialog1.FileName;
-                openFile(fileName);
-            }
+            if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+            var fileName = openFileDialog1.FileName;
+            openFile(fileName);
+
         }
 
         private void openFile(string fileName)
@@ -272,6 +270,14 @@ namespace Notepad.UI
 
             _text.Text = sr.ReadToEnd();
             sr.Close();
+            OpenDirectory(fileName);
+        }
+
+        private void OpenDirectory(string fileName)
+        {
+            var fileInfo=new FileInfo(fileName);
+            var directoryName=fileInfo.DirectoryName;
+            _fileBrowserController.PopulateLocal(directoryName);
         }
 
         private void Save_Click(object sender, EventArgs e)

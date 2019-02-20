@@ -39,9 +39,7 @@ namespace Notepad.UI
             ListViewItem item = null;
             try
             {
-
-
-                foreach (var dir in directory.GetDirectories())
+               foreach (var dir in directory.GetDirectories())
                 {
                     item = new ListViewItem(dir.Name, 0);
                     subItems = new ListViewItem.ListViewSubItem[]
@@ -88,7 +86,6 @@ namespace Notepad.UI
                 rootNode.Tag = info;
                 GetDirectories(info.GetDirectories(), rootNode);
                 _folderView.Nodes.Add(rootNode);
-
             }
         }
 
