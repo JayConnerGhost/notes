@@ -13,8 +13,8 @@ namespace Notepad.UI
     {
         private enum ViewMode
         {
-            normal,
-            focused
+            Normal,
+            Focused
         }
 
         private readonly NotepadFrame _notepadFrame;
@@ -167,22 +167,22 @@ namespace Notepad.UI
         
         private void NormalMode_Click(object sender, EventArgs e)
         {
-            if (_viewMode == ViewMode.normal)
+            if (_viewMode == ViewMode.Normal)
             {
                 return;
             }
             _formState.Restore(_notepadFrame);
-            _viewMode = ViewMode.normal;
+            _viewMode = ViewMode.Normal;
         }
 
         private void DistractionFree_Click(object sender, EventArgs e)
         {
-            if (_viewMode == ViewMode.focused)
+            if (_viewMode == ViewMode.Focused)
             {
                 return;
             }
             _formState.Maximize(_notepadFrame);
-            _viewMode = ViewMode.focused;
+            _viewMode = ViewMode.Focused;
         }
 
         private void HackerContrast_Click(object sender, EventArgs e)
