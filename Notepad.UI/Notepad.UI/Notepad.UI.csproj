@@ -52,6 +52,7 @@
     <Compile Include="BrandController.cs" />
     <Compile Include="FileBrowserController.cs" />
     <Compile Include="FormState.cs" />
+    <Compile Include="MainController.cs" />
     <Compile Include="NotepadController.cs" />
     <Compile Include="NotepadFrame.cs">
       <SubType>Form</SubType>

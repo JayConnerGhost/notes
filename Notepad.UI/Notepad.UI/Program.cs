@@ -17,7 +17,9 @@ namespace Notepad.UI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var notepadFrame = new NotepadFrame();
-            var controller = new NotepadController(notepadFrame);
+            var notepadController = new NotepadController(notepadFrame);
+            var fileBrowserController= new FileBrowserController(notepadFrame.splitControlArea.Panel2);
+            var mainController=new MainController(notepadController, fileBrowserController);
             Application.Run(notepadFrame);
         }
     }
