@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -176,6 +177,8 @@ namespace Notepad.UI
             var fileName = openFileDialog1.FileName;
             if (fileName == null)return;
             _notepadController.OpenFile(fileName);
+            var directory=new FileInfo(fileName).DirectoryName;
+            _fileBrowserController.PopulateLocal(directory);
         }
 
         private void Save_Click(object sender, EventArgs e)
