@@ -102,7 +102,6 @@
             this.MainMenuStrip = this.menuMain;
             this.Name = "NotepadFrame";
             this.Text = "Notepad";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitControlArea)).EndInit();
             this.splitControlArea.ResumeLayout(false);
