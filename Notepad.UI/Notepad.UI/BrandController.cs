@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Notepad.UI
 {
@@ -6,11 +7,37 @@ namespace Notepad.UI
     {
         private readonly NotepadController _notepadController;
         private readonly FileBrowserController _fileBrowserController;
-
+        private  ImageList _iconList;
         public BrandController(NotepadController notepadController, FileBrowserController fileBrowserController)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
+            SetUpIconList();
+            SetIcons(true);
+        }
+
+        private void SetUpIconList()
+        {
+         
+            _iconList = new ImageList {
+                ColorDepth = ColorDepth.Depth32Bit,
+                ImageSize = new Size(20,20)
+            };
+
+            var rfileImage=Notepad.UI.Properties.Resources.ResourceManager.GetObject("file");
+            var rfolderImage = Notepad.UI.Properties.Resources.ResourceManager.GetObject("folder");
+            var fileImage = (Image) rfileImage;
+            var folderImage = (Image)rfolderImage;
+            _iconList.Images.Add("File", fileImage);
+            _iconList.Images.Add("File", folderImage);
+        }
+
+        public void SetIcons(bool display)
+        {
+            if (display)
+            {
+                _fileBrowserController.FileView.SmallImageList = _iconList;
+            }
         }
 
         public void SetBaseStyle()

@@ -41,7 +41,7 @@ namespace Notepad.UI
             {
                foreach (var dir in directory.GetDirectories())
                 {
-                    item = new ListViewItem(dir.Name, 0);
+                    item = new ListViewItem(dir.Name, 1);
                     subItems = new ListViewItem.ListViewSubItem[]
                     {
                     new ListViewItem.ListViewSubItem(item, "Directory"),
@@ -54,7 +54,7 @@ namespace Notepad.UI
 
                 foreach (FileInfo file in directory.GetFiles())
                 {
-                    item = new ListViewItem(file.Name, 1);
+                    item = new ListViewItem(file.Name, 0);
                     item.Tag = file.FullName;
                     subItems = new ListViewItem.ListViewSubItem[]
                     {
