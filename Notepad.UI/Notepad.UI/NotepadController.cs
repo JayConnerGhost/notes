@@ -44,6 +44,11 @@ namespace Notepad.UI
             return tabPage;
         }
 
+        private RichTextBox GetSelectedText()
+        {
+          return (RichTextBox) MdiInterface.SelectedTab.Controls[0];
+        }
+
         private void AddSpellingSupport()
         {
             //http://www.loresoft.com/The-NetSpell-project
@@ -133,28 +138,28 @@ namespace Notepad.UI
 
         public void CopyText()
         {
-            if (Text.SelectedText.Length > 0)
+            if (GetSelectedText().SelectedText.Length > 0)
             {
-                Text.Copy();
+                GetSelectedText().Copy();
             }
         }
 
         public void CutText()
         {
-            if (Text.SelectedText.Length > 0)
+            if (GetSelectedText().SelectedText.Length > 0)
             {
-                Text.Cut();
+                GetSelectedText().Cut();
             }
         }
 
         public void PasteText()
         {
-            Text.Paste();
+            GetSelectedText().Paste();
         }
 
         public void SelectAllText()
         {
-            Text.SelectAll();
+            GetSelectedText().SelectAll();
         }
 
         public void SearchText()
@@ -162,18 +167,18 @@ namespace Notepad.UI
             //https://www.youtube.com/watch?v=kfbkLxH8xDI
 
             var index = 0;
-            var temp = Text.Text;
-            Text.Text = "";
-            Text.Text = temp;
+            var temp = GetSelectedText().Text;
+            GetSelectedText().Text = "";
+            GetSelectedText().Text = temp;
 
             var searchController = new SearchController();
             var searchTerm = searchController.ShowDialog();
 
-            while (index < Text.Text.LastIndexOf(searchTerm))
+            while (index < GetSelectedText().Text.LastIndexOf(searchTerm))
             {
-                Text.Find(searchTerm, index, Text.TextLength, RichTextBoxFinds.None);
-                Text.SelectionBackColor = Color.Aqua;
-                index = Text.Text.IndexOf(searchTerm, index) + 1;
+                GetSelectedText().Find(searchTerm, index, GetSelectedText().TextLength, RichTextBoxFinds.None);
+                GetSelectedText().SelectionBackColor = Color.Aqua;
+                index = GetSelectedText().Text.IndexOf(searchTerm, index) + 1;
             }
         }
 
