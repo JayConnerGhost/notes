@@ -15,7 +15,7 @@ namespace Notepad.UI
         public EventHandler DirectoryChanged;
         private readonly FormState _formState = new FormState();
         internal Spelling SpellChecker;
-        internal TabControl mdiInterface;
+        public TabControl MdiInterface;
         internal RichTextBox Text { get; private set; }
 
         public NotepadController(SplitterPanel notePadPanel)
@@ -27,13 +27,21 @@ namespace Notepad.UI
 
         private void AddMDISupport()
         {
-            mdiInterface=new TabControl();
-            mdiInterface.Dock = DockStyle.Fill;
-            var tabPage = new TabPage();
-            tabPage.Dock = DockStyle.Fill;
+            MdiInterface=new TabControl();
+            MdiInterface.Dock = DockStyle.Fill;
+            var tabPage = new TabPage {Dock = DockStyle.Fill};
             tabPage.Controls.Add(AddTextControl());
-            mdiInterface.TabPages.Add(tabPage);
-            _notePadPanel.Controls.Add(mdiInterface);
+            MdiInterface.TabPages.Add(tabPage);
+            _notePadPanel.Controls.Add(MdiInterface);
+        }
+
+        private TabPage AddMDIPage()
+        {
+            var tabPage = new TabPage { Dock = DockStyle.Fill };
+            tabPage.Controls.Add(AddTextControl());
+            MdiInterface.TabPages.Add(tabPage);
+            _notePadPanel.Controls.Add(MdiInterface);
+            return tabPage;
         }
 
         private void AddSpellingSupport()
@@ -100,16 +108,17 @@ namespace Notepad.UI
             // update text  
             Text.Text = SpellChecker.Text;
         }
-        
+
         public void OpenFile(string fileName)
         {
-            if (fileName == null)return;
+            if (fileName == null) return;
 
             var sr = new StreamReader(fileName);
-
-            Text.Text = sr.ReadToEnd();
+            var page = AddMDIPage();
+            MdiInterface.SelectedTab = page;
+            var target = (RichTextBox) page.Controls[0];
+            target.Text = sr.ReadToEnd();
             sr.Close();
-          
         }
 
         public void ClearText()
