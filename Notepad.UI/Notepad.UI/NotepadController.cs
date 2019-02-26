@@ -29,9 +29,9 @@ namespace Notepad.UI
         {
             MdiInterface=new TabControl();
             MdiInterface.Dock = DockStyle.Fill;
-            var tabPage = new TabPage {Dock = DockStyle.Fill};
-            tabPage.Controls.Add(AddTextControl());
-            MdiInterface.TabPages.Add(tabPage);
+           // var tabPage = new TabPage {Dock = DockStyle.Fill};
+            //tabPage.Controls.Add(AddTextControl());
+            //MdiInterface.TabPages.Add(tabPage);
             _notePadPanel.Controls.Add(MdiInterface);
         }
 
@@ -44,7 +44,7 @@ namespace Notepad.UI
             return tabPage;
         }
 
-        private RichTextBox GetSelectedText()
+        private RichTextBox GetSelectedTextControl()
         {
           return (RichTextBox) MdiInterface.SelectedTab.Controls[0];
         }
@@ -120,6 +120,7 @@ namespace Notepad.UI
 
             var sr = new StreamReader(fileName);
             var page = AddMDIPage();
+            page.Text = fileName;
             MdiInterface.SelectedTab = page;
             var target = (RichTextBox) page.Controls[0];
             target.Text = sr.ReadToEnd();
@@ -138,28 +139,28 @@ namespace Notepad.UI
 
         public void CopyText()
         {
-            if (GetSelectedText().SelectedText.Length > 0)
+            if (GetSelectedTextControl().SelectedText.Length > 0)
             {
-                GetSelectedText().Copy();
+                GetSelectedTextControl().Copy();
             }
         }
 
         public void CutText()
         {
-            if (GetSelectedText().SelectedText.Length > 0)
+            if (GetSelectedTextControl().SelectedText.Length > 0)
             {
-                GetSelectedText().Cut();
+                GetSelectedTextControl().Cut();
             }
         }
 
         public void PasteText()
         {
-            GetSelectedText().Paste();
+            GetSelectedTextControl().Paste();
         }
 
         public void SelectAllText()
         {
-            GetSelectedText().SelectAll();
+            GetSelectedTextControl().SelectAll();
         }
 
         public void SearchText()
@@ -167,18 +168,18 @@ namespace Notepad.UI
             //https://www.youtube.com/watch?v=kfbkLxH8xDI
 
             var index = 0;
-            var temp = GetSelectedText().Text;
-            GetSelectedText().Text = "";
-            GetSelectedText().Text = temp;
+            var temp = GetSelectedTextControl().Text;
+            GetSelectedTextControl().Text = "";
+            GetSelectedTextControl().Text = temp;
 
             var searchController = new SearchController();
             var searchTerm = searchController.ShowDialog();
 
-            while (index < GetSelectedText().Text.LastIndexOf(searchTerm))
+            while (index < GetSelectedTextControl().Text.LastIndexOf(searchTerm))
             {
-                GetSelectedText().Find(searchTerm, index, GetSelectedText().TextLength, RichTextBoxFinds.None);
-                GetSelectedText().SelectionBackColor = Color.Aqua;
-                index = GetSelectedText().Text.IndexOf(searchTerm, index) + 1;
+                GetSelectedTextControl().Find(searchTerm, index, GetSelectedTextControl().TextLength, RichTextBoxFinds.None);
+                GetSelectedTextControl().SelectionBackColor = Color.Aqua;
+                index = GetSelectedTextControl().Text.IndexOf(searchTerm, index) + 1;
             }
         }
 
