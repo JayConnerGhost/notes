@@ -15,13 +15,25 @@ namespace Notepad.UI
         public EventHandler DirectoryChanged;
         private readonly FormState _formState = new FormState();
         internal Spelling SpellChecker;
-
+        internal TabControl mdiInterface;
         internal RichTextBox Text { get; private set; }
 
         public NotepadController(SplitterPanel notePadPanel)
         {
             _notePadPanel = notePadPanel;
-            AddTextControl();
+            AddMDISupport();
+            
+        }
+
+        private void AddMDISupport()
+        {
+            mdiInterface=new TabControl();
+            mdiInterface.Dock = DockStyle.Fill;
+            var tabPage = new TabPage();
+            tabPage.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(AddTextControl());
+            mdiInterface.TabPages.Add(tabPage);
+            _notePadPanel.Controls.Add(mdiInterface);
         }
 
         private void AddSpellingSupport()
@@ -58,7 +70,7 @@ namespace Notepad.UI
             CutText();
         }
 
-        private void AddTextControl()
+        private RichTextBox AddTextControl()
         {
             Text = new RichTextBox()
             {
@@ -66,9 +78,9 @@ namespace Notepad.UI
                 BorderStyle = BorderStyle.None
             };
 
-            _notePadPanel.Controls.Add(Text);
             AddContextMenu();
             AddSpellingSupport();
+            return Text;
         }
 
         private void SpellChecker_DoubledWord(object sender, SpellingEventArgs args)
