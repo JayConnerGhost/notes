@@ -28,12 +28,11 @@ namespace Notepad.UI
 
         private void AddMDISupport()
         {
-            MdiInterface=new TabControl();
-            MdiInterface.Dock = DockStyle.Fill;
-           _notePadPanel.Controls.Add(MdiInterface);
+            MdiInterface = new TabControl {Dock = DockStyle.Fill};
+            _notePadPanel.Controls.Add(MdiInterface);
         }
 
-        private TabPage AddMDIPage()
+        public TabPage AddMDIPage()
         {
             var tabPage = new TabPage { Dock = DockStyle.Fill };
             tabPage.Controls.Add(AddTextControl());
@@ -97,19 +96,19 @@ namespace Notepad.UI
         private void SpellChecker_DoubledWord(object sender, SpellingEventArgs args)
         {
             // update text  
-            Text.Text = SpellChecker.Text;
+            GetSelectedTextControl().Text = SpellChecker.Text;
         }
 
         private void SpellChecker_EndOfText(object sender, EventArgs args)
         {
             // update text  
-            Text.Text = SpellChecker.Text;
+            GetSelectedTextControl().Text = SpellChecker.Text;
         }
 
         private void SpellChecker_MisspelledWord(object sender, SpellingEventArgs args)
         {
             // update text  
-            Text.Text = SpellChecker.Text;
+            GetSelectedTextControl().Text = SpellChecker.Text;
         }
 
         public void OpenFile(string fileName, string tag)
@@ -127,12 +126,12 @@ namespace Notepad.UI
 
         public void ClearText()
         {
-            Text.Text = null;
+            GetSelectedTextControl().Text = null;
         }
 
         public string GetText()
         {
-            return Text.Text;
+            return GetSelectedTextControl().Text;
         }
 
         public void CopyText()
@@ -183,8 +182,13 @@ namespace Notepad.UI
 
         public void SpellCheck()
         {
-            SpellChecker.Text = Text.Text;
+            SpellChecker.Text = GetSelectedTextControl().Text;
             SpellChecker.SpellCheck();
+        }
+
+        public void SetSelectedMDIPage(TabPage mdiPage)
+        {
+            MdiInterface.SelectedTab = mdiPage;
         }
     }
 }

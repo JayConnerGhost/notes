@@ -32,14 +32,14 @@ namespace Notepad.UI
         private void FolderViewNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             //work here to expand tree
-            TreeNode newSelected = e.Node;
+            var newSelected = e.Node;
             FileView.Items.Clear();
-            DirectoryInfo directory = (DirectoryInfo)newSelected.Tag;
-            ListViewItem.ListViewSubItem[] subItems;
-            ListViewItem item = null;
+            var directory = (DirectoryInfo)newSelected.Tag;
             try
             {
-               foreach (var dir in directory.GetDirectories())
+                ListViewItem item = null;
+                ListViewItem.ListViewSubItem[] subItems;
+                foreach (var dir in directory.GetDirectories())
                 {
                     item = new ListViewItem(dir.Name, 1);
                     subItems = new ListViewItem.ListViewSubItem[]
@@ -52,11 +52,9 @@ namespace Notepad.UI
                     FileView.Items.Add(item);
                 }
 
-                foreach (FileInfo file in directory.GetFiles())
+                foreach (var file in directory.GetFiles())
                 {
-                    item = new ListViewItem(file.Name, 0);
-                    item.Tag = file.FullName;
-                    item.Name = file.Name;
+                    item = new ListViewItem(file.Name, 0) {Tag = file.FullName, Name = file.Name};
                     subItems = new ListViewItem.ListViewSubItem[]
                     {
                     new ListViewItem.ListViewSubItem(item,"File"),
@@ -79,29 +77,23 @@ namespace Notepad.UI
 
         private void PopulateFolderView(string path)
         {
-            TreeNode rootNode;
-            DirectoryInfo info = new DirectoryInfo(path);
-            if (info.Exists)
-            {
-                rootNode = new TreeNode(info.Name);
-                rootNode.Tag = info;
-                GetDirectories(info.GetDirectories(), rootNode);
-                FolderView.Nodes.Add(rootNode);
-            }
+            var info = new DirectoryInfo(path);
+            if (!info.Exists) return;
+            var rootNode = new TreeNode(info.Name) {Tag = info};
+            GetDirectories(info.GetDirectories(), rootNode);
+            FolderView.Nodes.Add(rootNode);
         }
 
         private void GetDirectories(DirectoryInfo[] getDirectories, TreeNode rootNode)
         {
-            TreeNode aNode;
-            DirectoryInfo[] subSubDirs;
-            foreach (DirectoryInfo subDir in getDirectories)
+            foreach (var subDir in getDirectories)
             {
-                aNode = new TreeNode(subDir.Name, 0, 0);
+                var aNode = new TreeNode(subDir.Name, 0, 0);
                 aNode.Tag = subDir;
                 aNode.ImageKey = "folder";
                 try
                 {
-                    subSubDirs = subDir.GetDirectories();
+                    var subSubDirs = subDir.GetDirectories();
                     if (subSubDirs.Length != 0)
                     {
                         GetDirectories(subSubDirs, aNode);

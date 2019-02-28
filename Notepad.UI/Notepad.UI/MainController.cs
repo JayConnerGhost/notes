@@ -207,6 +207,9 @@ namespace Notepad.UI
 
         private void New_Click(object sender, EventArgs e)
         {
+            var mdiPage = _notepadController.AddMDIPage();
+            _notepadController.SetSelectedMDIPage(mdiPage);
+            //more work here to support opening a new tab 
             _notepadController.ClearText();
         }
     }
