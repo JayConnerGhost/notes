@@ -30,6 +30,7 @@ namespace Notepad.UI
         {
             MdiInterface = new TabControl {Dock = DockStyle.Fill};
             _notePadPanel.Controls.Add(MdiInterface);
+            AddMDIPage();
         }
 
         public TabPage AddMDIPage()
@@ -189,6 +190,16 @@ namespace Notepad.UI
         public void SetSelectedMDIPage(TabPage mdiPage)
         {
             MdiInterface.SelectedTab = mdiPage;
+        }
+
+        public string GetSelectedTabPageTag()
+        {
+            return MdiInterface.SelectedTab.Text;
+        }
+
+        public void UpdateMDITag(string fileName)
+        {
+            MdiInterface.SelectedTab.Text = fileName;
         }
     }
 }
