@@ -2,6 +2,7 @@
 using System.Data.SqlTypes;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NetSpell.SpellChecker;
@@ -29,10 +30,7 @@ namespace Notepad.UI
         {
             MdiInterface=new TabControl();
             MdiInterface.Dock = DockStyle.Fill;
-           // var tabPage = new TabPage {Dock = DockStyle.Fill};
-            //tabPage.Controls.Add(AddTextControl());
-            //MdiInterface.TabPages.Add(tabPage);
-            _notePadPanel.Controls.Add(MdiInterface);
+           _notePadPanel.Controls.Add(MdiInterface);
         }
 
         private TabPage AddMDIPage()
@@ -114,13 +112,13 @@ namespace Notepad.UI
             Text.Text = SpellChecker.Text;
         }
 
-        public void OpenFile(string fileName)
+        public void OpenFile(string fileName, string tag)
         {
             if (fileName == null) return;
 
             var sr = new StreamReader(fileName);
             var page = AddMDIPage();
-            page.Text = fileName;
+            page.Text = tag;
             MdiInterface.SelectedTab = page;
             var target = (RichTextBox) page.Controls[0];
             target.Text = sr.ReadToEnd();

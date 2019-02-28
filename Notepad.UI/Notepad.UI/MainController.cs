@@ -35,7 +35,8 @@ namespace Notepad.UI
         private void OpenFile(object sender, EventArgs e)
         {
             var listViewItemSelectionChangedEventArgs = (ListViewItemSelectionChangedEventArgs)e;
-            _notepadController.OpenFile((string)listViewItemSelectionChangedEventArgs.Item.Tag);
+            var listViewItem = listViewItemSelectionChangedEventArgs.Item;
+            _notepadController.OpenFile((string)listViewItem.Tag,listViewItem.Name);
         }
 
         private void BuildUserInterface(NotepadFrame frame)
@@ -175,8 +176,10 @@ namespace Notepad.UI
             var openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
             var fileName = openFileDialog1.FileName;
+       
             if (fileName == null)return;
-            _notepadController.OpenFile(fileName);
+            var shortFileName = openFileDialog1.SafeFileName;
+            _notepadController.OpenFile(fileName, shortFileName);
             var directory=new FileInfo(fileName).DirectoryName;
             _fileBrowserController.PopulateLocal(directory);
         }

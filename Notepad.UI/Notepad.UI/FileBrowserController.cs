@@ -56,6 +56,7 @@ namespace Notepad.UI
                 {
                     item = new ListViewItem(file.Name, 0);
                     item.Tag = file.FullName;
+                    item.Name = file.Name;
                     subItems = new ListViewItem.ListViewSubItem[]
                     {
                     new ListViewItem.ListViewSubItem(item,"File"),
