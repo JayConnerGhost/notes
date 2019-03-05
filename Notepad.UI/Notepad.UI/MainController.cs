@@ -204,10 +204,14 @@ namespace Notepad.UI
             fs.Close();
             fs = null;
             if (_notepadController.GetSelectedTabPageTag() != string.Empty) return;
+            UpdateMDITag(saveFileDialog1);
+        }
+
+        private void UpdateMDITag(SaveFileDialog saveFileDialog1)
+        {
             var name = (new FileInfo(saveFileDialog1.FileName)).Name;
             var fileName = name;
             _notepadController.UpdateMDITag(fileName);
-
         }
 
         private void New_Click(object sender, EventArgs e)

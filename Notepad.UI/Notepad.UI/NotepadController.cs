@@ -117,7 +117,9 @@ namespace Notepad.UI
             if (fileName == null) return;
 
             var sr = new StreamReader(fileName);
-            var page = AddMDIPage();
+
+            var page = MdiInterface.TabPages[0].Text == string.Empty ? MdiInterface.TabPages[0] : AddMDIPage();
+            
             page.Text = tag;
             MdiInterface.SelectedTab = page;
             var target = (RichTextBox) page.Controls[0];
