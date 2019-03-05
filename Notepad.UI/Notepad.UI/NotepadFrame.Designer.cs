@@ -101,7 +101,7 @@
             this.Controls.Add(this.menuMain);
             this.MainMenuStrip = this.menuMain;
             this.Name = "NotepadFrame";
-            this.Text = "Notepad";
+            this.Text = "IronText";
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitControlArea)).EndInit();
             this.splitControlArea.ResumeLayout(false);

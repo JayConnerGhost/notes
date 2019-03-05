@@ -203,5 +203,32 @@ namespace Notepad.UI
         {
             MdiInterface.SelectedTab.Text = fileName;
         }
+
+        public void SetForeColor(Color color)
+        {
+            foreach (var mdiInterfaceTabPage in MdiInterface.TabPages)
+            {
+                var tabControl=(TabPage)mdiInterfaceTabPage;
+                tabControl.Controls[0].ForeColor = color;
+            }
+        }
+
+        public void SetBackColor(Color color)
+        {
+            foreach (var mdiInterfaceTabPage in MdiInterface.TabPages)
+            {
+                var tabControl = (TabPage)mdiInterfaceTabPage;
+                tabControl.Controls[0].BackColor = color;
+            }
+        }
+
+        public void SetFont(Font font)
+        {
+            foreach (var mdiInterfaceTabPage in MdiInterface.TabPages)
+            {
+                var tabControl = (TabPage)mdiInterfaceTabPage;
+                tabControl.Controls[0].Font = font;
+            }
+        }
     }
 }

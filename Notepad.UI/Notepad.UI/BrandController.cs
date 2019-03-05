@@ -42,9 +42,10 @@ namespace Notepad.UI
 
         public void SetBaseStyle()
         {
-            _notepadController.Text.BackColor = Color.White;
-            _notepadController.Text.ForeColor = Color.Black;
-            _notepadController.Text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+            _notepadController.SetForeColor(Color.Black);
+            _notepadController.SetBackColor(Color.White);
+            _notepadController.SetFont(new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel));
+           
             _fileBrowserController.FileView.BackColor = Color.White;
             _fileBrowserController.FileView.ForeColor=Color.Black;
             _fileBrowserController.FolderView.BackColor = Color.White;
@@ -53,9 +54,9 @@ namespace Notepad.UI
 
         public void SetHighContrastStyle()
         {
-            _notepadController.Text.BackColor = Color.Black;
-            _notepadController.Text.ForeColor = Color.Yellow;
-            _notepadController.Text.Font = new Font(FontFamily.GenericSerif, 20, FontStyle.Regular, GraphicsUnit.Pixel);
+            _notepadController.SetForeColor(Color.Yellow);
+            _notepadController.SetBackColor(Color.Black);
+            _notepadController.SetFont(new Font(FontFamily.GenericSerif, 20, FontStyle.Regular, GraphicsUnit.Pixel));
             _fileBrowserController.FileView.BackColor = Color.Black;
             _fileBrowserController.FileView.ForeColor = Color.Yellow;
             _fileBrowserController.FolderView.BackColor = Color.Black;
@@ -64,9 +65,11 @@ namespace Notepad.UI
 
         public void SetHackerStyle()
         {
+            _notepadController.SetForeColor(Color.ForestGreen);
+            _notepadController.SetBackColor(Color.Black);
             _notepadController.Text.BackColor = Color.Black;
             _notepadController.Text.ForeColor = Color.ForestGreen;
-            _notepadController.Text.Font = new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel);
+            _notepadController.SetFont(new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel));
             _fileBrowserController.FileView.BackColor = Color.Black;
             _fileBrowserController.FileView.ForeColor = Color.ForestGreen;
             _fileBrowserController.FolderView.BackColor = Color.Black;
