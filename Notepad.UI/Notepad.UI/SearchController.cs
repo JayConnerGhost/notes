@@ -3,31 +3,6 @@ using System.Windows.Forms.VisualStyles;
 
 namespace Notepad.UI
 {
-    public struct FormInfo
-    {
-        public string FormCaption;
-        public int FormWidth;
-        public int FormHeight;
-
-        public FormInfo(string formCaption, int formWidth, int formHeight)
-        {
-            FormCaption = formCaption.Trim();
-            FormWidth = formWidth;
-            FormHeight = formHeight;
-        }
-    }
-
-    public class DialogForm : Form
-    {
-        public DialogForm(FormInfo info):base()
-        {
-            this.Height = info.FormHeight;
-            this.Width = info.FormWidth;
-            this.Text = info.FormCaption;
-        }
-    }
-
-
     //https://stackoverflow.com/questions/5427020/prompt-dialog-in-windows-forms
     public class SearchController
     {

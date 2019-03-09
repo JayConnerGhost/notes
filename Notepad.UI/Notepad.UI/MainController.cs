@@ -19,8 +19,12 @@ namespace Notepad.UI
         private readonly NotepadFrame _frame;
         private readonly FormState _formState = new FormState();
         private ViewMode _viewMode;
+        private IdeaController _IdeaController;
+        private TabControl _Area1Tabs;
 
-        public MainController(NotepadController notepadController, FileBrowserController fileBrowserController,
+        public MainController(
+            NotepadController notepadController, 
+            FileBrowserController fileBrowserController,
             BrandController brandController,
             NotepadFrame frame)
         {
@@ -42,6 +46,16 @@ namespace Notepad.UI
         private void BuildUserInterface(NotepadFrame frame)
         {
             BuildMenu(frame.menuMain);
+            BuildUIArea1(frame.splitControlArea.Panel1);
+        }
+
+        private void BuildUIArea1(SplitterPanel area)
+        {
+            //build vertical tab container
+            area.Controls.Add(_Area1Tabs);
+            _Area1Tabs = (TabControl) area.Controls[0];
+
+            //Add Expose Tabs to external interfaces
         }
 
         private void BuildMenu(MenuStrip frameMenuMain)
@@ -66,6 +80,14 @@ namespace Notepad.UI
         {
             mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click),
                 Keys.Alt | Keys.S));
+            mnuTools.DropDownItems.Add(new ToolStripMenuItem("Ideas", null, new EventHandler(Ideas_Click),
+                Keys.Alt | Keys.S));
+
+        }
+
+        private void Ideas_Click(object sender, EventArgs e)
+        {
+            _IdeaController.Open();
         }
 
         private void SpellCheck_Click(object sender, EventArgs e)
@@ -207,9 +229,9 @@ namespace Notepad.UI
             UpdateMDITag(saveFileDialog1);
         }
 
-        private void UpdateMDITag(SaveFileDialog saveFileDialog1)
+        private void UpdateMDITag(SaveFileDialog saveFileDialog)
         {
-            var name = (new FileInfo(saveFileDialog1.FileName)).Name;
+            var name = (new FileInfo(saveFileDialog.FileName)).Name;
             var fileName = name;
             _notepadController.UpdateMDITag(fileName);
         }

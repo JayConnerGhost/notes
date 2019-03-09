@@ -65,8 +65,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrandController.cs" />
+    <Compile Include="DialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FileBrowserController.cs" />
+    <Compile Include="FormInfo.cs" />
     <Compile Include="FormState.cs" />
+    <Compile Include="IdeaController.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="NotepadController.cs" />
     <Compile Include="NotepadFrame.cs">
@@ -77,9 +82,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchController.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="SearchController.cs" />
     <Resource Include="Icons\file.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

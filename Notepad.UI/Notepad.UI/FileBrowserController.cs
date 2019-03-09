@@ -9,13 +9,15 @@ namespace Notepad.UI
 {
     public class FileBrowserController
     {
+        private readonly TabControl _tabContainer;
         private readonly SplitterPanel _container;
         public TreeView FolderView;
         public ListView FileView;
         public EventHandler OpenFile;
-        public FileBrowserController(SplitterPanel container)
+        public FileBrowserController(TabControl tabContainer)
         {
-            _container = container;
+            _tabContainer = tabContainer;
+
             BuildFileBrowser();
             FolderView.NodeMouseClick += FolderViewNodeMouseClick;
             PopulateLocal(GetStartingDirectory());
@@ -109,7 +111,9 @@ namespace Notepad.UI
 
         private void BuildFileBrowser()
         {
-            this._container.Controls.Add(BuildOuterBrowser());
+            var fileBrowserTabPage = new TabPage();
+            fileBrowserTabPage.Controls.Add(BuildOuterBrowser());
+            _tabContainer.TabPages.Add(fileBrowserTabPage);
         }
 
         public SplitContainer BuildOuterBrowser()

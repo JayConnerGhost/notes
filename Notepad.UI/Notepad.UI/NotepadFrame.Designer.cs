@@ -36,8 +36,10 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitControlArea = new System.Windows.Forms.SplitContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitControlArea)).BeginInit();
+            this.splitControlArea.Panel1.SuspendLayout();
             this.splitControlArea.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,9 +90,25 @@
             this.splitControlArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitControlArea.Location = new System.Drawing.Point(0, 24);
             this.splitControlArea.Name = "splitControlArea";
+            // 
+            // splitControlArea.Panel1
+            // 
+            this.splitControlArea.Panel1.Controls.Add(this.tabControl1);
             this.splitControlArea.Size = new System.Drawing.Size(806, 431);
             this.splitControlArea.SplitterDistance = 268;
             this.splitControlArea.TabIndex = 3;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(268, 431);
+            this.tabControl1.TabIndex = 0;
             // 
             // NotepadFrame
             // 
@@ -103,6 +121,7 @@
             this.Name = "NotepadFrame";
             this.Text = "IronText";
             this.contextMenuStrip1.ResumeLayout(false);
+            this.splitControlArea.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitControlArea)).EndInit();
             this.splitControlArea.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -119,6 +138,7 @@
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         public System.Windows.Forms.SplitContainer splitControlArea;
+        private System.Windows.Forms.TabControl tabControl1;
     }
 }
 
