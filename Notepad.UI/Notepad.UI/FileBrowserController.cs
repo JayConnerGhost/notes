@@ -111,7 +111,7 @@ namespace Notepad.UI
 
         private void BuildFileBrowser()
         {
-            var fileBrowserTabPage = new TabPage();
+            var fileBrowserTabPage = new TabPage {Text = "Files"};
             fileBrowserTabPage.Controls.Add(BuildOuterBrowser());
             _tabContainer.TabPages.Add(fileBrowserTabPage);
         }

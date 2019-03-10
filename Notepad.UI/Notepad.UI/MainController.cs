@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -54,10 +55,15 @@ namespace Notepad.UI
             //build vertical tab container
             area.Controls.Add(_Area1Tabs);
             _Area1Tabs = (TabControl) area.Controls[0];
+            _Area1Tabs.SizeMode = TabSizeMode.Fixed;
+            _Area1Tabs.Height = 40;
+            _Area1Tabs.Width = 10;
+            _Area1Tabs.Appearance = TabAppearance.Normal;
 
             //Add Expose Tabs to external interfaces
         }
 
+      
         private void BuildMenu(MenuStrip frameMenuMain)
         {
             var mnuFile = new ToolStripMenuItem("File");
@@ -80,14 +86,6 @@ namespace Notepad.UI
         {
             mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click),
                 Keys.Alt | Keys.S));
-            mnuTools.DropDownItems.Add(new ToolStripMenuItem("Ideas", null, new EventHandler(Ideas_Click),
-                Keys.Alt | Keys.S));
-
-        }
-
-        private void Ideas_Click(object sender, EventArgs e)
-        {
-            _IdeaController.Open();
         }
 
         private void SpellCheck_Click(object sender, EventArgs e)
