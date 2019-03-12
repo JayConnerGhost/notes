@@ -23,6 +23,10 @@ namespace Notepad.UI
         private IdeaController _IdeaController;
         private TabControl _Area1Tabs;
 
+        // The size of the X in each tab's upper right corner.
+        private int Xwid = 8;
+        private const int tab_margin = 3;
+
         public MainController(
             NotepadController notepadController, 
             FileBrowserController fileBrowserController,
@@ -48,7 +52,148 @@ namespace Notepad.UI
         {
             BuildMenu(frame.menuMain);
             BuildUIArea1(frame.splitControlArea.Panel1);
+            BuildUIArea2(frame.splitControlArea.Panel2);
         }
+
+        private void BuildUIArea2(SplitterPanel area)
+        {
+            //TODO: configure Tabs
+            SetUpArea2TabControls((TabControl) area.Controls[0]);
+        }
+
+        private void SetUpArea2TabControls(TabControl tabControl)
+        {
+            tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.DrawItem+=TabControlOnDrawItem;
+            tabControl.MouseDown+=TabControlOnMouseDown;
+
+            Size tabSize = tabControl.ItemSize;
+            tabSize.Width = 100;
+            tabSize.Height += 6;
+            tabControl.ItemSize = tabSize;
+        }
+
+        private void TabControlOnMouseDown(object sender, MouseEventArgs e)
+        {
+            //http://csharphelper.com/blog/2014/11/make-an-owner-drawn-tabcontrol-in-c/
+            // See if this is over a tab.
+
+            var tabMenu = (TabControl)_frame.splitControlArea.Panel2.Controls[0];
+            if (tabMenu.TabPages.Count ==1) return;
+
+            for (int i = 0; i < tabMenu.TabPages.Count; i++)
+            {
+                // Get the TabRect plus room for margins.
+                Rectangle tab_rect = tabMenu.GetTabRect(i);
+                RectangleF rect = new RectangleF(
+                    tab_rect.Left + tab_margin,
+                    tab_rect.Y + tab_margin,
+                    tab_rect.Width - 2 * tab_margin,
+                    tab_rect.Height - 2 * tab_margin);
+                if (e.X >= rect.Right - Xwid &&
+                    e.X <= rect.Right &&
+                    e.Y >= rect.Top &&
+                    e.Y <= rect.Top + Xwid)
+                {
+                    Console.WriteLine("Tab " + i);
+                    tabMenu.TabPages.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        private void TabControlOnDrawItem(object sender, DrawItemEventArgs e)
+        {
+            //http://csharphelper.com/blog/2014/11/make-an-owner-drawn-tabcontrol-in-c/
+            Brush txt_brush, box_brush;
+            Pen box_pen;
+            var tabMenu = (TabControl)_frame.splitControlArea.Panel2.Controls[0];
+
+            // We draw in the TabRect rather than on e.Bounds
+            // so we can use TabRect later in MouseDown.
+            Rectangle tab_rect = tabMenu.GetTabRect(e.Index);
+
+            // Draw the background.
+            // Pick appropriate pens and brushes.
+            if (e.State == DrawItemState.Selected)
+            {
+                e.Graphics.FillRectangle(Brushes.LightBlue, tab_rect);
+                e.DrawFocusRectangle();
+
+                txt_brush = Brushes.Black;
+                box_brush = Brushes.Black;
+                box_pen = Pens.White;
+            }
+            else
+            {
+                e.Graphics.FillRectangle(Brushes.Gray, tab_rect);
+
+                txt_brush = Brushes.Black;
+                box_brush = Brushes.Black;
+                box_pen = Pens.Lavender;
+            }
+
+            // Allow room for margins.
+            RectangleF layout_rect = new RectangleF(
+                tab_rect.Left + tab_margin,
+                tab_rect.Y + tab_margin,
+                tab_rect.Width - 2 * tab_margin,
+                tab_rect.Height - 2 * tab_margin);
+            using (StringFormat string_format = new StringFormat())
+            {
+                // Draw the tab # in the upper left corner.
+                using (Font small_font = new Font(_frame.Font.FontFamily,
+                    6, FontStyle.Bold))
+                {
+                    string_format.Alignment = StringAlignment.Near;
+                    string_format.LineAlignment = StringAlignment.Near;
+                    e.Graphics.DrawString(
+                        e.Index.ToString(),
+                        small_font,
+                        txt_brush,
+                        layout_rect,
+                        string_format);
+                }
+
+                // Draw the tab's text centered.
+                using (Font big_font = new Font(_frame.Font, FontStyle.Bold))
+                {
+                    string_format.Alignment = StringAlignment.Center;
+                    string_format.LineAlignment = StringAlignment.Center;
+                    e.Graphics.DrawString(
+                        tabMenu.TabPages[e.Index].Text,
+                        big_font,
+                        txt_brush,
+                        layout_rect,
+                        string_format);
+                }
+
+                // Draw an X in the upper right corner.
+                Rectangle rect = tabMenu.GetTabRect(e.Index);
+                e.Graphics.FillRectangle(box_brush,
+                    layout_rect.Right - Xwid,
+                    layout_rect.Top,
+                    Xwid,
+                    Xwid);
+                e.Graphics.DrawRectangle(box_pen,
+                    layout_rect.Right - Xwid,
+                    layout_rect.Top,
+                    Xwid,
+                    Xwid);
+                e.Graphics.DrawLine(box_pen,
+                    layout_rect.Right - Xwid,
+                    layout_rect.Top,
+                    layout_rect.Right,
+                    layout_rect.Top + Xwid);
+                e.Graphics.DrawLine(box_pen,
+                    layout_rect.Right - Xwid,
+                    layout_rect.Top + Xwid,
+                    layout_rect.Right,
+                    layout_rect.Top);
+            }
+        }
+
 
         private void BuildUIArea1(SplitterPanel area)
         {
