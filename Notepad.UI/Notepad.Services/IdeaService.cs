@@ -1,5 +1,5 @@
 ﻿using Notepad.Dtos;
-using NotePad.Ideas.Tests;
+using Notepad.Repositories;
 
 namespace Notepad.Services
 {
@@ -16,6 +16,11 @@ namespace Notepad.Services
         public void New(Idea idea)
         {
             _repository.Create(idea.IdeaDescription);
+        }
+
+        public void All()
+        {
+            _repository.Retrieve();
         }
     }
 }
