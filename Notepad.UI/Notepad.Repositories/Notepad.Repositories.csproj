@@ -41,8 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IdeaRepository.cs" />
     <Compile Include="IIdeaRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Notepad.Dtos\Notepad.Dtos.csproj">
+      <Project>{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}</Project>
+      <Name>Notepad.Dtos</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,7 +15,7 @@ namespace NotePad.Ideas.Tests
     public class PersistingIdeaTests
     {
         [Fact]
-        public void Repository_Is_called_when_Saving_An_Idea()
+        public void Repository_Is_called_when_saving_An_Idea()
         {
             //Arrange
             const string ideaDescription = "test description 1";
@@ -30,7 +30,7 @@ namespace NotePad.Ideas.Tests
         }
 
         [Fact]
-        public void Repository_is_called_when_receiving_idea_list()
+        public void Repository_is_called_when_retrieving_an_idea_list()
         {
             //Arrange
             var repository=Substitute.For<IIdeaRepository>();
@@ -42,5 +42,6 @@ namespace NotePad.Ideas.Tests
             //Assert
             repository.Received().Retrieve();
         }
+
     }
 }

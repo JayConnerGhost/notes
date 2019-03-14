@@ -1,8 +1,12 @@
-﻿namespace Notepad.Repositories
+﻿using System.Collections;
+using System.Collections.Generic;
+using Notepad.Dtos;
+
+namespace Notepad.Repositories
 {
     public interface IIdeaRepository
     {
         void Create(string ideaDescription);
-        void Retrieve();
+        IList<Idea> Retrieve();
     }
 }
