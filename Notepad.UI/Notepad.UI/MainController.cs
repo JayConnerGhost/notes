@@ -18,6 +18,7 @@ namespace Notepad.UI
         private readonly FileBrowserController _fileBrowserController;
         private readonly BrandController _brandController;
         private readonly NotepadFrame _frame;
+        private readonly IdeaController _ideaController;
         private readonly FormState _formState = new FormState();
         private ViewMode _viewMode;
         private IdeaController _IdeaController;
@@ -27,17 +28,17 @@ namespace Notepad.UI
         private int Xwid = 8;
         private const int tab_margin = 3;
 
-        public MainController(
-            NotepadController notepadController, 
+        public MainController(NotepadController notepadController,
             FileBrowserController fileBrowserController,
             BrandController brandController,
-            NotepadFrame frame)
+            NotepadFrame frame, IdeaController ideaController)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
             _fileBrowserController.OpenFile +=OpenFile;
             _brandController = brandController;
             _frame = frame;
+            _ideaController = ideaController;
             BuildUserInterface(frame);
         }
 

@@ -1,14 +1,30 @@
 ﻿using System.IO;
 using System.Windows.Forms;
-
+using Notepad.Services;
+using Notepad.Dtos;
 namespace Notepad.UI
 {
     public class IdeaController
     {
-        public IdeaController(TabControl area)
+        private IdeaService _ideaService;
+
+      
+        private void PopulateData(ListView ideaList)
         {
+          var ideas=_ideaService.All();
+          foreach (var idea in ideas)
+          {
+              ideaList.Items.Add(idea.IdeaDescription);
+          }
+        }
+
+        public IdeaController(TabControl area, IdeaService ideaService) 
+        {
+            this._ideaService = ideaService;
             BuildUIArea(area);
-        }                                                                        
+            var ideaList = area.TabPages[1].Controls[0];
+            PopulateData((ListView)ideaList);
+        }
 
         private void BuildUIArea(TabControl area)
         {
@@ -18,9 +34,7 @@ namespace Notepad.UI
             tabPage.Controls.Add(itemList);
             area.TabPages.Add(tabPage);
             itemList.View = View.List;
-            itemList.Items.Add("test idea 1");
-            itemList.Items.Add("test idea 2");
-            itemList.Items.Add("test idea 3");
+            
         }
     }
 }

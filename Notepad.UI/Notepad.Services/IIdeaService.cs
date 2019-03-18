@@ -1,10 +1,11 @@
-﻿using Notepad.Dtos;
+﻿using System.Collections.Generic;
+using Notepad.Dtos;
 
 namespace Notepad.Services
 {
     public interface IIdeaService
     {
         void New(Idea idea);
-        void All();
+        IList<Idea> All();
     }
 }

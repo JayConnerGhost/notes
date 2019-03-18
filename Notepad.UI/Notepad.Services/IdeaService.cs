@@ -1,4 +1,5 @@
-﻿using Notepad.Dtos;
+﻿using System.Collections.Generic;
+using Notepad.Dtos;
 using Notepad.Repositories;
 
 namespace Notepad.Services
@@ -18,9 +19,9 @@ namespace Notepad.Services
             _repository.Create(idea.IdeaDescription);
         }
 
-        public void All()
+        public IList<Idea> All()
         {
-            _repository.Retrieve();
+            return _repository.Retrieve();
         }
     }
 }
