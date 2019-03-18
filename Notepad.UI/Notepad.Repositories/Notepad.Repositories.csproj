@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Notepad.Adapters\Notepad.Adapters.csproj">
+      <Project>{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}</Project>
+      <Name>Notepad.Adapters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Notepad.Dtos\Notepad.Dtos.csproj">
       <Project>{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}</Project>
       <Name>Notepad.Dtos</Name>

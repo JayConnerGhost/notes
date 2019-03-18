@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
+using Notepad.Adapters;
 using Notepad.Dtos;
-using Notepad.Repositories;
 
-namespace Notepad.Ideas.Tests
+namespace Notepad.Repositories
 {
     public class IdeaRepository:IIdeaRepository
     {
-        private readonly List<Idea> _ideas=new List<Idea>();
+        private readonly IDbAdapter _dbAdapter;
+
+        public IdeaRepository(IDbAdapter dbAdapter)
+        {
+            _dbAdapter = dbAdapter;
+        }
+
         public void Create(string ideaDescription)
         {
-            _ideas.Add(new Idea(ideaDescription));
+            _dbAdapter.CreateIdea(ideaDescription);
         }
 
         public IList<Idea> Retrieve()
         {
-            return _ideas;
+            return _dbAdapter.SelectAllIdeas();
         }
     }
 }

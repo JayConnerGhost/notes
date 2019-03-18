@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notepad.Repositories", "Not
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notepad.Dtos", "Notepad.Dtos\Notepad.Dtos.csproj", "{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notepad.Adapters", "Notepad.Adapters\Notepad.Adapters.csproj", "{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
