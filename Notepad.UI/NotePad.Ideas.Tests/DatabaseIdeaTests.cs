@@ -19,7 +19,7 @@ namespace Notepad.Ideas.Tests
         [Fact]
         public void Can_save_an_idea_to_a_database()
         {
-            //TODO: drive code out for sqllite embedded database in repository
+            //TODO: drive code out for sqlite embedded database in repository
             //Arrange 
             const string ideaDescription = "test idea";
             var database = SetupDatabase();
