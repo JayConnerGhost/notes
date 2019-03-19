@@ -40,7 +40,6 @@ namespace Notepad.UI
             var itemList = new ListView {CheckBoxes = true, Dock = DockStyle.Fill};
             
             var tabPage = new TabPage {Dock = DockStyle.Fill,Text = "Ideas"};
-            //add tablelayoutpanel
             var tableLayout = new TableLayoutPanel {ColumnCount = 1, RowCount = 2,Dock = DockStyle.Fill};
             tableLayout.Controls.Add(itemList,0,1);
             var buttonLayout = new FlowLayoutPanel {FlowDirection = FlowDirection.LeftToRight,Height = 25,Dock = DockStyle.Top};
@@ -64,7 +63,7 @@ namespace Notepad.UI
             foreach (ListViewItem idea in selectedIdeas)
             {
                 idea.Remove();
-                //TODO:add code to delete from the database 
+                _ideaService.Delete(int.Parse(idea.Name.Trim()));
             }
         }
 
