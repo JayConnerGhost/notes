@@ -2,11 +2,13 @@
 {
     public class Idea
     {
-        public string IdeaDescription { get; }
+        public int Id { get; }
+        public string Description { get; }
 
-        public Idea(string ideaDescription)
+        public Idea(string description, int id)
         {
-            IdeaDescription = ideaDescription;
+            Id = id;
+            Description = description;
         }
     }
 }

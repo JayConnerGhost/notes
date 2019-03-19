@@ -17,23 +17,22 @@ namespace Notepad.Adapters
         }
 
         public void CreateDatabase()
-        {
+       {
             if (File.Exists(_databaseName))
             {
                 return;
-
             }
             SQLiteConnection.CreateFile(_databaseName);
         }
 
         public void CreateIdeaTable()
         {
-            const string tableName = "Ideas1";
+            const string tableName = "Ideas";
             if (DoesTableExist(tableName))
             {
                 return;
             }
-             string sql = $"create table {tableName} (description varchar(100))";
+             string sql = $"create table {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT,description varchar(100))";
             var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             var command = new SQLiteCommand(sql, connection);
@@ -44,41 +43,81 @@ namespace Notepad.Adapters
         private bool DoesTableExist(string tableName)
         {
             var result = false;
-            var connection = new SQLiteConnection(_connectionString);
-            connection.Open();
-            var sql= $"SELECT * FROM sqlite_master WHERE type = 'table' AND tbl_name = '{tableName}';";
-            var command =new SQLiteCommand(sql,connection);
-            var dataReader=command.ExecuteReader();
-            result = dataReader.HasRows;
-            connection.Close();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                var sql = $"SELECT * FROM sqlite_master WHERE type = 'table' AND tbl_name = '{tableName}';";
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        result = reader.HasRows;
+                    }
+
+                    connection.Close();
+                }
+            }
+
             return result;
         }
 
         public IList<Idea> SelectAllIdeas()
         {
-            const string sql = "select * from Ideas";
+            const string sql = "select rowid,* from Ideas";
             var ideas = new List<Idea>();
-            var connection = new SQLiteConnection(_connectionString);
-            connection.Open();
-            var command =new SQLiteCommand(sql,connection);
-            var reader = command.ExecuteReader();
-            while (reader.Read())
+            using (var connection = new SQLiteConnection(_connectionString))
             {
-                ideas.Add(new Idea((string)reader["description"]));
+                connection.Open();
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ideas.Add(new Idea((string) reader["description"], (int) reader.GetInt32(0)));
+                        }
+                    }
+                }
+
+                connection.Close();
             }
-            
-            connection.Close();
+
             return ideas;
         }
 
         public void CreateIdea(string ideaDescription)
         {
             var sql = $"insert into Ideas (description) values('{ideaDescription}')";
-            var connection = new SQLiteConnection(_connectionString);
-            connection.Open();
-            var command = new SQLiteCommand(sql, connection);
-            command.ExecuteNonQuery();
-            connection.Close();
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+        }
+
+        public void Delete(int id)
+        {
+            var sql = $"delete from Ideas where id={id}";
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
         }
     }
 }

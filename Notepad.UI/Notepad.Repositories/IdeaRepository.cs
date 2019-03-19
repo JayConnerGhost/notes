@@ -23,5 +23,10 @@ namespace Notepad.Repositories
         {
             return _dbAdapter.SelectAllIdeas();
         }
+
+        public void Delete(int id)
+        {
+            _dbAdapter.Delete(id);
+        }
     }
 }

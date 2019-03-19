@@ -23,7 +23,7 @@ namespace NotePad.Ideas.Tests
             IIdeaService service = new IdeaService(repository);
 
             //Act
-            service.New(new Idea(ideaDescription));
+            service.New(new Idea(ideaDescription,0));
 
             //Assert
             repository.Received().Create(ideaDescription);

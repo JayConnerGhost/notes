@@ -19,7 +19,6 @@ namespace Notepad.Ideas.Tests
         [Fact]
         public void Can_save_an_idea_to_a_database()
         {
-            //TODO: drive code out for sqlite embedded database in repository
             //Arrange 
             const string ideaDescription = "test idea";
             var database = SetupDatabase();
@@ -32,6 +31,26 @@ namespace Notepad.Ideas.Tests
             var result = RetrieveIdeaCollectionFromDatabase(database);
             Assert.NotEmpty(result);
 
+        }
+
+        [Fact]
+        public void Can_delete_an_idea_from_the_database()
+        {
+            //Arrange 
+            const string ideaDescription = "test idea";
+            var database = SetupDatabase();
+            var repository = new IdeaRepository(database);
+            //Act
+            repository.Create(ideaDescription);
+            IList<Idea> resultCheckState = RetrieveIdeaCollectionFromDatabase(database); ;
+            Assert.NotEmpty(resultCheckState);
+
+            repository.Delete(resultCheckState[0].Id);
+
+
+            //Assert
+            IEnumerable result= RetrieveIdeaCollectionFromDatabase(database); ;
+            Assert.Empty(result);
         }
 
         private IDbAdapter SetupDatabase()

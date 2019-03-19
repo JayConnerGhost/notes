@@ -15,7 +15,7 @@ namespace Notepad.UI
           var ideas=_ideaService.All();
           foreach (var idea in ideas)
           {
-              ideaList.Items.Add(idea.IdeaDescription);
+              ideaList.Items.Add(idea.Id.ToString(),idea.Description,null);
           }
         }
 
@@ -61,10 +61,10 @@ namespace Notepad.UI
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
             var selectedIdeas = ((ListView)GetIdeaList(_area)).CheckedItems;
-            //get selected controls 
             foreach (ListViewItem idea in selectedIdeas)
             {
                 idea.Remove();
+                //TODO:add code to delete from the database 
             }
         }
 
