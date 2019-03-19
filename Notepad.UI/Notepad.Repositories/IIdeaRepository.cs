@@ -8,5 +8,6 @@ namespace Notepad.Repositories
     {
         void Create(string ideaDescription);
         IList<Idea> Retrieve();
+        void Delete(int id);
     }
 }

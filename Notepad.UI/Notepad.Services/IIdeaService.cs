@@ -7,5 +7,6 @@ namespace Notepad.Services
     {
         void New(Idea idea);
         IList<Idea> All();
+        void Delete(int id);
     }
 }

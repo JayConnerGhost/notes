@@ -30,6 +30,21 @@ namespace NotePad.Ideas.Tests
         }
 
         [Fact]
+        public void Repository_is_called_when_deleting_an_idea()
+        {
+            //Arrange
+            const int id = 1;
+            var repository = Substitute.For<IIdeaRepository>();
+            IIdeaService service = new IdeaService(repository);
+
+            //Act
+            service.Delete(id);
+
+            //Assert
+            repository.Received().Delete(id);
+        }
+
+        [Fact]
         public void Repository_is_called_when_retrieving_an_idea_list()
         {
             //Arrange
