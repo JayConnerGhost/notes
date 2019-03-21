@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddIdeaDialog.cs" />
     <Compile Include="BrandController.cs" />
     <Compile Include="DialogForm.cs">
       <SubType>Form</SubType>

@@ -69,7 +69,12 @@ namespace Notepad.UI
 
         private void AddButton_Click(object sender, System.EventArgs e)
         {
-            MessageBox.Show("Add Record");
+            //TODO: build add functionaility
+            //Dialog form with text area , and a cancel and a add button 
+            //Idea gets added to database and a id returned the idea is then populated onto the list view 
+            //display dialog
+            var showDialog = new AddIdeaDialog().ShowDialog();
+            
         }
     }
 }
