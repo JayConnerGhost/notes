@@ -12,7 +12,8 @@ namespace Notepad.UI
       
         private void PopulateData(ListView ideaList)
         {
-          var ideas=_ideaService.All();
+      
+         var ideas=_ideaService.All();
           foreach (var idea in ideas)
           {
               ideaList.Items.Add(idea.Id.ToString(),idea.Description,null);
@@ -70,10 +71,11 @@ namespace Notepad.UI
         private void AddButton_Click(object sender, System.EventArgs e)
         {
             //TODO: build add functionaility
- 
             var input = new AddIdeaDialog().ShowDialog();
             var id=_ideaService.New(new Idea(input));
-            
+            var ideaList = (ListView)GetIdeaList(_area);
+            ideaList.Items.Clear();
+            PopulateData(ideaList);
         }
     }
 }
