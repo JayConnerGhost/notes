@@ -14,9 +14,9 @@ namespace Notepad.Repositories
             _dbAdapter = dbAdapter;
         }
 
-        public void Create(string ideaDescription)
+        public int Create(string ideaDescription)
         {
-            _dbAdapter.CreateIdea(ideaDescription);
+            return _dbAdapter.CreateIdea(ideaDescription);
         }
 
         public IList<Idea> Retrieve()

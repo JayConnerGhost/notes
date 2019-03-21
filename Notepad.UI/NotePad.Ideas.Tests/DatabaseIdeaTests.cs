@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Notepad.Adapters;
@@ -20,8 +22,19 @@ namespace Notepad.Ideas.Tests
         public void Can_save_an_idea_to_a_database()
         {
             //Arrange 
+            IDbAdapter database;
             const string ideaDescription = "test idea";
-            var database = SetupDatabase();
+            try
+            {
+           
+                database = SetupDatabase(false);
+            }
+            catch (FieldAccessException faex)
+            {
+                Console.WriteLine(faex.Message);
+                 database = SetupDatabase(false);
+            }
+           
             var repository=new IdeaRepository(database);
 
             //Act
@@ -34,12 +47,29 @@ namespace Notepad.Ideas.Tests
         }
 
         [Fact]
+        public void Should_receive_record_id_after_record_insert()
+        {
+            //Arrange 
+            const string ideaDescription = "test idea 10";
+            var sqlLiteDbAdapter = new SqlLiteDbAdapter(ConnectionString,DatabaseName);
+            var repository=new IdeaRepository(sqlLiteDbAdapter);
+
+            //Act
+            int result=repository.Create(ideaDescription);
+
+
+            //Assert
+            Assert.IsType<int>(result);
+        }
+
+        [Fact]
         public void Can_delete_an_idea_from_the_database()
         {
             //Arrange 
             const string ideaDescription = "test idea";
-            var database = SetupDatabase();
+            var database = SetupDatabase(true);
             var repository = new IdeaRepository(database);
+            
             //Act
             repository.Create(ideaDescription);
             IList<Idea> resultCheckState = RetrieveIdeaCollectionFromDatabase(database); ;
@@ -53,14 +83,15 @@ namespace Notepad.Ideas.Tests
             Assert.Empty(result);
         }
 
-        private IDbAdapter SetupDatabase()
+        private IDbAdapter SetupDatabase(bool force)
         {
             //connect to SQLlite db 
         
             IDbAdapter dbAdapter = new SqlLiteDbAdapter(ConnectionString, DatabaseName);
-            ((SqlLiteDbAdapter)dbAdapter).CreateDatabase();
+            ((SqlLiteDbAdapter)dbAdapter).CreateDatabase(true);
+        
             dbAdapter.CreateIdeaTable();
-
+            Thread.Sleep(400);
             return dbAdapter;
         }
 

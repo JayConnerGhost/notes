@@ -14,9 +14,9 @@ namespace Notepad.Services
 
         }
 
-        public void New(Idea idea)
+        public int New(Idea idea)
         {
-            _repository.Create(idea.Description);
+           return _repository.Create(idea.Description);
         }
 
         public IList<Idea> All()

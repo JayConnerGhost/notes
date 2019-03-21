@@ -8,7 +8,7 @@ namespace Notepad.Adapters
     {
         void CreateIdeaTable();
         IList<Idea> SelectAllIdeas();
-        void CreateIdea(string ideaDescription);
+        int CreateIdea(string ideaDescription);
         void Delete(int id);
     }
 }

@@ -5,7 +5,7 @@ namespace Notepad.Services
 {
     public interface IIdeaService
     {
-        void New(Idea idea);
+        int New(Idea idea);
         IList<Idea> All();
         void Delete(int id);
     }

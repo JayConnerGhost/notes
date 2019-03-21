@@ -16,9 +16,9 @@ namespace Notepad.Adapters
             _databaseName = databaseName;
         }
 
-        public void CreateDatabase()
+        public void CreateDatabase(bool force)
        {
-            if (File.Exists(_databaseName))
+            if (File.Exists(_databaseName) && !force)
             {
                 return;
             }
@@ -86,10 +86,11 @@ namespace Notepad.Adapters
             return ideas;
         }
 
-        public void CreateIdea(string ideaDescription)
+
+        public int CreateIdea(string ideaDescription)
         {
             var sql = $"insert into Ideas (description) values('{ideaDescription}')";
-
+     
             using (var connection = new SQLiteConnection(_connectionString))
             {
 
@@ -99,8 +100,31 @@ namespace Notepad.Adapters
                     command.ExecuteNonQuery();
                 }
 
-                connection.Close();
+               connection.Close();
             }
+            
+            return GetId(ideaDescription);
+        }
+
+        private int GetId(string ideaDescription)
+        {
+            var id = 0;
+            var SqlId = $"select id from Ideas where description='{ideaDescription}' ORDER BY rowid DESC ";
+            using (var connection2 = new SQLiteConnection(_connectionString))
+            {
+                connection2.Open();
+                using (var commandSelect = new SQLiteCommand(SqlId, connection2))
+                {
+                    using (var data = commandSelect.ExecuteReader())
+                    {
+                        data.Read();
+                        id = data.GetInt32(0);
+                    }
+                }
+                connection2.Close();
+            }
+
+            return id;
         }
 
         public void Delete(int id)

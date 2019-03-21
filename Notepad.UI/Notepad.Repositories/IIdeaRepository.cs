@@ -6,7 +6,7 @@ namespace Notepad.Repositories
 {
     public interface IIdeaRepository
     {
-        void Create(string ideaDescription);
+        int Create(string ideaDescription);
         IList<Idea> Retrieve();
         void Delete(int id);
     }
