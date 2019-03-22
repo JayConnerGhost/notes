@@ -28,5 +28,15 @@ namespace Notepad.Services
         {
            _repository.Delete(id);
         }
+
+        public Idea Get(int itemId)
+        {
+           return _repository.Get(itemId);
+        }
+
+        public void Update(string editedDescription, string itemId)
+        {
+             _repository.Update(editedDescription, itemId);
+        }
     }
 }

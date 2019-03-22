@@ -10,5 +10,7 @@ namespace Notepad.Adapters
         IList<Idea> SelectAllIdeas();
         int CreateIdea(string ideaDescription);
         void Delete(int id);
+        Idea Get(int itemId);
+        void Update(string editedDescription, string itemId);
     }
 }

@@ -83,6 +83,21 @@ namespace Notepad.Ideas.Tests
             Assert.Empty(result);
         }
 
+        [Fact]
+        public void Can_retrieve_an_idea_by_id()
+        {
+            //Arrange
+            var description = "test idea 11";
+            var testItem=new Idea(description);
+            var repository= new IdeaRepository(new SqlLiteDbAdapter(ConnectionString, DatabaseName));
+            //Act
+            var id = repository.Create(description);
+
+            //Assert
+            var result = repository.Get(id);
+            Assert.Equal(testItem.Description, result.Description);
+        }
+
         private IDbAdapter SetupDatabase(bool force)
         {
             //connect to SQLlite db 

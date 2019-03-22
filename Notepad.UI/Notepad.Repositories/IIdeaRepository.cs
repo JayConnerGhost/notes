@@ -9,5 +9,7 @@ namespace Notepad.Repositories
         int Create(string ideaDescription);
         IList<Idea> Retrieve();
         void Delete(int id);
+        Idea Get(int itemId);
+        void Update(string editedDescription, string itemId);
     }
 }

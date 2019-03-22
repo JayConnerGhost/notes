@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.IO;
 using Notepad.Dtos;
@@ -142,6 +143,42 @@ namespace Notepad.Adapters
 
                 connection.Close();
             }
+        }
+
+        public Idea Get(int itemId)
+        {
+            var sql = $"select * from Ideas where id={itemId}";
+            Idea idea;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        idea =new Idea(reader.GetString(1) ,reader.GetInt32(0));
+                    }
+                }
+                connection.Close();
+            }
+            return idea;
+        }
+
+        public void Update(string editedDescription, string itemId)
+        {
+            var sql = $"update Ideas set Description='{editedDescription}' where id={itemId}";
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+
         }
     }
 }

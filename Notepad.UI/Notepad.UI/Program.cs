@@ -40,7 +40,7 @@ namespace Notepad.UI
         {
             sqlLiteDbAdapter.CreateDatabase(false);
             sqlLiteDbAdapter.CreateIdeaTable();
-           LoadDevelopmentData(sqlLiteDbAdapter);
+          // LoadDevelopmentData(sqlLiteDbAdapter);
         }
 
         private static void LoadDevelopmentData(SqlLiteDbAdapter sqlLiteDbAdapter)

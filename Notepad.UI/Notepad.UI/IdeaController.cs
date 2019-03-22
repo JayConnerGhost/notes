@@ -39,7 +39,8 @@ namespace Notepad.UI
         private void BuildUIArea(TabControl area)
         {
             var itemList = new ListView {CheckBoxes = true, Dock = DockStyle.Fill};
-            
+            //add context menu 
+            itemList.DoubleClick += ItemList_DoubleClick;
             var tabPage = new TabPage {Dock = DockStyle.Fill,Text = "Ideas"};
             var tableLayout = new TableLayoutPanel {ColumnCount = 1, RowCount = 2,Dock = DockStyle.Fill};
             tableLayout.Controls.Add(itemList,0,1);
@@ -58,6 +59,32 @@ namespace Notepad.UI
             
         }
 
+        private void ItemList_DoubleClick(object sender, System.EventArgs e)
+        {
+            var listView = ((ListView)sender);
+            if (listView.SelectedItems.Count == 0)
+            {
+                return;
+
+            }
+            var selectedItem= listView.SelectedItems[0];
+            EditItem(selectedItem);
+        }
+
+        private void EditItem(ListViewItem selectedItem)
+        {
+            //TODO: open a edit form 
+            //Show full  text 
+            var itemId = selectedItem.Name;
+            var itemText = selectedItem.Text;
+            var editIdeaDialog = new EditIdeaDialog();
+            var editedDescription= editIdeaDialog.ShowDialog(int.Parse(itemId),_ideaService);
+            _ideaService.Update(editedDescription, itemId);
+            var ideaList = (ListView)GetIdeaList(_area);
+            ideaList.Items.Clear();
+            PopulateData(ideaList);
+        }
+
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
             var selectedIdeas = ((ListView)GetIdeaList(_area)).CheckedItems;
@@ -70,7 +97,6 @@ namespace Notepad.UI
 
         private void AddButton_Click(object sender, System.EventArgs e)
         {
-            //TODO: build add functionaility
             var input = new AddIdeaDialog().ShowDialog();
             var id=_ideaService.New(new Idea(input));
             var ideaList = (ListView)GetIdeaList(_area);

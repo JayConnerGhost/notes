@@ -28,5 +28,17 @@ namespace Notepad.Repositories
         {
             _dbAdapter.Delete(id);
         }
+
+        public Idea Get(int itemId)
+        {
+            return _dbAdapter.Get(itemId);
+        }
+
+        public void Update(string editedDescription, string itemId)
+        {
+            //TODO write implementation 
+
+            _dbAdapter.Update(editedDescription, itemId);
+        }
     }
 }
