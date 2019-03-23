@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Windows.Forms;
 using Notepad.Services;
 using Notepad.Dtos;
@@ -9,7 +11,22 @@ namespace Notepad.UI
         private readonly TabControl _area;
         private IdeaService _ideaService;
 
-      
+        public void SetFont(Font font)
+        {
+            GetIdeaList(_area).Font = font;
+        } 
+
+        public void SetBackColor(Color color)
+        {
+            GetIdeaList(_area).BackColor = color;
+        }
+
+        public void SetForeColor(Color color)
+        {
+            GetIdeaList(_area).ForeColor = color;
+        }
+
+
         private void PopulateData(ListView ideaList)
         {
       
@@ -79,6 +96,10 @@ namespace Notepad.UI
             var itemText = selectedItem.Text;
             var editIdeaDialog = new EditIdeaDialog();
             var editedDescription= editIdeaDialog.ShowDialog(int.Parse(itemId),_ideaService);
+            if (editedDescription == string.Empty)
+            {
+                return;
+            }
             _ideaService.Update(editedDescription, itemId);
             var ideaList = (ListView)GetIdeaList(_area);
             ideaList.Items.Clear();
@@ -95,9 +116,14 @@ namespace Notepad.UI
             }
         }
 
+
         private void AddButton_Click(object sender, System.EventArgs e)
         {
             var input = new AddIdeaDialog().ShowDialog();
+            if (input == string.Empty)
+            {
+                return;
+            }
             var id=_ideaService.New(new Idea(input));
             var ideaList = (ListView)GetIdeaList(_area);
             ideaList.Items.Clear();

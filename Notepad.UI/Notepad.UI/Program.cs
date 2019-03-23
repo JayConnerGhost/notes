@@ -29,7 +29,8 @@ namespace Notepad.UI
             var ideaService = new IdeaService(ideaRepository);
             var ideaController = new IdeaController((TabControl) notepadFrame.splitControlArea.Panel1.Controls[0],
                 ideaService);
-            var brandController =new BrandController(notepadController,fileBrowserController);
+            var brandController =new BrandController(notepadController,fileBrowserController,ideaController);
+            notepadController.BrandController = brandController;
             var mainController=new MainController(notepadController, fileBrowserController,brandController, notepadFrame, ideaController);
             notepadFrame.Controller = mainController;
 

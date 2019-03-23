@@ -12,9 +12,12 @@ namespace Notepad.UI
             {
                 Label label = new Label() { Left = 16, Top = 20, Width = 240, Text = "Please Enter Idea" };
                 Button confirmation = new Button() { Text = "Save", Left = 16, Width = 80, Top = 300, TabIndex = 1, TabStop = true };
+                Button close = new Button() { Text = "close", Left = 96, Width = 80, Top = 300, TabIndex = 1, TabStop = true };
                 confirmation.Click += (sender, e) => { form.Close(); };
+                close.Click += (sender, e) => { form.Close(); };
                 form.Controls.Add(label);
                 form.Controls.Add(confirmation);
+                form.Controls.Add(close);
                 form.Controls.Add(input);
                 //TODO build form
                 form.FormBorderStyle = FormBorderStyle.FixedDialog;

@@ -18,12 +18,12 @@ namespace Notepad.UI
         internal Spelling SpellChecker;
         public TabControl MdiInterface;
         internal RichTextBox Text { get; private set; }
+        public BrandController BrandController { private get; set; }
 
         public NotepadController(SplitterPanel notePadPanel)
         {
             _notePadPanel = notePadPanel;
             AddMDISupport();
-            
         }
 
         private void AddMDISupport()
@@ -125,6 +125,12 @@ namespace Notepad.UI
             var target = (RichTextBox) page.Controls[0];
             target.Text = sr.ReadToEnd();
             sr.Close();
+            BrandTarget(target);
+        }
+
+        private void BrandTarget(RichTextBox target)
+        {
+            BrandController.BrandTextArea(target);
         }
 
         public void ClearText()
