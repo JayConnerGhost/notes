@@ -327,11 +327,15 @@ namespace Notepad.UI
                 Keys.Control | Keys.F));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save", null, new EventHandler(Save_Click),
                 Keys.Control | Keys.S));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Save As", null, new EventHandler(SaveAs_Click),
+                Keys.Alt | Keys.A));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Open", null, new EventHandler(Open_Click),
                 Keys.Control | Keys.O));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Close", null, new EventHandler(Close_Click),
                 Keys.Control | Keys.X));
         }
+
+       
 
         private void Close_Click(object sender, EventArgs e)
         {
@@ -356,6 +360,11 @@ namespace Notepad.UI
             SaveFile();
         }
 
+        private void SaveAs_Click(object sender, EventArgs e)
+        {
+            UserInteractiveFileSave(true);
+        }
+
         private void SaveFile()
         {
             //if file exists - then save silently 
@@ -366,11 +375,12 @@ namespace Notepad.UI
                 return;
             }
 
-            UserInteractiveFileSave();
+            UserInteractiveFileSave(false);
         }
 
-        private void UserInteractiveFileSave()
+        private void UserInteractiveFileSave(bool OpenFile)
         {
+           
             var saveFileDialog1 = new SaveFileDialog
                 {Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*", Title = "Save a Text File"};
             saveFileDialog1.ShowDialog();
@@ -385,8 +395,22 @@ namespace Notepad.UI
 
             fs.Close();
             fs = null;
+
+            OpenNewlySavedFile(OpenFile, saveFileDialog1);
+
             if (_notepadController.GetSelectedTabPageTag() != string.Empty) return;
             UpdateMDITag(saveFileDialog1);
+         
+          
+        }
+
+        private void OpenNewlySavedFile(bool OpenFile, SaveFileDialog saveFileDialog1)
+        {
+            if (OpenFile)
+            {
+                var name = (new FileInfo(saveFileDialog1.FileName)).Name;
+                _notepadController.OpenFile(saveFileDialog1.FileName, name);
+            }
         }
 
         private void SilentSaveFile(string fileName)
