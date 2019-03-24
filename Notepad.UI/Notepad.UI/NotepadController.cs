@@ -15,6 +15,7 @@ namespace Notepad.UI
     {
         private readonly Dictionary<int,FileInformationModel>_fileRegister=new Dictionary<int, FileInformationModel>();
         private readonly SplitterPanel _notePadPanel;
+        private readonly LoggingController _loggingController;
         public EventHandler DirectoryChanged;
         private readonly FormState _formState = new FormState();
         internal Spelling SpellChecker;
@@ -23,10 +24,12 @@ namespace Notepad.UI
         public BrandController BrandController { private get; set; }
 
         
-        public NotepadController(SplitterPanel notePadPanel)
+        public NotepadController(SplitterPanel notePadPanel, LoggingController loggingController)
         {
             _notePadPanel = notePadPanel;
+            _loggingController = loggingController;
             AddMDISupport();
+            _loggingController.Log(MessageType.information,"NotePadController Constructed");
         }
 
         private void AddMDISupport()
@@ -34,6 +37,7 @@ namespace Notepad.UI
             MdiInterface = new TabControl {Dock = DockStyle.Fill};
             _notePadPanel.Controls.Add(MdiInterface);
             AddMDIPage();
+            _loggingController.Log(MessageType.information, " Build interface ");
         }
 
         public TabPage AddMDIPage()
@@ -42,6 +46,7 @@ namespace Notepad.UI
             tabPage.Controls.Add(AddTextControl());
             MdiInterface.TabPages.Add(tabPage);
             _notePadPanel.Controls.Add(MdiInterface);
+            _loggingController.Log(MessageType.information, " Add Page");
             return tabPage;
         }
 
@@ -57,6 +62,7 @@ namespace Notepad.UI
             SpellChecker.MisspelledWord += new Spelling.MisspelledWordEventHandler(SpellChecker_MisspelledWord);
             SpellChecker.EndOfText += new Spelling.EndOfTextEventHandler(SpellChecker_EndOfText);
             SpellChecker.DoubledWord += new Spelling.DoubledWordEventHandler(SpellChecker_DoubledWord);
+            _loggingController.Log(MessageType.information, " Build spellchecker");
         }
 
         
@@ -67,6 +73,7 @@ namespace Notepad.UI
             contextMenu.MenuItems.Add(new MenuItem("Copy", Copy_Click));
             contextMenu.MenuItems.Add(new MenuItem("Paste", Paste_Click));
             Text.ContextMenu = contextMenu;
+            _loggingController.Log(MessageType.information, " Build context menu");
         }
 
         private void Paste_Click(object sender, EventArgs e)
@@ -187,7 +194,7 @@ namespace Notepad.UI
         public void SearchText()
         {
             //https://www.youtube.com/watch?v=kfbkLxH8xDI
-
+            _loggingController.Log(MessageType.information, " load search tool");
             var index = 0;
             var temp = GetSelectedTextControl().Text;
             GetSelectedTextControl().Text = "";
@@ -206,6 +213,7 @@ namespace Notepad.UI
 
         public void SpellCheck()
         {
+            _loggingController.Log(MessageType.information, " load spell check");
             SpellChecker.Text = GetSelectedTextControl().Text;
             SpellChecker.SpellCheck();
         }

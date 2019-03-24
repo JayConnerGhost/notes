@@ -94,6 +94,7 @@
     <Compile Include="FormInfo.cs" />
     <Compile Include="FormState.cs" />
     <Compile Include="IdeaController.cs" />
+    <Compile Include="LoggingController.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="NotepadController.cs" />
     <Compile Include="NotepadFrame.cs">

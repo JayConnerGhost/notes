@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Runtime.CompilerServices;
 using Notepad.Adapters;
 using Notepad.Repositories;
 using Notepad.Services;
@@ -18,20 +19,24 @@ namespace Notepad.UI
         [STAThread]
         static void Main()
         {
+            //TODO:implement a ICO container 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var notepadFrame = new NotepadFrame();
-            var notepadController = new NotepadController(notepadFrame.splitControlArea.Panel2);
-            var fileBrowserController= new FileBrowserController((TabControl)notepadFrame.splitControlArea.Panel1.Controls[0]);
+            var bottomTabs = notepadFrame.scOuter.Panel2.Controls[0];
+            var logTabPage = bottomTabs.Controls[0];
+            var loggingController = new LoggingController((TabPage)logTabPage);
+            var notepadController = new NotepadController(notepadFrame.splitControlArea.Panel2, loggingController);
+            var fileBrowserController= new FileBrowserController((TabControl)notepadFrame.splitControlArea.Panel1.Controls[0],loggingController);
             var sqlLiteDbAdapter = new SqlLiteDbAdapter(GetConnectionString(),GetDatabaseName());
             SetupDatabase(sqlLiteDbAdapter);
             var ideaRepository = new IdeaRepository(sqlLiteDbAdapter);
             var ideaService = new IdeaService(ideaRepository);
             var ideaController = new IdeaController((TabControl) notepadFrame.splitControlArea.Panel1.Controls[0],
-                ideaService);
-            var brandController =new BrandController(notepadController,fileBrowserController,ideaController);
+                ideaService, loggingController);
+            var brandController =new BrandController(notepadController,fileBrowserController,ideaController, loggingController);
             notepadController.BrandController = brandController;
-            var mainController=new MainController(notepadController, fileBrowserController,brandController, notepadFrame, ideaController);
+            var mainController=new MainController(notepadController, fileBrowserController,brandController, notepadFrame, ideaController, loggingController);
             notepadFrame.Controller = mainController;
 
             Application.Run(notepadFrame);

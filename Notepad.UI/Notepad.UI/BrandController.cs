@@ -8,18 +8,21 @@ namespace Notepad.UI
         private readonly NotepadController _notepadController;
         private readonly FileBrowserController _fileBrowserController;
         private readonly IdeaController _ideaController;
+        private readonly LoggingController _loggingController;
         private  ImageList _iconList;
         private Brands ActiveBrand;
 
         public BrandController(NotepadController notepadController, FileBrowserController fileBrowserController,
-            IdeaController ideaController)
+            IdeaController ideaController, LoggingController loggingController)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
             _ideaController = ideaController;
+            _loggingController = loggingController;
             SetUpIconList();
             SetIcons(true);
             ActiveBrand = Brands.Normal;
+            loggingController.Log(MessageType.information, "BrandController Constructed");
         }
 
         private void SetUpIconList()

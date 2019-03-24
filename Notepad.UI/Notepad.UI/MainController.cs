@@ -19,6 +19,7 @@ namespace Notepad.UI
         private readonly BrandController _brandController;
         private readonly NotepadFrame _frame;
         private readonly IdeaController _ideaController;
+        private readonly LoggingController _loggingController;
         private readonly FormState _formState = new FormState();
         private ViewMode _viewMode;
         private IdeaController _IdeaController;
@@ -31,7 +32,7 @@ namespace Notepad.UI
         public MainController(NotepadController notepadController,
             FileBrowserController fileBrowserController,
             BrandController brandController,
-            NotepadFrame frame, IdeaController ideaController)
+            NotepadFrame frame, IdeaController ideaController, LoggingController loggingController)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
@@ -39,7 +40,10 @@ namespace Notepad.UI
             _brandController = brandController;
             _frame = frame;
             _ideaController = ideaController;
+            _loggingController = loggingController;
             BuildUserInterface(frame);
+            _loggingController.Log(MessageType.information, "MainController constructed");
+
         }
 
         private void OpenFile(object sender, EventArgs e)
@@ -54,6 +58,7 @@ namespace Notepad.UI
             BuildMenu(frame.menuMain);
             BuildUIArea1(frame.splitControlArea.Panel1);
             BuildUIArea2(frame.splitControlArea.Panel2);
+            _loggingController.Log(MessageType.information, " UI Built");
         }
 
         private void BuildUIArea2(SplitterPanel area)
@@ -77,6 +82,7 @@ namespace Notepad.UI
 
         private void TabControlOnMouseDown(object sender, MouseEventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Close document");
             //http://csharphelper.com/blog/2014/11/make-an-owner-drawn-tabcontrol-in-c/
             // See if this is over a tab.
 
@@ -213,6 +219,7 @@ namespace Notepad.UI
       
         private void BuildMenu(MenuStrip frameMenuMain)
         {
+            _loggingController.Log(MessageType.information, " Build Menu");
             var mnuFile = new ToolStripMenuItem("File");
             var mnuEdit = new ToolStripMenuItem("Edit");
             var mnuView = new ToolStripMenuItem("View");
@@ -252,10 +259,18 @@ namespace Notepad.UI
                 Keys.Alt | Keys.D));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Normal Mode", null, new EventHandler(NormalMode_Click),
                 Keys.Alt | Keys.U));
+            mnuView.DropDownItems.Add(new ToolStripMenuItem("Logging", null, new EventHandler(Logging_Click),
+                Keys.Alt | Keys.L));
+        }
+
+        private void Logging_Click(object sender, EventArgs e)
+        {
+            _frame.scOuter.Panel2Collapsed = !_frame.scOuter.Panel2Collapsed;
         }
 
         private void NormalMode_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Switch to normal mode");
             if (_viewMode == ViewMode.Normal)return;
             _formState.Restore(_frame);
             _viewMode = ViewMode.Normal;
@@ -263,6 +278,7 @@ namespace Notepad.UI
 
         private void DistractionFree_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Switch to distraction free mode");
             if (_viewMode == ViewMode.Focused) return;
             _formState.Maximize(_frame);
             _viewMode = ViewMode.Focused;
@@ -270,16 +286,19 @@ namespace Notepad.UI
 
         private void HackerContrast_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Switch to Hacker mode");
             _brandController.SetHackerStyle();
         }
 
         private void RegularContrast_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Switch to regular contrast");
             _brandController.SetBaseStyle();
         }
 
         private void HighContrast_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Switch to high contrast");
             _brandController.SetHighContrastStyle();
         }
 
@@ -362,11 +381,13 @@ namespace Notepad.UI
 
         private void SaveAs_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Save as - file");
             UserInteractiveFileSave(true);
         }
 
         private void SaveFile()
         {
+            _loggingController.Log(MessageType.information, " Save file ");
             //if file exists - then save silently 
             var fileName = _notepadController.GetFileName();
             if (fileName != string.Empty)
@@ -431,6 +452,7 @@ namespace Notepad.UI
 
         private void New_Click(object sender, EventArgs e)
         {
+            _loggingController.Log(MessageType.information, " Create new file");
             var mdiPage = _notepadController.AddMDIPage();
             _notepadController.SetSelectedMDIPage(mdiPage);
             //more work here to support opening a new tab 

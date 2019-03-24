@@ -10,17 +10,20 @@ namespace Notepad.UI
     public class FileBrowserController
     {
         private readonly TabControl _tabContainer;
+        private readonly LoggingController _loggingController;
         private readonly SplitterPanel _container;
         public TreeView FolderView;
         public ListView FileView;
         public EventHandler OpenFile;
-        public FileBrowserController(TabControl tabContainer)
+        public FileBrowserController(TabControl tabContainer, LoggingController loggingController)
         {
             _tabContainer = tabContainer;
+            _loggingController = loggingController;
 
             BuildFileBrowser();
             FolderView.NodeMouseClick += FolderViewNodeMouseClick;
             PopulateLocal(GetStartingDirectory());
+            _loggingController.Log(MessageType.information, "FileBrowserController Constructed");
         }
 
         private string GetStartingDirectory()
@@ -28,6 +31,7 @@ namespace Notepad.UI
             var startingDirectory = string.Empty;
             var appSettingsReader = new System.Configuration.AppSettingsReader();
             startingDirectory = (string)appSettingsReader.GetValue("startingFolder", typeof(string));
+            _loggingController.Log(MessageType.information, " Initial directory loaded from config");
             return startingDirectory;
         }
 
@@ -72,6 +76,7 @@ namespace Notepad.UI
             catch (System.UnauthorizedAccessException uae)
             {
                 Console.WriteLine(uae.Message);
+                _loggingController.Log(MessageType.Error, " UnathorizedAccessException - accessing file system");
             }
             FileView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
@@ -84,6 +89,7 @@ namespace Notepad.UI
             var rootNode = new TreeNode(info.Name) {Tag = info};
             GetDirectories(info.GetDirectories(), rootNode);
             FolderView.Nodes.Add(rootNode);
+            _loggingController.Log(MessageType.information, " Load folders ");
         }
 
         private void GetDirectories(DirectoryInfo[] getDirectories, TreeNode rootNode)

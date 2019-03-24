@@ -10,6 +10,7 @@ namespace Notepad.UI
     {
         private readonly TabControl _area;
         private IdeaService _ideaService;
+        private readonly LoggingController _loggingController;
 
         public void SetFont(Font font)
         {
@@ -37,13 +38,16 @@ namespace Notepad.UI
           }
         }
 
-        public IdeaController(TabControl area, IdeaService ideaService) 
+        public IdeaController(TabControl area, IdeaService ideaService, LoggingController loggingController) 
         {
             _area = area;
             this._ideaService = ideaService;
+            _loggingController = loggingController;
             BuildUIArea(_area);
             var ideaList = GetIdeaList(_area);
             PopulateData((ListView)ideaList);
+
+            _loggingController.Log(MessageType.information, "IdeaController Constructed");
         }
 
         private static Control GetIdeaList(TabControl area)
