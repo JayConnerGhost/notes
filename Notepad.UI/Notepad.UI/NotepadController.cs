@@ -134,7 +134,6 @@ namespace Notepad.UI
 
         private void AddToFileRegister(TabPage page, string fileName, string tag)
         {
-            //add FileInformationModel to register when file opened
             var fileInformationModel=new FileInformationModel(page,fileName, tag);
             _fileRegister.Add(page.TabIndex,fileInformationModel);
         }
