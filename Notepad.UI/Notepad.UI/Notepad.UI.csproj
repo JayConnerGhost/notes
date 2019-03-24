@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="EditIdeaDialog.cs" />
     <Compile Include="FileBrowserController.cs" />
+    <Compile Include="FileInformationModel.cs" />
     <Compile Include="FormInfo.cs" />
     <Compile Include="FormState.cs" />
     <Compile Include="IdeaController.cs" />

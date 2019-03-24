@@ -99,6 +99,7 @@ namespace Notepad.UI
                 {
                     Console.WriteLine("Tab " + i);
                     tabMenu.TabPages.RemoveAt(i);
+                   _notepadController.RemoveFileFromFileRegister(i);
                     return;
                 }
             }
@@ -357,20 +358,44 @@ namespace Notepad.UI
 
         private void SaveFile()
         {
-            var saveFileDialog1 = new SaveFileDialog { Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*", Title = "Save a Text File" };
+            //if file exists - then save silently 
+            var fileName = _notepadController.GetFileName();
+            if (fileName != string.Empty)
+            {
+                SilentSaveFile(fileName);
+                return;
+            }
+
+            UserInteractiveFileSave();
+        }
+
+        private void UserInteractiveFileSave()
+        {
+            var saveFileDialog1 = new SaveFileDialog
+                {Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*", Title = "Save a Text File"};
             saveFileDialog1.ShowDialog();
             if (saveFileDialog1.FileName == "") return;
-            var fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
+
+            var fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
             var data = _notepadController.GetText();
             var info = new UTF8Encoding(true).GetBytes(data);
             fs.Write(info, 0, info.Length);
-            var btData = new byte[] { 0x0 };
+            var btData = new byte[] {0x0};
             fs.Write(btData, 0, btData.Length);
 
             fs.Close();
             fs = null;
             if (_notepadController.GetSelectedTabPageTag() != string.Empty) return;
             UpdateMDITag(saveFileDialog1);
+        }
+
+        private void SilentSaveFile(string fileName)
+        {
+            //TODO - saving a file using the filename 
+            var data = _notepadController.GetText();
+            System.IO.StreamWriter file =new StreamWriter(fileName);
+            file.Write(data);
+            file.Close();
         }
 
         private void UpdateMDITag(SaveFileDialog saveFileDialog)

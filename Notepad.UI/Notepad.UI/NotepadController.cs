@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Drawing;
 using System.IO;
@@ -12,6 +13,7 @@ namespace Notepad.UI
 {
     public class NotepadController
     {
+        private readonly Dictionary<int,FileInformationModel>_fileRegister=new Dictionary<int, FileInformationModel>();
         private readonly SplitterPanel _notePadPanel;
         public EventHandler DirectoryChanged;
         private readonly FormState _formState = new FormState();
@@ -20,6 +22,7 @@ namespace Notepad.UI
         internal RichTextBox Text { get; private set; }
         public BrandController BrandController { private get; set; }
 
+        
         public NotepadController(SplitterPanel notePadPanel)
         {
             _notePadPanel = notePadPanel;
@@ -126,6 +129,19 @@ namespace Notepad.UI
             target.Text = sr.ReadToEnd();
             sr.Close();
             BrandTarget(target);
+            AddToFileRegister(page, fileName, tag);
+        }
+
+        private void AddToFileRegister(TabPage page, string fileName, string tag)
+        {
+            //add FileInformationModel to register when file opened
+            var fileInformationModel=new FileInformationModel(page,fileName, tag);
+            _fileRegister.Add(page.TabIndex,fileInformationModel);
+        }
+
+        public void RemoveFileFromFileRegister(int tabIndex)
+        {
+            _fileRegister.Remove(tabIndex);
         }
 
         private void BrandTarget(RichTextBox target)
@@ -235,6 +251,19 @@ namespace Notepad.UI
                 var tabControl = (TabPage)mdiInterfaceTabPage;
                 tabControl.Controls[0].Font = font;
             }
+        }
+
+        public string GetFileName()
+        {
+            var selectedTabPageIndex = GetSelectedTabPageIndex();
+            var fileInformationModel = _fileRegister[selectedTabPageIndex];
+            return fileInformationModel.FileName;
+        }
+
+        private int GetSelectedTabPageIndex()
+        {
+            var selectedTabTabIndex = MdiInterface.SelectedTab.TabIndex;
+            return selectedTabTabIndex;
         }
     }
 }
