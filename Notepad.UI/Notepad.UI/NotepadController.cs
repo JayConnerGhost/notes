@@ -117,7 +117,7 @@ namespace Notepad.UI
         }
 
         private void SpellChecker_MisspelledWord(object sender, SpellingEventArgs args)
-        {
+         {
             // update text  
             GetSelectedTextControl().Text = SpellChecker.Text;
         }

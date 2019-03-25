@@ -19,44 +19,64 @@ namespace Notepad.UI
         [STAThread]
         static void Main()
         {
-            //TODO:implement a ICO container 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var notepadFrame = new NotepadFrame();
-            var bottomTabs = notepadFrame.scOuter.Panel2.Controls[0];
-            var logTabPage = bottomTabs.Controls[0];
-            var loggingController = new LoggingController((TabPage)logTabPage);
+            var loggingController = SetupLoggingController(notepadFrame);
             var notepadController = new NotepadController(notepadFrame.splitControlArea.Panel2, loggingController);
             var fileBrowserController= new FileBrowserController((TabControl)notepadFrame.splitControlArea.Panel1.Controls[0],loggingController);
             var sqlLiteDbAdapter = new SqlLiteDbAdapter(GetConnectionString(),GetDatabaseName());
             SetupDatabase(sqlLiteDbAdapter);
+            var ideaController = SetupIdeaController(sqlLiteDbAdapter, notepadFrame, loggingController);
+            var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController);
+            SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController);
+
+            Application.Run(notepadFrame);
+        }
+
+        private static void SetupMainController(NotepadController notepadController,
+            FileBrowserController fileBrowserController, BrandController brandController, NotepadFrame notepadFrame,
+            IdeaController ideaController, LoggingController loggingController)
+        {
+            var mainController = new MainController(notepadController, fileBrowserController, brandController, notepadFrame,
+                ideaController, loggingController);
+            notepadFrame.Controller = mainController;
+        }
+
+        private static BrandController SetupBrandController(NotepadController notepadController,
+            FileBrowserController fileBrowserController, IdeaController ideaController, LoggingController loggingController)
+        {
+            var brandController =
+                new BrandController(notepadController, fileBrowserController, ideaController, loggingController);
+            notepadController.BrandController = brandController;
+            return brandController;
+        }
+
+        private static IdeaController SetupIdeaController(SqlLiteDbAdapter sqlLiteDbAdapter, NotepadFrame notepadFrame,
+            LoggingController loggingController)
+        {
             var ideaRepository = new IdeaRepository(sqlLiteDbAdapter);
             var ideaService = new IdeaService(ideaRepository);
             var ideaController = new IdeaController((TabControl) notepadFrame.splitControlArea.Panel1.Controls[0],
                 ideaService, loggingController);
-            var brandController =new BrandController(notepadController,fileBrowserController,ideaController, loggingController);
-            notepadController.BrandController = brandController;
-            var mainController=new MainController(notepadController, fileBrowserController,brandController, notepadFrame, ideaController, loggingController);
-            notepadFrame.Controller = mainController;
+            return ideaController;
+        }
 
-            Application.Run(notepadFrame);
+        private static LoggingController SetupLoggingController(NotepadFrame notepadFrame)
+        {
+            var bottomTabs = notepadFrame.scOuter.Panel2.Controls[0];
+            var logTabPage = bottomTabs.Controls[0];
+            var loggingController = new LoggingController((TabPage) logTabPage);
+            return loggingController;
         }
 
         private static void SetupDatabase(SqlLiteDbAdapter sqlLiteDbAdapter)
         {
             sqlLiteDbAdapter.CreateDatabase(false);
             sqlLiteDbAdapter.CreateIdeaTable();
-          // LoadDevelopmentData(sqlLiteDbAdapter);
         }
 
-        private static void LoadDevelopmentData(SqlLiteDbAdapter sqlLiteDbAdapter)
-        {
-            // to be removed when no longer needed 
-            sqlLiteDbAdapter.CreateIdea("test idea 1");
-            sqlLiteDbAdapter.CreateIdea("test idea 2");
-            sqlLiteDbAdapter.CreateIdea("test idea 3");
-            sqlLiteDbAdapter.CreateIdea("test idea 4");
-        }
+       
 
         private static string GetDatabaseName()
         {
