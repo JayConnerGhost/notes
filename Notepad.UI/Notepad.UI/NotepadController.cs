@@ -36,7 +36,7 @@ namespace Notepad.UI
         {
             MdiInterface = new TabControl {Dock = DockStyle.Fill};
             _notePadPanel.Controls.Add(MdiInterface);
-            AddMDIPage();
+             AddMDIPage();
             _loggingController.Log(MessageType.information, " Build interface ");
         }
 
@@ -98,10 +98,36 @@ namespace Notepad.UI
                 Dock = DockStyle.Fill, Multiline = true, AcceptsTab = true, AllowDrop = true,
                 BorderStyle = BorderStyle.None
             };
-
+            AddDragAndDropSupport(Text);
             AddContextMenu();
             AddSpellingSupport();
             return Text;
+        }
+
+        private void AddDragAndDropSupport(RichTextBox text)
+        {
+            text.DragEnter += new DragEventHandler(RTF_DragEnter);
+            text.DragDrop += new DragEventHandler(RTF_DragDrop);
+        }
+
+        private void RTF_DragDrop(object sender, DragEventArgs e)
+        {
+            Image img = default(Image);
+            img = Image.FromFile(((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString());
+            Clipboard.SetImage(img);
+
+            var richTextBox = (RichTextBox)sender;
+            richTextBox.SelectionStart = 0;
+            richTextBox.Paste();
+        }
+
+        private void RTF_DragEnter(object sender, DragEventArgs e)
+        {
+
+            if ((e.Data.GetDataPresent(DataFormats.FileDrop)))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
         }
 
         private void SpellChecker_DoubledWord(object sender, SpellingEventArgs args)
@@ -126,15 +152,21 @@ namespace Notepad.UI
         {
             if (fileName == null) return;
 
-            var sr = new StreamReader(fileName);
-
-            var page = MdiInterface.TabPages[0].Text == string.Empty ? MdiInterface.TabPages[0] : AddMDIPage();
-            
+            //var page = MdiInterface.TabPages[0].Text == string.Empty ? MdiInterface.TabPages[0] : AddMDIPage();
+            var page = AddMDIPage();
             page.Text = tag;
             MdiInterface.SelectedTab = page;
             var target = (RichTextBox) page.Controls[0];
-            target.Text = sr.ReadToEnd();
-            sr.Close();
+           
+            try
+            {
+                target.LoadFile(fileName, RichTextBoxStreamType.RichText);
+            }
+            catch (Exception e)
+            {
+                target.LoadFile(fileName, RichTextBoxStreamType.PlainText);
+            }
+
             BrandTarget(target);
             AddToFileRegister(page, fileName, tag);
         }
@@ -271,6 +303,11 @@ namespace Notepad.UI
         {
             var selectedTabTabIndex = MdiInterface.SelectedTab.TabIndex;
             return selectedTabTabIndex;
+        }
+
+        public RichTextBox GetRTFControl()
+        {
+            return GetSelectedTextControl();
         }
     }
 }

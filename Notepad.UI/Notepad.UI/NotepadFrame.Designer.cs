@@ -110,7 +110,7 @@
             // 
             this.scOuter.Panel2.Controls.Add(this.bottomTabArea);
             this.scOuter.Size = new System.Drawing.Size(806, 431);
-            this.scOuter.SplitterDistance = 271;
+            this.scOuter.SplitterDistance = 274;
             this.scOuter.SplitterWidth = 1;
             this.scOuter.TabIndex = 1;
             // 
@@ -123,7 +123,7 @@
             // splitControlArea.Panel1
             // 
             this.splitControlArea.Panel1.Controls.Add(this.bottomTabs);
-            this.splitControlArea.Size = new System.Drawing.Size(806, 271);
+            this.splitControlArea.Size = new System.Drawing.Size(806, 274);
             this.splitControlArea.SplitterDistance = 268;
             this.splitControlArea.TabIndex = 4;
             // 
@@ -137,7 +137,7 @@
             this.bottomTabs.Name = "bottomTabs";
             this.bottomTabs.Padding = new System.Drawing.Point(1, 1);
             this.bottomTabs.SelectedIndex = 0;
-            this.bottomTabs.Size = new System.Drawing.Size(268, 271);
+            this.bottomTabs.Size = new System.Drawing.Size(268, 274);
             this.bottomTabs.TabIndex = 0;
             // 
             // bottomTabArea
@@ -148,14 +148,14 @@
             this.bottomTabArea.Location = new System.Drawing.Point(0, 0);
             this.bottomTabArea.Name = "bottomTabArea";
             this.bottomTabArea.SelectedIndex = 0;
-            this.bottomTabArea.Size = new System.Drawing.Size(806, 159);
+            this.bottomTabArea.Size = new System.Drawing.Size(806, 156);
             this.bottomTabArea.TabIndex = 0;
             // 
             // loggingTabPage
             // 
             this.loggingTabPage.Location = new System.Drawing.Point(4, 4);
             this.loggingTabPage.Name = "loggingTabPage";
-            this.loggingTabPage.Size = new System.Drawing.Size(798, 133);
+            this.loggingTabPage.Size = new System.Drawing.Size(798, 130);
             this.loggingTabPage.TabIndex = 0;
             this.loggingTabPage.Text = "Log";
             this.loggingTabPage.UseVisualStyleBackColor = true;
@@ -170,6 +170,7 @@
             this.MainMenuStrip = this.menuMain;
             this.Name = "NotepadFrame";
             this.Text = "IronText";
+            this.Load += new System.EventHandler(this.NotepadFrame_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.scOuter.Panel1.ResumeLayout(false);
             this.scOuter.Panel2.ResumeLayout(false);

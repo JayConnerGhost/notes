@@ -12,13 +12,17 @@ namespace Notepad.UI
 {
     public partial class NotepadFrame : Form
     {
+        public MainController Controller { get; set; }
 
         public NotepadFrame()
         {
             InitializeComponent();
+            
         }
 
-
-        public MainController Controller { get; set; }
+        private void NotepadFrame_Load(object sender, EventArgs e)
+        {
+            AllowDrop = true;
+        }
     }
 }

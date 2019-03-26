@@ -403,20 +403,12 @@ namespace Notepad.UI
         {
            
             var saveFileDialog1 = new SaveFileDialog
-                {Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*", Title = "Save a Text File"};
+                {Filter = "rtf files (*.rtf)|*.rtf|All files (*.*)|*.*", Title = "Save a Rich Text File"};
             saveFileDialog1.ShowDialog();
-            if (saveFileDialog1.FileName == "") return;
+            var targetFileName=saveFileDialog1.FileName;
+            var rtfControl = _notepadController.GetRTFControl();
 
-            var fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
-            var data = _notepadController.GetText();
-            var info = new UTF8Encoding(true).GetBytes(data);
-            fs.Write(info, 0, info.Length);
-            var btData = new byte[] {0x0};
-            fs.Write(btData, 0, btData.Length);
-
-            fs.Close();
-            fs = null;
-
+            rtfControl.SaveFile(targetFileName,RichTextBoxStreamType.RichText);
             OpenNewlySavedFile(OpenFile, saveFileDialog1);
 
             if (_notepadController.GetSelectedTabPageTag() != string.Empty) return;
@@ -436,11 +428,8 @@ namespace Notepad.UI
 
         private void SilentSaveFile(string fileName)
         {
-            //TODO - saving a file using the filename 
-            var data = _notepadController.GetText();
-            System.IO.StreamWriter file =new StreamWriter(fileName);
-            file.Write(data);
-            file.Close();
+            var rtfControl = _notepadController.GetRTFControl();
+            rtfControl.SaveFile(fileName, RichTextBoxStreamType.RichText);
         }
 
         private void UpdateMDITag(SaveFileDialog saveFileDialog)
