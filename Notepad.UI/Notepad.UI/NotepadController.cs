@@ -13,7 +13,7 @@ namespace Notepad.UI
 {
     public class NotepadController
     {
-        private readonly Dictionary<int,FileInformationModel>_fileRegister=new Dictionary<int, FileInformationModel>();
+        private readonly Dictionary<string, FileInformationModel> _fileRegister=new Dictionary<string, FileInformationModel>();
         private readonly SplitterPanel _notePadPanel;
         private readonly LoggingController _loggingController;
         public EventHandler DirectoryChanged;
@@ -152,8 +152,8 @@ namespace Notepad.UI
         {
             if (fileName == null) return;
 
-            //var page = MdiInterface.TabPages[0].Text == string.Empty ? MdiInterface.TabPages[0] : AddMDIPage();
-            var page = AddMDIPage();
+            var page = MdiInterface.TabPages[0].Text == string.Empty ? MdiInterface.TabPages[0] : AddMDIPage();
+            //var page = AddMDIPage();
             page.Text = tag;
             MdiInterface.SelectedTab = page;
             var target = (RichTextBox) page.Controls[0];
@@ -173,13 +173,24 @@ namespace Notepad.UI
 
         private void AddToFileRegister(TabPage page, string fileName, string tag)
         {
+            page.Name = fileName;
             var fileInformationModel=new FileInformationModel(page,fileName, tag);
-            _fileRegister.Add(page.TabIndex,fileInformationModel);
+            try
+            {
+                _fileRegister.Add(page.Name, fileInformationModel);
+            }
+            catch (Exception e)
+            {
+                MdiInterface.TabPages.Remove(_fileRegister[page.Name].Page);
+                RemoveFileFromFileRegister(page.Name);
+                _fileRegister.Add(page.Name, fileInformationModel);
+            }
+           
         }
 
-        public void RemoveFileFromFileRegister(int tabIndex)
+        public void RemoveFileFromFileRegister(string pageName)
         {
-            _fileRegister.Remove(tabIndex);
+            _fileRegister.Remove(pageName);
         }
 
         private void BrandTarget(RichTextBox target)
@@ -295,7 +306,7 @@ namespace Notepad.UI
         public string GetFileName()
         {
             var selectedTabPageIndex = GetSelectedTabPageIndex();
-            var fileInformationModel = _fileRegister[selectedTabPageIndex];
+            var fileInformationModel = _fileRegister[MdiInterface.SelectedTab.Name];
             return fileInformationModel.FileName;
         }
 

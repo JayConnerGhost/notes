@@ -105,7 +105,7 @@ namespace Notepad.UI
                 {
                     Console.WriteLine("Tab " + i);
                     tabMenu.TabPages.RemoveAt(i);
-                   _notepadController.RemoveFileFromFileRegister(i);
+                   _notepadController.RemoveFileFromFileRegister(tabMenu.SelectedTab.Name);
                     return;
                 }
             }
