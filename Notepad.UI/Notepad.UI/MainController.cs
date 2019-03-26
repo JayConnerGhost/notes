@@ -404,8 +404,14 @@ namespace Notepad.UI
            
             var saveFileDialog1 = new SaveFileDialog
                 {Filter = "rtf files (*.rtf)|*.rtf|All files (*.*)|*.*", Title = "Save a Rich Text File"};
-            saveFileDialog1.ShowDialog();
+            var dialogResult = saveFileDialog1.ShowDialog();
+            if (dialogResult == DialogResult.Cancel)
+            {
+                return;
+            }
+
             var targetFileName=saveFileDialog1.FileName;
+            
             var rtfControl = _notepadController.GetRTFControl();
 
             rtfControl.SaveFile(targetFileName,RichTextBoxStreamType.RichText);
