@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -43,6 +44,7 @@ namespace Notepad.UI
             _loggingController = loggingController;
             BuildUserInterface(frame);
             _loggingController.Log(MessageType.information, "MainController constructed");
+            _frame.scOuter.Panel2Collapsed = true;
 
         }
 
@@ -224,6 +226,9 @@ namespace Notepad.UI
             var mnuEdit = new ToolStripMenuItem("Edit");
             var mnuView = new ToolStripMenuItem("View");
             var mnuTools = new ToolStripMenuItem("Tools");
+            //TODO write a quick help menu with a about screen
+            var mnuHelp =new ToolStripMenuItem("Help");
+            ComposeHelpMenu(mnuHelp);
             ComposeFileMenu(mnuFile);
             ComposeEditMenu(mnuEdit);
             ComposeViewMenu(mnuView);
@@ -233,13 +238,25 @@ namespace Notepad.UI
             frameMenuMain.Items.Add(mnuEdit);
             frameMenuMain.Items.Add(mnuView);
             frameMenuMain.Items.Add(mnuTools);
+            frameMenuMain.Items.Add(mnuHelp);
             frameMenuMain.Dock = DockStyle.Top;
+        }
+
+        private void ComposeHelpMenu(ToolStripMenuItem mnuHelp)
+        {
+            mnuHelp.DropDownItems.Add(new ToolStripMenuItem("About", null, new EventHandler(About_click)));
         }
 
         private void ComposeToolsMenu(ToolStripMenuItem mnuTools)
         {
             mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click),
                 Keys.Alt | Keys.S));
+        }
+
+
+        private void About_click(object sender, EventArgs e)
+        {
+            new AboutDialog().ShowDialog();
         }
 
         private void SpellCheck_Click(object sender, EventArgs e)
@@ -446,6 +463,44 @@ namespace Notepad.UI
             _notepadController.SetSelectedMDIPage(mdiPage);
             //more work here to support opening a new tab 
             _notepadController.ClearText();
+        }
+    }
+
+    public class AboutDialog
+    {
+        public void ShowDialog()
+        {
+            using (var form = new DialogForm(new FormInfo("About IronText", 260, 400)))
+            {
+               
+
+                Label lblWritenby = new Label { Text = "Written by Jay Katie Martin" };
+                Label lblLicence = new Label { Text = "Licence MIT" };
+                Button close = new Button() { Text = "Close", Width = 80, TabIndex = 1, TabStop = true };
+                close.Click += (sender, e) => { form.Close(); };
+                var layout = new FlowLayoutPanel();
+             
+                    PictureBox picture = new PictureBox
+                    {
+                        ImageLocation = @"Icons\logo.png",
+                        Width = 237,
+                        Height = 239,
+                    };
+                    form.Controls.Add(layout);
+                    layout.Dock = DockStyle.Fill;
+                    layout.FlowDirection = FlowDirection.TopDown;
+                    layout.Controls.Add(picture);
+                    layout.Controls.Add(lblWritenby);
+                    layout.Controls.Add(lblLicence);
+                    layout.Controls.Add(close);
+                
+
+         
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.ControlBox = false;
+                form.ShowDialog();
+            }
         }
     }
 }
