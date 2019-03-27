@@ -36,7 +36,7 @@ namespace Notepad.UI
         {
             MdiInterface = new TabControl {Dock = DockStyle.Fill};
             _notePadPanel.Controls.Add(MdiInterface);
-             AddMDIPage();
+            AddMDIPage();
             _loggingController.Log(MessageType.information, " Build interface ");
         }
 
@@ -45,8 +45,8 @@ namespace Notepad.UI
             var tabPage = new TabPage { Dock = DockStyle.Fill };
             tabPage.Controls.Add(AddTextControl());
             MdiInterface.TabPages.Add(tabPage);
-            _notePadPanel.Controls.Add(MdiInterface);
-            _loggingController.Log(MessageType.information, " Add Page");
+            AddToFileRegister(tabPage,"","");
+           _loggingController.Log(MessageType.information, " Add Page");
             return tabPage;
         }
 

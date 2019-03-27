@@ -423,6 +423,11 @@ namespace Notepad.UI
                 {Filter = "rtf files (*.rtf)|*.rtf|All files (*.*)|*.*", Title = "Save a Rich Text File"};
             saveFileDialog1.ShowDialog();
             var targetFileName=saveFileDialog1.FileName;
+            if (targetFileName == string.Empty)
+            {
+                return;
+
+            }
             var rtfControl = _notepadController.GetRTFControl();
 
             rtfControl.SaveFile(targetFileName,RichTextBoxStreamType.RichText);
@@ -463,44 +468,6 @@ namespace Notepad.UI
             _notepadController.SetSelectedMDIPage(mdiPage);
             //more work here to support opening a new tab 
             _notepadController.ClearText();
-        }
-    }
-
-    public class AboutDialog
-    {
-        public void ShowDialog()
-        {
-            using (var form = new DialogForm(new FormInfo("About IronText", 260, 400)))
-            {
-               
-
-                Label lblWritenby = new Label { Text = "Written by Jay Katie Martin" };
-                Label lblLicence = new Label { Text = "Licence MIT" };
-                Button close = new Button() { Text = "Close", Width = 80, TabIndex = 1, TabStop = true };
-                close.Click += (sender, e) => { form.Close(); };
-                var layout = new FlowLayoutPanel();
-             
-                    PictureBox picture = new PictureBox
-                    {
-                        ImageLocation = @"Icons\logo.png",
-                        Width = 237,
-                        Height = 239,
-                    };
-                    form.Controls.Add(layout);
-                    layout.Dock = DockStyle.Fill;
-                    layout.FlowDirection = FlowDirection.TopDown;
-                    layout.Controls.Add(picture);
-                    layout.Controls.Add(lblWritenby);
-                    layout.Controls.Add(lblLicence);
-                    layout.Controls.Add(close);
-                
-
-         
-                form.FormBorderStyle = FormBorderStyle.FixedDialog;
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ControlBox = false;
-                form.ShowDialog();
-            }
         }
     }
 }
