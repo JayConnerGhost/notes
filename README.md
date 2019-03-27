@@ -1,2 +1,2 @@
-# notes
-Basic notepad written in c#
+# IronText
+Project Site - https://irontext.home.blog/
