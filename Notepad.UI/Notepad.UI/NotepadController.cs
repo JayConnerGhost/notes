@@ -45,7 +45,6 @@ namespace Notepad.UI
             var tabPage = new TabPage { Dock = DockStyle.Fill };
             tabPage.Controls.Add(AddTextControl());
             MdiInterface.TabPages.Add(tabPage);
-            AddToFileRegister(tabPage,"","");
            _loggingController.Log(MessageType.information, " Add Page");
             return tabPage;
         }
@@ -151,6 +150,7 @@ namespace Notepad.UI
         public void OpenFile(string fileName, string tag)
         {
             if (fileName == null) return;
+            if (IsFileAlreadyOpen(fileName)) return;
 
             //var page = MdiInterface.TabPages[0].Text == string.Empty ? MdiInterface.TabPages[0] : AddMDIPage();
             var page = AddMDIPage();
@@ -171,10 +171,33 @@ namespace Notepad.UI
             AddToFileRegister(page, fileName, tag);
         }
 
+        private bool IsFileAlreadyOpen(string fileName)
+        {
+
+            foreach (var fileInformationModel in _fileRegister)
+            {
+                if (fileInformationModel.Value.FileName == fileName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void AddToFileRegister(TabPage page, string fileName, string tag)
         {
-            var fileInformationModel=new FileInformationModel(page,fileName, tag);
-            _fileRegister.Add(page.TabIndex,fileInformationModel);
+
+            try
+            {
+                var fileInformationModel = new FileInformationModel(page, fileName, tag);
+                _fileRegister.Add(page.TabIndex, fileInformationModel);
+            }
+            catch (System.ArgumentException ae)
+            {
+                _loggingController.Log(MessageType.Error,ae.Message);
+            }
+         
         }
 
         public void RemoveFileFromFileRegister(int tabIndex)
