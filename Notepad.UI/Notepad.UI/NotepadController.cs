@@ -318,6 +318,10 @@ namespace Notepad.UI
         public string GetFileName()
         {
             var selectedTabPageIndex = GetSelectedTabPageIndex();
+            if (!_fileRegister.ContainsKey(selectedTabPageIndex))
+            {
+                AddToFileRegister(MdiInterface.TabPages[selectedTabPageIndex],"tmp"+new Random(99),"NEW");
+            }
             var fileInformationModel = _fileRegister[selectedTabPageIndex];
             return fileInformationModel.FileName;
         }
