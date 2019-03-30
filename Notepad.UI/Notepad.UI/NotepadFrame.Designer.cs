@@ -40,6 +40,7 @@
             this.bottomTabs = new System.Windows.Forms.TabControl();
             this.bottomTabArea = new System.Windows.Forms.TabControl();
             this.loggingTabPage = new System.Windows.Forms.TabPage();
+            this.skinningManager1 = new SkinFramework.SkinningManager();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scOuter)).BeginInit();
             this.scOuter.Panel1.SuspendLayout();
@@ -110,7 +111,7 @@
             // 
             this.scOuter.Panel2.Controls.Add(this.bottomTabArea);
             this.scOuter.Size = new System.Drawing.Size(806, 431);
-            this.scOuter.SplitterDistance = 274;
+            this.scOuter.SplitterDistance = 277;
             this.scOuter.SplitterWidth = 1;
             this.scOuter.TabIndex = 1;
             // 
@@ -123,7 +124,7 @@
             // splitControlArea.Panel1
             // 
             this.splitControlArea.Panel1.Controls.Add(this.bottomTabs);
-            this.splitControlArea.Size = new System.Drawing.Size(806, 274);
+            this.splitControlArea.Size = new System.Drawing.Size(806, 277);
             this.splitControlArea.SplitterDistance = 268;
             this.splitControlArea.TabIndex = 4;
             // 
@@ -137,7 +138,7 @@
             this.bottomTabs.Name = "bottomTabs";
             this.bottomTabs.Padding = new System.Drawing.Point(1, 1);
             this.bottomTabs.SelectedIndex = 0;
-            this.bottomTabs.Size = new System.Drawing.Size(268, 274);
+            this.bottomTabs.Size = new System.Drawing.Size(268, 277);
             this.bottomTabs.TabIndex = 0;
             // 
             // bottomTabArea
@@ -148,17 +149,22 @@
             this.bottomTabArea.Location = new System.Drawing.Point(0, 0);
             this.bottomTabArea.Name = "bottomTabArea";
             this.bottomTabArea.SelectedIndex = 0;
-            this.bottomTabArea.Size = new System.Drawing.Size(806, 156);
+            this.bottomTabArea.Size = new System.Drawing.Size(806, 153);
             this.bottomTabArea.TabIndex = 0;
             // 
             // loggingTabPage
             // 
             this.loggingTabPage.Location = new System.Drawing.Point(4, 4);
             this.loggingTabPage.Name = "loggingTabPage";
-            this.loggingTabPage.Size = new System.Drawing.Size(798, 130);
+            this.loggingTabPage.Size = new System.Drawing.Size(798, 127);
             this.loggingTabPage.TabIndex = 0;
             this.loggingTabPage.Text = "Log";
             this.loggingTabPage.UseVisualStyleBackColor = true;
+            // 
+            // skinningManager1
+            // 
+            this.skinningManager1.DefaultSkin = SkinFramework.DefaultSkin.Office2007Luna;
+            this.skinningManager1.ParentForm = this;
             // 
             // NotepadFrame
             // 
@@ -198,6 +204,7 @@
         public System.Windows.Forms.SplitContainer scOuter;
         public System.Windows.Forms.TabControl bottomTabArea;
         private System.Windows.Forms.TabPage loggingTabPage;
+        public SkinFramework.SkinningManager skinningManager1;
     }
 }
 

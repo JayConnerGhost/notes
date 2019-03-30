@@ -9,16 +9,18 @@ namespace Notepad.UI
         private readonly FileBrowserController _fileBrowserController;
         private readonly IdeaController _ideaController;
         private readonly LoggingController _loggingController;
+        private readonly NotepadFrame _frame;
         private  ImageList _iconList;
         private Brands ActiveBrand;
 
         public BrandController(NotepadController notepadController, FileBrowserController fileBrowserController,
-            IdeaController ideaController, LoggingController loggingController)
+            IdeaController ideaController, LoggingController loggingController, Form frame)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
             _ideaController = ideaController;
             _loggingController = loggingController;
+            _frame = (NotepadFrame) frame;
             SetUpIconList();
             SetIcons(true);
             ActiveBrand = Brands.Normal;
@@ -52,6 +54,7 @@ namespace Notepad.UI
         public void SetBaseStyle()
         {
             ActiveBrand = Brands.Normal;
+            _frame.SetSkinLight();
             _notepadController.SetForeColor(Color.Black);
             _notepadController.SetBackColor(Color.White);
             _notepadController.SetFont(new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel));
@@ -70,6 +73,7 @@ namespace Notepad.UI
         public void SetHighContrastStyle()
         {
             ActiveBrand = Brands.HighContrast;
+            _frame.SetSkinBlack();
             _notepadController.SetForeColor(Color.Yellow);
             _notepadController.SetBackColor(Color.Black);
             _notepadController.SetFont(new Font(FontFamily.GenericSerif, 20, FontStyle.Regular, GraphicsUnit.Pixel));
@@ -87,6 +91,8 @@ namespace Notepad.UI
         public void SetHackerStyle()
         {
             ActiveBrand = Brands.Hacker;
+            _frame.SetSkinBlack();
+   
             _notepadController.SetForeColor(Color.ForestGreen);
             _notepadController.SetBackColor(Color.Black);
             _notepadController.Text.BackColor = Color.Black;
@@ -104,6 +110,8 @@ namespace Notepad.UI
             _ideaController.SetFont(new Font(FontFamily.GenericSerif, 15, FontStyle.Regular, GraphicsUnit.Pixel));
 
         }
+
+  
 
         public void BrandTextArea(RichTextBox target)
         {

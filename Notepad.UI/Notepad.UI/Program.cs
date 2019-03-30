@@ -28,7 +28,7 @@ namespace Notepad.UI
             var sqlLiteDbAdapter = new SqlLiteDbAdapter(GetConnectionString(),GetDatabaseName());
             SetupDatabase(sqlLiteDbAdapter);
             var ideaController = SetupIdeaController(sqlLiteDbAdapter, notepadFrame, loggingController);
-            var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController);
+            var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController, notepadFrame);
             SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController);
 
             Application.Run(notepadFrame);
@@ -44,10 +44,10 @@ namespace Notepad.UI
         }
 
         private static BrandController SetupBrandController(NotepadController notepadController,
-            FileBrowserController fileBrowserController, IdeaController ideaController, LoggingController loggingController)
+            FileBrowserController fileBrowserController, IdeaController ideaController, LoggingController loggingController, Form frame)
         {
             var brandController =
-                new BrandController(notepadController, fileBrowserController, ideaController, loggingController);
+                new BrandController(notepadController, fileBrowserController, ideaController, loggingController, frame);
             notepadController.BrandController = brandController;
             return brandController;
         }

@@ -59,6 +59,9 @@
     <Reference Include="NetSpell.SpellChecker, Version=2.1.7.41329, Culture=neutral, PublicKeyToken=318b389f0db66e46">
       <HintPath>..\packages\NetSpell.2.1.7\lib\NetSpell.SpellChecker.dll</HintPath>
     </Reference>
+    <Reference Include="SkinFramework">
+      <HintPath>..\dependancies\SkinFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -107,6 +110,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchController.cs" />
+    <Content Include="Resources\Office07Black.png" />
+    <Content Include="Resources\Office07Blue.png" />
+    <Content Include="Resources\Office07Silver.png" />
     <EmbeddedResource Include="Icons\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

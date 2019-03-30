@@ -9,20 +9,13 @@ namespace Notepad.UI
 {
     public class MainController
     {
-        private enum ViewMode
-        {
-            Normal,
-            Focused
-        }
-
+       
         private readonly NotepadController _notepadController;
         private readonly FileBrowserController _fileBrowserController;
         private readonly BrandController _brandController;
         private readonly NotepadFrame _frame;
         private readonly IdeaController _ideaController;
         private readonly LoggingController _loggingController;
-        private readonly FormState _formState = new FormState();
-        private ViewMode _viewMode;
         private IdeaController _IdeaController;
         private TabControl _Area1Tabs;
 
@@ -272,10 +265,8 @@ namespace Notepad.UI
                 Keys.Alt | Keys.R));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click),
                 Keys.Alt | Keys.H));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Distraction Free", null, new EventHandler(DistractionFree_Click),
-                Keys.Alt | Keys.D));
-            mnuView.DropDownItems.Add(new ToolStripMenuItem("Normal Mode", null, new EventHandler(NormalMode_Click),
-                Keys.Alt | Keys.U));
+   
+         
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Logging", null, new EventHandler(Logging_Click),
                 Keys.Alt | Keys.L));
         }
@@ -285,21 +276,7 @@ namespace Notepad.UI
             _frame.scOuter.Panel2Collapsed = !_frame.scOuter.Panel2Collapsed;
         }
 
-        private void NormalMode_Click(object sender, EventArgs e)
-        {
-            _loggingController.Log(MessageType.information, " Switch to normal mode");
-            if (_viewMode == ViewMode.Normal)return;
-            _formState.Restore(_frame);
-            _viewMode = ViewMode.Normal;
-        }
-
-        private void DistractionFree_Click(object sender, EventArgs e)
-        {
-            _loggingController.Log(MessageType.information, " Switch to distraction free mode");
-            if (_viewMode == ViewMode.Focused) return;
-            _formState.Maximize(_frame);
-            _viewMode = ViewMode.Focused;
-        }
+   
 
         private void HackerContrast_Click(object sender, EventArgs e)
         {
