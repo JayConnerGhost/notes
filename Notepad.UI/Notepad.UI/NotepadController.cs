@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlTypes;
 using System.Drawing;
 using System.IO;
@@ -42,11 +43,16 @@ namespace Notepad.UI
 
         public TabPage AddMDIPage()
         {
+            var tmpDocumentMarker = ConfigurationManager.AppSettings["tmpFileMarker"];
             var tabPage = new TabPage { Dock = DockStyle.Fill };
             tabPage.Controls.Add(AddTextControl());
             MdiInterface.TabPages.Add(tabPage);
+            var fileName = $"{tmpDocumentMarker}{tabPage.TabIndex}";
+            AddToFileRegister(tabPage,fileName, fileName);
+            tabPage.Tag = fileName;
+            tabPage.Text = fileName;
            _loggingController.Log(MessageType.information, " Add Page");
-            return tabPage;
+           return tabPage;
         }
 
         private RichTextBox GetSelectedTextControl()
@@ -318,10 +324,6 @@ namespace Notepad.UI
         public string GetFileName()
         {
             var selectedTabPageIndex = GetSelectedTabPageIndex();
-            if (!_fileRegister.ContainsKey(selectedTabPageIndex))
-            {
-                AddToFileRegister(MdiInterface.TabPages[selectedTabPageIndex],"tmp"+new Random(99),"NEW");
-            }
             var fileInformationModel = _fileRegister[selectedTabPageIndex];
             return fileInformationModel.FileName;
         }
@@ -335,6 +337,26 @@ namespace Notepad.UI
         public RichTextBox GetRTFControl()
         {
             return GetSelectedTextControl();
+        }
+
+        public void OpenFileInSelectedTab(string fileName, string name)
+        {
+            var targetTab = (TabPage) MdiInterface.SelectedTab;
+            var target = (RichTextBox)targetTab.Controls[0];
+            targetTab.Text = name;
+            try
+            {
+                target.LoadFile(fileName, RichTextBoxStreamType.RichText);
+            }
+            catch (Exception e)
+            {
+                target.LoadFile(fileName, RichTextBoxStreamType.PlainText);
+            }
+
+            BrandTarget(target);
+            AddToFileRegister(targetTab,fileName, name);
+
+
         }
     }
 }

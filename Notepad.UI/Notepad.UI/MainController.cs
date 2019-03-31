@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -384,13 +385,26 @@ namespace Notepad.UI
             _loggingController.Log(MessageType.information, " Save file ");
             //if file exists - then save silently 
             var fileName = _notepadController.GetFileName();
-            if (fileName != string.Empty)
+            if (fileName != string.Empty  && NotTempFileName(fileName))
             {
                 SilentSaveFile(fileName);
                 return;
             }
 
-            UserInteractiveFileSave(false);
+            if (NotTempFileName(fileName))
+            {
+                UserInteractiveFileSave(false);
+            }
+            else
+            {
+                UserInteractiveFileSave(true);
+            }
+        }
+
+        private static bool NotTempFileName(string fileName)
+        {
+            var tmpDocumentMarker = ConfigurationManager.AppSettings["tmpFileMarker"];
+            return !(fileName.Contains(tmpDocumentMarker));
         }
 
         private void UserInteractiveFileSave(bool OpenFile)
@@ -421,7 +435,7 @@ namespace Notepad.UI
             if (OpenFile)
             {
                 var name = (new FileInfo(saveFileDialog1.FileName)).Name;
-                _notepadController.OpenFile(saveFileDialog1.FileName, name);
+                _notepadController.OpenFileInSelectedTab(saveFileDialog1.FileName, name);
             }
         }
 
