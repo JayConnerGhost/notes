@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using Notepad.Adapters;
 using Notepad.Repositories;
 using Notepad.Services;
+using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {
@@ -22,29 +23,31 @@ namespace Notepad.UI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var notepadFrame = new NotepadFrame();
-            var loggingController = SetupLoggingController(notepadFrame);
+            var todoFrame = new TodoFrame();
+            ILoggingController loggingController = SetupLoggingController(notepadFrame);
             var notepadController = new NotepadController(notepadFrame.splitControlArea.Panel2, loggingController);
             var fileBrowserController= new FileBrowserController((TabControl)notepadFrame.splitControlArea.Panel1.Controls[0],loggingController);
             var sqlLiteDbAdapter = new SqlLiteDbAdapter(GetConnectionString(),GetDatabaseName());
             SetupDatabase(sqlLiteDbAdapter);
             var ideaController = SetupIdeaController(sqlLiteDbAdapter, notepadFrame, loggingController);
             var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController, notepadFrame);
-            SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController);
+            var todoController = new TodoController(loggingController, new TodoService(),todoFrame);
+            SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController, todoController);
 
             Application.Run(notepadFrame);
         }
 
         private static void SetupMainController(NotepadController notepadController,
             FileBrowserController fileBrowserController, BrandController brandController, NotepadFrame notepadFrame,
-            IdeaController ideaController, LoggingController loggingController)
+            IdeaController ideaController, ILoggingController loggingController, ITodoController todoController)
         {
             var mainController = new MainController(notepadController, fileBrowserController, brandController, notepadFrame,
-                ideaController, loggingController);
+                ideaController,todoController, loggingController);
             notepadFrame.Controller = mainController;
         }
 
         private static BrandController SetupBrandController(NotepadController notepadController,
-            FileBrowserController fileBrowserController, IdeaController ideaController, LoggingController loggingController, Form frame)
+            FileBrowserController fileBrowserController, IdeaController ideaController, ILoggingController loggingController, Form frame)
         {
             var brandController =
                 new BrandController(notepadController, fileBrowserController, ideaController, loggingController, frame);
@@ -53,7 +56,7 @@ namespace Notepad.UI
         }
 
         private static IdeaController SetupIdeaController(SqlLiteDbAdapter sqlLiteDbAdapter, NotepadFrame notepadFrame,
-            LoggingController loggingController)
+            ILoggingController loggingController)
         {
             var ideaRepository = new IdeaRepository(sqlLiteDbAdapter);
             var ideaService = new IdeaService(ideaRepository);

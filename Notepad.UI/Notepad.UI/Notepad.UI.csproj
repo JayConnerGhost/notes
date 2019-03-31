@@ -98,6 +98,8 @@
     <Compile Include="FormInfo.cs" />
     <Compile Include="FormState.cs" />
     <Compile Include="IdeaController.cs" />
+    <Compile Include="ILoggingController.cs" />
+    <Compile Include="ITodoController.cs" />
     <Compile Include="LoggingController.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="NotepadController.cs" />
@@ -110,6 +112,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchController.cs" />
+    <Compile Include="TodoController.cs" />
+    <Compile Include="TodoFrame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TodoFrame.Designer.cs">
+      <DependentUpon>TodoFrame.cs</DependentUpon>
+    </Compile>
     <Content Include="Resources\Office07Black.png" />
     <Content Include="Resources\Office07Blue.png" />
     <Content Include="Resources\Office07Silver.png" />

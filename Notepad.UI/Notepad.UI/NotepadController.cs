@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NetSpell.SpellChecker;
+using Notepad.TODO.Tests;
 using Notepad.UI;
 
 namespace Notepad.UI
@@ -16,7 +17,7 @@ namespace Notepad.UI
     {
         private readonly Dictionary<int,FileInformationModel>_fileRegister=new Dictionary<int, FileInformationModel>();
         private readonly SplitterPanel _notePadPanel;
-        private readonly LoggingController _loggingController;
+        private readonly ILoggingController _loggingController;
         public EventHandler DirectoryChanged;
         private readonly FormState _formState = new FormState();
         internal Spelling SpellChecker;
@@ -25,7 +26,7 @@ namespace Notepad.UI
         public BrandController BrandController { private get; set; }
 
         
-        public NotepadController(SplitterPanel notePadPanel, LoggingController loggingController)
+        public NotepadController(SplitterPanel notePadPanel, ILoggingController loggingController)
         {
             _notePadPanel = notePadPanel;
             _loggingController = loggingController;
@@ -70,7 +71,6 @@ namespace Notepad.UI
             _loggingController.Log(MessageType.information, " Build spellchecker");
         }
 
-        
         private void AddContextMenu()
         {
             var contextMenu=new ContextMenu();

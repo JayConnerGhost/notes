@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {
@@ -8,13 +9,13 @@ namespace Notepad.UI
         private readonly NotepadController _notepadController;
         private readonly FileBrowserController _fileBrowserController;
         private readonly IdeaController _ideaController;
-        private readonly LoggingController _loggingController;
+        private readonly ILoggingController _loggingController;
         private readonly NotepadFrame _frame;
         private  ImageList _iconList;
         private Brands ActiveBrand;
 
         public BrandController(NotepadController notepadController, FileBrowserController fileBrowserController,
-            IdeaController ideaController, LoggingController loggingController, Form frame)
+            IdeaController ideaController, ILoggingController loggingController, Form frame)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;

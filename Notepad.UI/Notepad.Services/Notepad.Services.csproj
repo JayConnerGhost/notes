@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="IdeaService.cs" />
     <Compile Include="IIdeaService.cs" />
+    <Compile Include="ITodoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TodoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Notepad.Dtos\Notepad.Dtos.csproj">

@@ -4,13 +4,15 @@ using System.IO;
 using System.Windows.Forms;
 using Notepad.Services;
 using Notepad.Dtos;
+using Notepad.TODO.Tests;
+
 namespace Notepad.UI
 {
     public class IdeaController
     {
         private readonly TabControl _area;
         private IdeaService _ideaService;
-        private readonly LoggingController _loggingController;
+        private readonly ILoggingController _loggingController;
 
         public void SetFont(Font font)
         {
@@ -38,7 +40,7 @@ namespace Notepad.UI
           }
         }
 
-        public IdeaController(TabControl area, IdeaService ideaService, LoggingController loggingController) 
+        public IdeaController(TabControl area, IdeaService ideaService, ILoggingController loggingController) 
         {
             _area = area;
             this._ideaService = ideaService;

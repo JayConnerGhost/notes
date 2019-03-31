@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {
@@ -16,7 +17,8 @@ namespace Notepad.UI
         private readonly BrandController _brandController;
         private readonly NotepadFrame _frame;
         private readonly IdeaController _ideaController;
-        private readonly LoggingController _loggingController;
+        private readonly ITodoController _todoController;
+        private readonly ILoggingController _loggingController;
         private IdeaController _IdeaController;
         private TabControl _Area1Tabs;
 
@@ -27,7 +29,8 @@ namespace Notepad.UI
         public MainController(NotepadController notepadController,
             FileBrowserController fileBrowserController,
             BrandController brandController,
-            NotepadFrame frame, IdeaController ideaController, LoggingController loggingController)
+            NotepadFrame frame, IdeaController ideaController, ITodoController todoController,
+            ILoggingController loggingController)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
@@ -35,6 +38,7 @@ namespace Notepad.UI
             _brandController = brandController;
             _frame = frame;
             _ideaController = ideaController;
+            _todoController = todoController;
             _loggingController = loggingController;
             BuildUserInterface(frame);
             _loggingController.Log(MessageType.information, "MainController constructed");
@@ -245,6 +249,13 @@ namespace Notepad.UI
         {
             mnuTools.DropDownItems.Add(new ToolStripMenuItem("Spell Check", null, new EventHandler(SpellCheck_Click),
                 Keys.Alt | Keys.S));
+            mnuTools.DropDownItems.Add(new ToolStripMenuItem("TODO List", null, new EventHandler(TODO_Click),
+                Keys.Alt | Keys.T));
+        }
+
+        private void TODO_Click(object sender, EventArgs e)
+        {
+           _todoController.Show();
         }
 
 

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notepad.Dtos", "Notepad.Dto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notepad.Adapters", "Notepad.Adapters\Notepad.Adapters.csproj", "{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notepad.TODO.Tests", "Notepad.TODO.Tests\Notepad.TODO.Tests.csproj", "{84E49BD7-23C9-4C74-92F6-5471E7C61E10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24D3C3A5-6100-409F-9BC8-10F43FF69EF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84E49BD7-23C9-4C74-92F6-5471E7C61E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E49BD7-23C9-4C74-92F6-5471E7C61E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E49BD7-23C9-4C74-92F6-5471E7C61E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E49BD7-23C9-4C74-92F6-5471E7C61E10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

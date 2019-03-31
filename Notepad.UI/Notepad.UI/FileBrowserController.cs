@@ -4,18 +4,19 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Collections.Specialized;
+using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {
     public class FileBrowserController
     {
         private readonly TabControl _tabContainer;
-        private readonly LoggingController _loggingController;
+        private readonly ILoggingController _loggingController;
         private readonly SplitterPanel _container;
         public TreeView FolderView;
         public ListView FileView;
         public EventHandler OpenFile;
-        public FileBrowserController(TabControl tabContainer, LoggingController loggingController)
+        public FileBrowserController(TabControl tabContainer, ILoggingController loggingController)
         {
             _tabContainer = tabContainer;
             _loggingController = loggingController;

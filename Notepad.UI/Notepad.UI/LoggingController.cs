@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
+using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {
-    public class LoggingController
+    public class LoggingController:ILoggingController
     {
         private TextBox logView;
         private readonly TabPage _loggingArea;
