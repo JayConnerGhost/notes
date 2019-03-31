@@ -8,13 +8,20 @@ namespace Notepad.UI
     {
         private readonly ILoggingController _loggingController;
         private readonly ITodoService _service;
-        private readonly TodoFrame _frame;
+        private  TodoFrame _frame;
 
         public TodoController(ILoggingController loggingController, ITodoService service, TodoFrame frame)
         {
             _loggingController = loggingController;
             _service = service;
             _frame = frame;
+            _frame.Closing += _frame_Closing;
+        }
+
+        private void _frame_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            _frame.Hide();
         }
 
         public void Show()
