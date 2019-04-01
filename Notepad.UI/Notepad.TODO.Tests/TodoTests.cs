@@ -11,14 +11,14 @@ using Xunit;
 namespace Notepad.TODO.Tests
 {
     //UI Tests and full stack
-    public class TodoCreateTests : IDisposable
+    public class TodoTests : IDisposable
     {
         ITodoController _controller;
         ITodoService _service;
         const string ConnectionString = "Data Source=MyDatabase.sqlite;Version=3";
         const string DatabaseName = "MyDatabase.sqlite";
 
-        public TodoCreateTests()
+        public TodoTests()
         {
             _service = Substitute.For<ITodoService>();
             _controller = new TodoController(Substitute.For<ILoggingController>(), _service, new TodoFrame());
