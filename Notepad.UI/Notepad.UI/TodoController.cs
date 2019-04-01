@@ -61,6 +61,12 @@ namespace Notepad.UI
         {
             _service.Create(new TodoItem(name,description));
         }
+
+        public void GetAll()
+        {
+            var todoItems = _service.GetAll();
+            _frame.TodoItems=todoItems;
+        }
     }
 
     internal enum AreaNames

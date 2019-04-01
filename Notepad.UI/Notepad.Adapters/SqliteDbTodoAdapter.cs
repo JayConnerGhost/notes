@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using Notepad.Dtos;
 
@@ -42,6 +43,35 @@ namespace Notepad.Adapters
             }
 
             return GetId(name);
+        }
+
+        public IList<TodoItem> GetAll()
+        {
+            const string sql = "select rowid,* from Todo";
+            var todos = new List<TodoItem>();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var todoItem = new TodoItem((string) reader["name"], (string) reader["description"])
+                            {
+                                Id = (int) reader.GetInt32(0)
+                            };
+                            todos.Add(todoItem);
+                        }
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return todos;
         }
 
         private int GetId(string name)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Notepad.Adapters;
 using Notepad.Dtos;
@@ -86,11 +87,37 @@ namespace Notepad.TODO.Tests
 
             //Act
 
-            int ItemId=repository.Create(name,description);
+            var itemId=repository.Create(name,description);
             //Assert
-            ITodoItem itemFromDatabase = GetItemFromDatabase(ItemId, sqliteDbTodoAdapter);
+            var itemFromDatabase = GetItemFromDatabase(itemId, sqliteDbTodoAdapter);
             Assert.Equal(name,itemFromDatabase.Name);
             Assert.Equal(description,itemFromDatabase.Description);
+        }
+
+        [Fact]
+        public void Get_all_ToDo_Items()
+        {
+            //Arrange 
+
+            const int actual = 3;
+            var sqliteDbTodoAdapter = new SqliteDbTodoAdapter(ConnectionString,DatabaseName);
+            SetupDatabase(sqliteDbTodoAdapter);
+            CreateTodoTable(sqliteDbTodoAdapter);
+            ITodoService service=new TodoService(new TodoRepository(sqliteDbTodoAdapter));
+            var todoFrame = new TodoFrame();
+            ITodoController controller=new TodoController(Substitute.For<ILoggingController>(),service,todoFrame);
+            controller.Add("test1","test1");
+            controller.Add("test2","test2");
+            controller.Add("test3","test3");
+
+
+            //Act
+            controller.GetAll();
+            var response = todoFrame.TodoItems;
+
+            //Assert
+            Assert.NotEmpty(response);
+            Assert.Equal(actual, response.Count);
         }
 
         private void CreateTodoTable(SqliteDbTodoAdapter sqliteDbTodoAdapter)

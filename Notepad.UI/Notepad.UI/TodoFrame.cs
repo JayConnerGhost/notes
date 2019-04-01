@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Notepad.Dtos;
 
 namespace Notepad.UI
 {
@@ -16,6 +17,8 @@ namespace Notepad.UI
         {
             InitializeComponent();
         }
+
+        public IList<TodoItem> TodoItems { get; set; }
 
         public SplitterPanel GetPanelTodo()
         {

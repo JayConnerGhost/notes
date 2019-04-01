@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Notepad.Adapters;
+using Notepad.Dtos;
 
 namespace Notepad.Repositories
 {
@@ -15,6 +17,11 @@ namespace Notepad.Repositories
         public int Create(string name, string description)
         {
            return _sqliteDbTodoAdapter.CreateToDoItem(name, description);
+        }
+
+        public IList<TodoItem> GetAll()
+        {
+            return _sqliteDbTodoAdapter.GetAll();
         }
     }
 }
