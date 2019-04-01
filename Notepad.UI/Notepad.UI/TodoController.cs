@@ -13,7 +13,7 @@ namespace Notepad.UI
         private readonly ILoggingController _loggingController;
         private readonly ITodoService _service;
         private readonly TodoFrame _frame;
-        private readonly Dictionary<AreaNames, FlowLayoutPanel> _areas=new Dictionary<AreaNames, FlowLayoutPanel>();
+        private readonly Dictionary<PositionNames, FlowLayoutPanel> _areas=new Dictionary<PositionNames, FlowLayoutPanel>();
 
         public TodoController(ILoggingController loggingController, ITodoService service, TodoFrame frame)
         {
@@ -41,9 +41,9 @@ namespace Notepad.UI
             panelDoing.Controls.Add(doingArea);
             panelTodo.Controls.Add(todoArea);
             panelDone.Controls.Add(doneArea);
-            _areas.Add(AreaNames.Todo, todoArea);
-            _areas.Add(AreaNames.Doing, doingArea);
-            _areas.Add(AreaNames.Done, doneArea);
+            _areas.Add(PositionNames.Todo, todoArea);
+            _areas.Add(PositionNames.Doing, doingArea);
+            _areas.Add(PositionNames.Done, doneArea);
         }
 
         private void _frame_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -67,12 +67,5 @@ namespace Notepad.UI
             var todoItems = _service.GetAll();
             _frame.TodoItems=todoItems;
         }
-    }
-
-    internal enum AreaNames
-    {
-        Todo,
-        Doing,
-        Done
     }
 }

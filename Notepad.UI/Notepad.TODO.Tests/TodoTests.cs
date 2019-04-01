@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Notepad.TODO.Tests
 {
-    //UI Tests and full stack
+    //DB , UI Tests and full stack
     public class TodoTests : IDisposable
     {
         ITodoController _controller;
@@ -56,6 +56,8 @@ namespace Notepad.TODO.Tests
             _service.Received(1).Create(Arg.Is<TodoItem>(x => x.Description == description));
         }
 
+
+        //Database test run individually 
         [Fact]
         public void Repository_is_called_when_TODO_is_created()
         {
@@ -73,7 +75,8 @@ namespace Notepad.TODO.Tests
             //Assert
             repository.Received(1).Create(name, description);
         }
-
+        
+        //Database test run individually 
         [Fact]
         public void Position_is_set_ToDo_when_Item_is_created()
         {
@@ -90,10 +93,11 @@ namespace Notepad.TODO.Tests
             var itemId=repository.Create(name,description);
             //Assert
             var itemFromDatabase = GetItemFromDatabase(itemId, sqliteDbTodoAdapter);
-            Assert.Equal(name,itemFromDatabase.Name);
-            Assert.Equal(description,itemFromDatabase.Description);
+           
+            Assert.Equal(itemFromDatabase.Position,PositionNames.Todo);
         }
 
+        //Database test run individually 
         [Fact]
         public void Get_all_ToDo_Items()
         {

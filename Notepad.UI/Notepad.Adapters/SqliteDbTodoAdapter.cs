@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using Notepad.Dtos;
+using Notepad.UI;
 
 namespace Notepad.Adapters
 {
@@ -26,9 +28,9 @@ namespace Notepad.Adapters
             SQLiteConnection.CreateFile(_databaseName);
         }
 
-        public int CreateToDoItem(string name, string description)
+        public int CreateToDoItem(string name, string description, PositionNames position)
         {
-            var sql = $"insert into Todo (name, description) values('{name}','{description}')";
+            var sql = $"insert into Todo (name, description, position) values('{name}','{description}','{position}')";
 
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -47,7 +49,7 @@ namespace Notepad.Adapters
 
         public IList<TodoItem> GetAll()
         {
-            const string sql = "select rowid,* from Todo";
+            const string sql = "select * from Todo";
             var todos = new List<TodoItem>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -61,7 +63,9 @@ namespace Notepad.Adapters
                         {
                             var todoItem = new TodoItem((string) reader["name"], (string) reader["description"])
                             {
-                                Id = (int) reader.GetInt32(0)
+                                Id = (int) reader.GetInt32(0),
+                                Position = (PositionNames)Enum.Parse(typeof(PositionNames), reader.GetString(3))
+
                             };
                             todos.Add(todoItem);
                         }
@@ -102,7 +106,7 @@ namespace Notepad.Adapters
             {
                 return;
             }
-            string sql = $"create table {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(50), description varchar(250))";
+            string sql = $"create table {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(50), description varchar(250), position varchar(250))";
             var connection = new SQLiteConnection(_connectionString);
             connection.Open();
             var command = new SQLiteCommand(sql, connection);
@@ -143,7 +147,11 @@ namespace Notepad.Adapters
                     using (var reader = command.ExecuteReader())
                     {
                         reader.Read();
-                        idea = new TodoItem(reader.GetString(1), reader.GetString(2)) {Id = reader.GetInt32(0)};
+                        idea = new TodoItem(reader.GetString(1), reader.GetString(2))
+                        {
+                            Id = reader.GetInt32(0),
+                            Position=(PositionNames)Enum.Parse(typeof(PositionNames),reader.GetString(3))
+                        };
                     }
                 }
                 connection.Close();
