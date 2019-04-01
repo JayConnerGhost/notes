@@ -30,7 +30,7 @@ namespace Notepad.Adapters
 
         public int CreateToDoItem(string name, string description, PositionNames position)
         {
-            var sql = $"insert into Todo (name, description, position) values('{name}','{description}','{position}')";
+            var sql = $"insert into Todos (name, description, position) values('{name}','{description}','{position}')";
 
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -49,7 +49,7 @@ namespace Notepad.Adapters
 
         public IList<TodoItem> GetAll()
         {
-            const string sql = "select * from Todo";
+            const string sql = "select * from Todos";
             var todos = new List<TodoItem>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -78,10 +78,27 @@ namespace Notepad.Adapters
             return todos;
         }
 
+        public void Delete(int id)
+        {
+            var sql = $"delete from Todos where id={id}";
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+        }
+
         private int GetId(string name)
         {
             var id = 0;
-            var SqlId = $"select id from Todo where name='{name}' ORDER BY rowid DESC ";
+            var SqlId = $"select id from Todos where name='{name}' ORDER BY rowid DESC ";
             using (var connection2 = new SQLiteConnection(_connectionString))
             {
                 connection2.Open();
@@ -101,7 +118,7 @@ namespace Notepad.Adapters
 
         public void CreateTodoTable()
         {
-            const string tableName = "Todo";
+            const string tableName = "Todos";
             if (DoesTableExist(tableName))
             {
                 return;
@@ -137,7 +154,7 @@ namespace Notepad.Adapters
 
         public ITodoItem Get(int itemId)
         {
-            var sql = $"select * from Todo where id={itemId}";
+            var sql = $"select * from Todos where id={itemId}";
             TodoItem idea;
             using (var connection = new SQLiteConnection(_connectionString))
             {

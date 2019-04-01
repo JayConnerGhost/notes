@@ -27,7 +27,7 @@ namespace Notepad.Repositories
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _sqliteDbTodoAdapter.Delete(id);
         }
     }
 }

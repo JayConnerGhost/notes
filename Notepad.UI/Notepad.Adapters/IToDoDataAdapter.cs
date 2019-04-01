@@ -8,5 +8,6 @@ namespace Notepad.Adapters
     {
         int CreateToDoItem(string name, string description, PositionNames todo);
         IList<TodoItem> GetAll();
+        void Delete(int id);
     }
 }

@@ -78,7 +78,7 @@ namespace Notepad.UI
         private static void SetupDatabase(SqlLiteDbIdeaAdapter sqlLiteDbIdeaAdapter,
             SqliteDbTodoAdapter sqliteDbTodoAdapter)
         {
-            sqlLiteDbIdeaAdapter.CreateDatabase(true);
+            sqlLiteDbIdeaAdapter.CreateDatabase(false);
             sqlLiteDbIdeaAdapter.CreateIdeaTable();
             sqliteDbTodoAdapter.CreateTodoTable();
         }

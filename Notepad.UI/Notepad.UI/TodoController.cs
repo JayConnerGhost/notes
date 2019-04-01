@@ -26,7 +26,7 @@ namespace Notepad.UI
             _frame.Closing += _frame_Closing;
             CustomizePanels(_frame);
             LoadPanels();
-            populateTestData();
+             populateTestData();
         }
 
         private void populateTestData()
@@ -71,8 +71,6 @@ namespace Notepad.UI
         private void LoadPanels()
         {
             GetAll();
-         
-           
         }
 
         private void _frame_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -105,7 +103,6 @@ namespace Notepad.UI
 
         private void Control_RemoveTask(object sender, Controls.TodoItem.RemoveTaskEventArgs e)
         {
-            //Code in here  to remove control by Id from database and from UI
             todoControls[e.Id].Dispose();
             todoControls.Remove(e.Id);
             _service.Delete(e.Id);
