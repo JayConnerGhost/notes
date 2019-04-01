@@ -20,19 +20,7 @@ namespace Notepad.UI
 
         public IList<TodoItem> TodoItems { get; set; }
 
-        public SplitterPanel GetPanelTodo()
-        {
-            return splitContainer1.Panel1;
-        }
-
-        public SplitterPanel GetPanelDoing()
-        {
-            return splitContainer2.Panel1;
-        }
-
-        public SplitterPanel GetPanelDone()
-        {
-            return splitContainer2.Panel2;
-        }
+       
+     
     }
 }

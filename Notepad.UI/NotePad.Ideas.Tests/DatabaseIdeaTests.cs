@@ -62,6 +62,7 @@ namespace Notepad.Ideas.Tests
             Assert.IsType<int>(result);
         }
 
+        //Database test run individually 
         [Fact]
         public void Can_delete_an_idea_from_the_database()
         {
@@ -83,6 +84,7 @@ namespace Notepad.Ideas.Tests
             Assert.Empty(result);
         }
 
+        //Database test run individually 
         [Fact]
         public void Can_retrieve_an_idea_by_id()
         {

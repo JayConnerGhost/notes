@@ -28,10 +28,10 @@ namespace Notepad.UI
             var notepadController = new NotepadController(notepadFrame.splitControlArea.Panel2, loggingController);
             var fileBrowserController= new FileBrowserController((TabControl)notepadFrame.splitControlArea.Panel1.Controls[0],loggingController);
             var sqlLiteDbAdapter = new SqlLiteDbIdeaAdapter(GetConnectionString(),GetDatabaseName());
-            SetupDatabase(sqlLiteDbAdapter);
+            var sqliteDbTodoAdapter = new SqliteDbTodoAdapter(GetConnectionString(),GetDatabaseName());
+            SetupDatabase(sqlLiteDbAdapter, sqliteDbTodoAdapter);
             var ideaController = SetupIdeaController(sqlLiteDbAdapter, notepadFrame, loggingController);
             var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController, notepadFrame);
-            var sqliteDbTodoAdapter = new SqliteDbTodoAdapter(GetConnectionString(),GetDatabaseName());
             var todoRepository = new TodoRepository(sqliteDbTodoAdapter);
             var todoController = new TodoController(loggingController, new TodoService(todoRepository),todoFrame);
             SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController, todoController);
@@ -75,10 +75,12 @@ namespace Notepad.UI
             return loggingController;
         }
 
-        private static void SetupDatabase(SqlLiteDbIdeaAdapter sqlLiteDbIdeaAdapter)
+        private static void SetupDatabase(SqlLiteDbIdeaAdapter sqlLiteDbIdeaAdapter,
+            SqliteDbTodoAdapter sqliteDbTodoAdapter)
         {
-            sqlLiteDbIdeaAdapter.CreateDatabase(false);
+            sqlLiteDbIdeaAdapter.CreateDatabase(true);
             sqlLiteDbIdeaAdapter.CreateIdeaTable();
+            sqliteDbTodoAdapter.CreateTodoTable();
         }
 
        
