@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Notepad.Adapters;
 using Notepad.Dtos;
 using Notepad.Repositories;
 using Notepad.Services;
@@ -13,6 +15,8 @@ namespace Notepad.TODO.Tests
     {
         ITodoController _controller;
         ITodoService _service;
+        const string ConnectionString = "Data Source=MyDatabase.sqlite;Version=3";
+        const string DatabaseName = "MyDatabase.sqlite";
 
         public TodoCreateTests()
         {
@@ -67,6 +71,41 @@ namespace Notepad.TODO.Tests
 
             //Assert
             repository.Received(1).Create(name, description);
+        }
+
+        [Fact]
+        public void Position_is_set_ToDo_when_Item_is_created()
+        {
+            //Arrange
+            const string name = "test item 2";
+            const string description = "test item 2 description, some words and gunk here ";
+            var sqliteDbTodoAdapter = new SqliteDbTodoAdapter(ConnectionString,DatabaseName);
+            ITodoRepository repository=new TodoRepository(sqliteDbTodoAdapter);
+            SetupDatabase(sqliteDbTodoAdapter);
+            CreateTodoTable(sqliteDbTodoAdapter);
+
+            //Act
+
+            int ItemId=repository.Create(name,description);
+            //Assert
+            ITodoItem itemFromDatabase = GetItemFromDatabase(ItemId, sqliteDbTodoAdapter);
+            Assert.Equal(name,itemFromDatabase.Name);
+            Assert.Equal(description,itemFromDatabase.Description);
+        }
+
+        private void CreateTodoTable(SqliteDbTodoAdapter sqliteDbTodoAdapter)
+        {
+            sqliteDbTodoAdapter.CreateTodoTable();
+        }
+
+        private void SetupDatabase(SqliteDbTodoAdapter sqliteDbTodoAdapter)
+        {
+            sqliteDbTodoAdapter.CreateDatabase(true);
+        }
+
+        private ITodoItem GetItemFromDatabase(int itemId, SqliteDbTodoAdapter sqliteDbTodoAdapter)
+        {
+            return sqliteDbTodoAdapter.Get(itemId);
         }
 
         public void Dispose()

@@ -1,12 +1,20 @@
 ﻿using System;
+using Notepad.Adapters;
 
 namespace Notepad.Repositories
 {
     public class TodoRepository : ITodoRepository
     {
-        public int Create(string testItem, string testItem1Description)
+        private readonly IToDoDataAdapter _sqliteDbTodoAdapter;
+
+        public TodoRepository(IToDoDataAdapter sqliteDbTodoAdapter)
         {
-            throw new NotImplementedException();
+            _sqliteDbTodoAdapter = sqliteDbTodoAdapter;
+        }
+
+        public int Create(string name, string description)
+        {
+           return _sqliteDbTodoAdapter.CreateToDoItem(name, description);
         }
     }
 }

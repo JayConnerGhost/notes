@@ -51,7 +51,7 @@ namespace Notepad.Ideas.Tests
         {
             //Arrange 
             const string ideaDescription = "test idea 10";
-            var sqlLiteDbAdapter = new SqlLiteDbAdapter(ConnectionString,DatabaseName);
+            var sqlLiteDbAdapter = new SqlLiteDbIdeaAdapter(ConnectionString,DatabaseName);
             var repository=new IdeaRepository(sqlLiteDbAdapter);
 
             //Act
@@ -89,7 +89,7 @@ namespace Notepad.Ideas.Tests
             //Arrange
             var description = "test idea 11";
             var testItem=new Idea(description);
-            var repository= new IdeaRepository(new SqlLiteDbAdapter(ConnectionString, DatabaseName));
+            var repository= new IdeaRepository(new SqlLiteDbIdeaAdapter(ConnectionString, DatabaseName));
             //Act
             var id = repository.Create(description);
 
@@ -102,8 +102,8 @@ namespace Notepad.Ideas.Tests
         {
             //connect to SQLlite db 
         
-            IDbAdapter dbAdapter = new SqlLiteDbAdapter(ConnectionString, DatabaseName);
-            ((SqlLiteDbAdapter)dbAdapter).CreateDatabase(true);
+            IDbAdapter dbAdapter = new SqlLiteDbIdeaAdapter(ConnectionString, DatabaseName);
+            ((SqlLiteDbIdeaAdapter)dbAdapter).CreateDatabase(true);
         
             dbAdapter.CreateIdeaTable();
             Thread.Sleep(400);
@@ -112,7 +112,7 @@ namespace Notepad.Ideas.Tests
 
         private IList<Idea> RetrieveIdeaCollectionFromDatabase(IDbAdapter database)
         {
-            IDbAdapter dbAdapter = new SqlLiteDbAdapter(ConnectionString, DatabaseName);
+            IDbAdapter dbAdapter = new SqlLiteDbIdeaAdapter(ConnectionString, DatabaseName);
             return dbAdapter.SelectAllIdeas();
            }
     }

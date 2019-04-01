@@ -6,12 +6,12 @@ using Notepad.Dtos;
 
 namespace Notepad.Adapters
 {
-    public class SqlLiteDbAdapter : IDbAdapter
+    public class SqlLiteDbIdeaAdapter : IDbAdapter
     {
         private readonly string _connectionString;
         private readonly string _databaseName;
 
-        public SqlLiteDbAdapter(string connectionString, string databaseName)
+        public SqlLiteDbIdeaAdapter(string connectionString, string databaseName)
         {
             _connectionString = connectionString;
             _databaseName = databaseName;
