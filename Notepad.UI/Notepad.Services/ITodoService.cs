@@ -5,7 +5,8 @@ namespace Notepad.Services
 {
     public interface ITodoService
     {
-        void Create(TodoItem Todo);
+        int Create(TodoItem Todo);
         IList<TodoItem> GetAll();
+        void Delete(int Id);
     }
 }

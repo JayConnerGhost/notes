@@ -19,8 +19,5 @@ namespace Notepad.UI
         }
 
         public IList<TodoItem> TodoItems { get; set; }
-
-       
-     
     }
 }

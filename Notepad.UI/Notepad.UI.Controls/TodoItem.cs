@@ -12,6 +12,8 @@ namespace Notepad.UI.Controls
 {
     public partial class TodoItem: UserControl
     {
+        public event EventHandler<RemoveTaskEventArgs> RemoveTask;
+        
         public int Id=0;
         public TodoItem()
         {
@@ -24,6 +26,18 @@ namespace Notepad.UI.Controls
             Id = todoItem.Id;
             this.txtName.Text = todoItem.Name;
             this.txtDescription.Text = todoItem.Description;
+        }
+
+    
+
+        public class RemoveTaskEventArgs : EventArgs
+        {
+            public int Id{get;set;}
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            RemoveTask?.Invoke(this, new RemoveTaskEventArgs {Id = this.Id});
         }
     }
 }

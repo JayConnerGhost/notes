@@ -15,6 +15,7 @@ namespace Notepad.UI
         private readonly TodoFrame _frame;
         private readonly Dictionary<PositionNames, FlowLayoutPanel> _areas=new Dictionary<PositionNames, FlowLayoutPanel>();
         IList<TodoItem> _todoItems;
+        private Dictionary<int,UI.Controls.TodoItem> todoControls=new Dictionary<int, Controls.TodoItem>();
 
         public TodoController(ILoggingController loggingController, ITodoService service, TodoFrame frame)
         {
@@ -25,6 +26,17 @@ namespace Notepad.UI
             _frame.Closing += _frame_Closing;
             CustomizePanels(_frame);
             LoadPanels();
+            populateTestData();
+        }
+
+        private void populateTestData()
+        {
+            //temp to be removed 
+            Add("test ", "test ");
+            Add("test 2 ", "test 2");
+            Add("test 3", "test 3");
+            Add("test 4", "test 4");
+            Add("test 5", "test 4");
         }
 
         private void CustomizePanels(TodoFrame frame)
@@ -58,13 +70,9 @@ namespace Notepad.UI
 
         private void LoadPanels()
         {
-          
-            Add("test ","test ");
-            Add("test 2 ","test 2");
-            Add("test 3","test 3");
-            Add("test 4","test 4");
-            Add("test 5","test 4");
             GetAll();
+         
+           
         }
 
         private void _frame_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -80,7 +88,28 @@ namespace Notepad.UI
 
         public void Add(string name, string description)
         {
-            _service.Create(new TodoItem(name, description));
+            var todo = new TodoItem(name, description);
+            todo.Id = _service.Create(todo);
+
+            AddNewControl(todo);
+        }
+
+        private void AddNewControl(TodoItem todo)
+        {
+            var control = new Controls.TodoItem();
+            control.RemoveTask += Control_RemoveTask;
+            control.LoadData(todo);
+            todoControls.Add(todo.Id, control);
+            _areas[PositionNames.Todo].Controls.Add(control);
+        }
+
+        private void Control_RemoveTask(object sender, Controls.TodoItem.RemoveTaskEventArgs e)
+        {
+            //Code in here  to remove control by Id from database and from UI
+            todoControls[e.Id].Dispose();
+            todoControls.Remove(e.Id);
+            _service.Delete(e.Id);
+
         }
 
         public void GetAll()
@@ -93,9 +122,7 @@ namespace Notepad.UI
         {
             foreach (var todoItem in todoItems)
             {
-                var control = new Controls.TodoItem();
-                control.LoadData((Notepad.Dtos.TodoItem) todoItem);
-                _areas[todoItem.Position].Controls.Add(control);
+                AddNewControl(todoItem);
             }
         }
 

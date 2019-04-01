@@ -14,14 +14,19 @@ namespace Notepad.Services
             _repository = repository;
         }
 
-        public void Create(TodoItem todo)
+        public int Create(TodoItem todo)
         {
-            _repository.Create(todo.Name, todo.Description);
+           return _repository.Create(todo.Name, todo.Description);
         }
 
         public IList<TodoItem> GetAll()
         {
            return _repository.GetAll();
+        }
+
+        public void Delete(int Id)
+        {
+            _repository.Delete(Id);
         }
     }
 }

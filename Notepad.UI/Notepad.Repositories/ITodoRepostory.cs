@@ -8,5 +8,6 @@ namespace Notepad.Repositories
     {
         int Create(string testItem, string testItem1Description);
         IList<TodoItem> GetAll();
+        void Delete(int id);
     }
 }
