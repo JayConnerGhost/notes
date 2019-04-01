@@ -31,7 +31,7 @@ namespace Notepad.UI
             SetupDatabase(sqlLiteDbAdapter);
             var ideaController = SetupIdeaController(sqlLiteDbAdapter, notepadFrame, loggingController);
             var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController, notepadFrame);
-            var todoController = new TodoController(loggingController, new TodoService(),todoFrame);
+            var todoController = new TodoController(loggingController, new TodoService(new TodoRepository()),todoFrame);
             SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController, todoController);
 
             Application.Run(notepadFrame);

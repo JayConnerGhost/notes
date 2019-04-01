@@ -80,6 +80,10 @@
       <Project>{0A87C7E9-8225-44DF-90C1-4F8E1F51F0C7}</Project>
       <Name>Notepad.Dtos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Notepad.Repositories\Notepad.Repositories.csproj">
+      <Project>{BF02862A-0CD9-4DA7-88E6-9C1916457CCC}</Project>
+      <Name>Notepad.Repositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Notepad.Services\Notepad.Services.csproj">
       <Project>{37EBBA40-0DDA-4B36-9445-16B7EF65B37B}</Project>
       <Name>Notepad.Services</Name>

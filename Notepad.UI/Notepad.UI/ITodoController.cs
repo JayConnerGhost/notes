@@ -3,6 +3,6 @@
     public interface ITodoController
     {
         void Show();
-        void Add(string name);
+        void Add(string testItem, string name);
     }
 }

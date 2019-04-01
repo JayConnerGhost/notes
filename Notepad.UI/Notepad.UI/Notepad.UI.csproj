@@ -125,6 +125,9 @@
     <EmbeddedResource Include="Icons\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="TodoFrame.resx">
+      <DependentUpon>TodoFrame.cs</DependentUpon>
+    </EmbeddedResource>
     <Resource Include="Icons\file.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

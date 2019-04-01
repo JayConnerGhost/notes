@@ -4,6 +4,6 @@ namespace Notepad.Services
 {
     public interface ITodoService
     {
-        void Create(TodoItem testTodo);
+        void Create(TodoItem Todo);
     }
 }
