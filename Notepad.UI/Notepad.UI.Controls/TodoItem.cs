@@ -12,9 +12,12 @@ namespace Notepad.UI.Controls
 {
     public partial class TodoItem: UserControl
     {
-        public event EventHandler<RemoveTaskEventArgs> RemoveTask;
-        
+        public event EventHandler<RemoveTodoTaskEventArgs> RemoveTodoTask;
+        public event EventHandler<SaveTodoTaskEventArgs> SaveTodoTask;
+
         public int Id=0;
+        public PositionNames Position;
+        
         public TodoItem()
         {
             InitializeComponent();
@@ -26,18 +29,34 @@ namespace Notepad.UI.Controls
             Id = todoItem.Id;
             this.txtName.Text = todoItem.Name;
             this.txtDescription.Text = todoItem.Description;
+            Position = todoItem.Position;
         }
 
     
 
-        public class RemoveTaskEventArgs : EventArgs
+        public class RemoveTodoTaskEventArgs : EventArgs
         {
             public int Id{get;set;}
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            RemoveTask?.Invoke(this, new RemoveTaskEventArgs {Id = this.Id});
+            RemoveTodoTask?.Invoke(this, new RemoveTodoTaskEventArgs {Id = this.Id});
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveTodoTask?.Invoke(this, new SaveTodoTaskEventArgs { Id = this.Id, Name = this.txtName.Text, Description = this.txtDescription.Text, Position=this.Position});
+        }
+
+        
+    }
+
+    public class SaveTodoTaskEventArgs:EventArgs
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public PositionNames Position { get; set; }
     }
 }

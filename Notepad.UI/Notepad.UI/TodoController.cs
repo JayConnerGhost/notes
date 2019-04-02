@@ -26,7 +26,7 @@ namespace Notepad.UI
             _frame.Closing += _frame_Closing;
             CustomizePanels(_frame);
             LoadPanels();
-             populateTestData();
+            // populateTestData();
         }
 
         private void populateTestData()
@@ -95,13 +95,34 @@ namespace Notepad.UI
         private void AddNewControl(TodoItem todo)
         {
             var control = new Controls.TodoItem();
-            control.RemoveTask += Control_RemoveTask;
+            control.RemoveTodoTask += ControlRemoveTodoTask;
+            control.SaveTodoTask += Control_SaveTodoTask;
             control.LoadData(todo);
             todoControls.Add(todo.Id, control);
             _areas[PositionNames.Todo].Controls.Add(control);
         }
 
-        private void Control_RemoveTask(object sender, Controls.TodoItem.RemoveTaskEventArgs e)
+        private void Control_SaveTodoTask(object sender, Controls.SaveTodoTaskEventArgs e)
+        {
+            //TODO -> update control bid in collections 
+            //TODO -> Save changes to database 
+           var controlsCollection=_areas[e.Position].Controls;
+           Controls.TodoItem targetControl;
+           //Note: might be able to remove the following code for now its staying in place 
+           foreach (Controls.TodoItem control in controlsCollection)
+           {
+               if (control.Id == e.Id)
+               {
+                   targetControl = control;
+                   break;
+               }
+           }
+
+           _service.Update(e.Id, e.Position, e.Description, e.Name);
+
+        }
+
+        private void ControlRemoveTodoTask(object sender, Controls.TodoItem.RemoveTodoTaskEventArgs e)
         {
             todoControls[e.Id].Dispose();
             todoControls.Remove(e.Id);

@@ -29,5 +29,10 @@ namespace Notepad.Repositories
         {
             _sqliteDbTodoAdapter.Delete(id);
         }
+
+        public void Update(int id, PositionNames position, string description, string name)
+        {
+            _sqliteDbTodoAdapter.Update(id, position, description, name);
+        }
     }
 }

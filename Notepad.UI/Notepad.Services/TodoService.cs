@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Notepad.Dtos;
 using Notepad.Repositories;
+using Notepad.UI;
 
 namespace Notepad.Services
 {
@@ -27,6 +28,11 @@ namespace Notepad.Services
         public void Delete(int Id)
         {
             _repository.Delete(Id);
+        }
+
+        public void Update(int Id, PositionNames Position, string Description, string Name)
+        {
+            _repository.Update(Id, Position, Description, Name);
         }
     }
 }

@@ -95,6 +95,23 @@ namespace Notepad.Adapters
             }
         }
 
+        public void Update(int id, PositionNames position, string description, string name)
+        {
+            var parsedPosition=position.ToString();
+            var sql = $"update Todos set Description='{description}', name='{name}', position='{parsedPosition}' where id={id}";
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+
+        }
+
         private int GetId(string name)
         {
             var id = 0;
