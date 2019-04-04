@@ -39,7 +39,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(5, 13);
+            this.lblName.Location = new System.Drawing.Point(4, 13);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 0;
@@ -47,16 +47,16 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(47, 9);
+            this.txtName.Location = new System.Drawing.Point(45, 9);
             this.txtName.MaxLength = 249;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(253, 20);
+            this.txtName.Size = new System.Drawing.Size(233, 20);
             this.txtName.TabIndex = 1;
             // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(4, 38);
+            this.lblDescription.Location = new System.Drawing.Point(2, 38);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(60, 13);
             this.lblDescription.TabIndex = 2;
@@ -64,15 +64,15 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(7, 55);
+            this.txtDescription.Location = new System.Drawing.Point(5, 55);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(292, 172);
+            this.txtDescription.Size = new System.Drawing.Size(273, 172);
             this.txtDescription.TabIndex = 3;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(224, 233);
+            this.btnSave.Location = new System.Drawing.Point(204, 233);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 4;
@@ -82,7 +82,7 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(150, 233);
+            this.btnRemove.Location = new System.Drawing.Point(126, 233);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(75, 23);
             this.btnRemove.TabIndex = 6;
@@ -103,7 +103,7 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblName);
             this.Name = "TodoItem";
-            this.Size = new System.Drawing.Size(310, 263);
+            this.Size = new System.Drawing.Size(285, 263);
             this.ResumeLayout(false);
             this.PerformLayout();
 

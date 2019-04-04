@@ -21,6 +21,7 @@ namespace Notepad.UI.Controls
         public TodoItem()
         {
             InitializeComponent();
+            
         }
 
 
