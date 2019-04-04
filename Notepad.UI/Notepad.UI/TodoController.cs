@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Notepad.Dtos;
 using Notepad.Repositories;
 using Notepad.Services;
 using Notepad.TODO.Tests;
-
+using Notepad.UI.Controls;
 
 namespace Notepad.UI
 {
@@ -15,7 +16,7 @@ namespace Notepad.UI
         private readonly ITodoService _service;
         private readonly TodoFrame _frame;
         private readonly Dictionary<PositionNames, FlowLayoutPanel> _areas=new Dictionary<PositionNames, FlowLayoutPanel>();
-        IList<TodoItem> _todoItems;
+        IList<Dtos.TodoItem> _todoItems;
         private Dictionary<int,UI.Controls.TodoItem> todoControls=new Dictionary<int, Controls.TodoItem>();
         FlowLayoutPanel todoArea;
         FlowLayoutPanel doingArea;
@@ -29,7 +30,7 @@ namespace Notepad.UI
             _frame.Closing += _frame_Closing;
             CustomizePanels(_frame);
             LoadPanels();
-            populateTestData();
+         //   populateTestData();
             _loggingController.Log(MessageType.information, "TODO Board Setup");
         }
 
@@ -47,8 +48,6 @@ namespace Notepad.UI
         private void CustomizePanels(TodoFrame frame)
         {
             var tableLayoutPanel = new TableLayoutPanel {Dock = DockStyle.Fill, RowCount = 1, ColumnCount = 3,HorizontalScroll = { Enabled = false, Visible = false}};
-           
-
             _frame.Controls.Add(tableLayoutPanel);
 
             //add wrap panals (flowpanals) 
@@ -75,8 +74,16 @@ namespace Notepad.UI
             var columnStyle2=new ColumnStyle(SizeType.Percent,30f);
             var columnStyle3=new ColumnStyle(SizeType.Percent,30f);
 
-            var todoHeader = new Label{Text = "TODO",TextAlign = ContentAlignment.MiddleCenter, Width = 320, BackColor = Color.AntiqueWhite,Anchor = AnchorStyles.Top};
-           
+            //var todoHeader = new Label{Text = "TODO",TextAlign = ContentAlignment.MiddleCenter, Width = 320, BackColor = Color.AntiqueWhite,Anchor = AnchorStyles.Top};
+            var todoHeader = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, WrapContents = false, Height = 20, Width=320 ,BackColor= Color.AntiqueWhite };
+            var AddButton=new Button { Text = "+", Width = 20, TextAlign = ContentAlignment.MiddleCenter, BackColor = Color.AntiqueWhite, Anchor = AnchorStyles.Top, Margin = Padding.Empty, FlatStyle = FlatStyle.Flat };
+            AddButton.FlatAppearance.BorderSize = 0;
+            AddButton.Click += AddButton_Click;
+            todoHeader.Controls.Add(AddButton);
+            todoHeader.Controls.Add(new Label { Text = "TODO", TextAlign = ContentAlignment.MiddleCenter, Width = 320, BackColor = Color.AntiqueWhite, Anchor = AnchorStyles.Top });
+
+            
+
             var doingHeader = new Label{Text = "Doing", TextAlign = ContentAlignment.MiddleCenter, Width = 320, BackColor = Color.BurlyWood , Anchor = AnchorStyles.Top};
            
             var doneHeader = new Label{Text = "Done",TextAlign = ContentAlignment.MiddleCenter, Width = 320, BackColor = Color.Gold, Anchor=AnchorStyles.Top};
@@ -100,22 +107,38 @@ namespace Notepad.UI
             _loggingController.Log(MessageType.information, "TODO Panals Setup");
         }
 
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            Add(string.Empty, string.Empty);
+        }
+
         private void DoneArea_DragDrop(object sender, DragEventArgs e)
         {
             var t = ((Controls.TodoItem)e.Data.GetData(typeof(Controls.TodoItem)));
             doneArea.Controls.Add((UserControl)t);
+            UpdatePosition(PositionNames.Done,t);
         }
         private void DoingArea_DragDrop(object sender, DragEventArgs e)
         {
             var t = ((Controls.TodoItem)e.Data.GetData(typeof(Controls.TodoItem)));
             doingArea.Controls.Add((UserControl)t);
+            UpdatePosition(PositionNames.Doing,t);
         }
 
 
         private void TodoArea_DragDrop(object sender, DragEventArgs e)
         {
-                var t = ((Controls.TodoItem)e.Data.GetData(typeof(Controls.TodoItem)));
-                todoArea.Controls.Add((UserControl)t); ;
+            var t = ((Controls.TodoItem)e.Data.GetData(typeof(Controls.TodoItem)));
+            todoArea.Controls.Add((UserControl)t);
+            UpdatePosition(PositionNames.Todo,t);
+        }
+
+        private void UpdatePosition(PositionNames newPosition, Controls.TodoItem target)
+        {
+            _areas[target.Position].Controls.Remove(target);
+            target.Position = newPosition;
+            _areas[newPosition].Controls.Add(target);
+            _service.Update(target.ID, newPosition,target.Description ,target.ItemName);
         }
 
         private void DoneArea_DragEnter(object sender, DragEventArgs e)
@@ -155,14 +178,14 @@ namespace Notepad.UI
 
         public void Add(string name, string description)
         {
-            var todo = new TodoItem(name, description);
+            var todo = new Dtos.TodoItem(name, description) { Position=PositionNames.Todo};
             todo.Id = _service.Create(todo);
 
             AddNewControl(todo);
             _loggingController.Log(MessageType.information, "Added TODO Item");
         }
 
-        private void AddNewControl(TodoItem todo)
+        private void AddNewControl(Dtos.TodoItem todo)
         {
             var control = new Controls.TodoItem();
             control.RemoveTodoTask += ControlRemoveTodoTask;
@@ -172,7 +195,7 @@ namespace Notepad.UI
             control.MouseDown += Control_MouseDown;
 
             todoControls.Add(todo.Id, control);
-            _areas[PositionNames.Todo].Controls.Add(control);
+            _areas[todo.Position].Controls.Add(control);
         }
 
         private void Control_MouseDown(object sender, MouseEventArgs e)
@@ -220,7 +243,7 @@ namespace Notepad.UI
             _loggingController.Log(MessageType.information, "Loading saved TODO Items to Board ");
         }
 
-        private void PopulateBoard(IList<TodoItem> todoItems)
+        private void PopulateBoard(IList<Dtos.TodoItem> todoItems)
         {
             foreach (var todoItem in todoItems)
             {
