@@ -30,21 +30,10 @@ namespace Notepad.UI
             _frame.Closing += _frame_Closing;
             CustomizePanels(_frame);
             LoadPanels();
-         //   populateTestData();
-            _loggingController.Log(MessageType.information, "TODO Board Setup");
+           _loggingController.Log(MessageType.information, "TODO Board Setup");
         }
 
-        private void populateTestData()
-        {
-            //temp to be removed 
-        
-            Add("test dev 2", "test 2");
-            Add("test dev 3", "test 3");
-            Add("test dev 4", "test 4");
-            Add("test dev 5", "test 4");
-            _loggingController.Log(MessageType.information, "Loading DEVELOPMENT DATA");
-        }
-
+      
         private void CustomizePanels(TodoFrame frame)
         {
             var tableLayoutPanel = new TableLayoutPanel {Dock = DockStyle.Fill, RowCount = 1, ColumnCount = 3,HorizontalScroll = { Enabled = false, Visible = false}};

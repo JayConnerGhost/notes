@@ -151,8 +151,11 @@ namespace Notepad.UI
 
         private void _fileView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            var openFile =  OpenFile;
-            openFile?.Invoke(sender, e);
+            if (e.IsSelected)
+            {
+                var openFile = OpenFile;
+                openFile?.Invoke(sender, e);
+            }
         }
 
         public void PopulateLocal(string path)
