@@ -277,8 +277,6 @@ namespace Notepad.UI
                 Keys.Alt | Keys.R));
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Hacker", null, new EventHandler(HackerContrast_Click),
                 Keys.Alt | Keys.H));
-   
-         
             mnuView.DropDownItems.Add(new ToolStripMenuItem("Logging", null, new EventHandler(Logging_Click),
                 Keys.Alt | Keys.L));
         }
@@ -287,9 +285,6 @@ namespace Notepad.UI
         {
             _frame.scOuter.Panel2Collapsed = !_frame.scOuter.Panel2Collapsed;
         }
-
-   
-
         private void HackerContrast_Click(object sender, EventArgs e)
         {
             _loggingController.Log(MessageType.information, " Switch to Hacker mode");
@@ -359,9 +354,7 @@ namespace Notepad.UI
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Close", null, new EventHandler(Close_Click),
                 Keys.Control | Keys.X));
         }
-
-       
-
+        
         private void Close_Click(object sender, EventArgs e)
         {
            _frame.Close();
@@ -402,14 +395,7 @@ namespace Notepad.UI
                 return;
             }
 
-            if (NotTempFileName(fileName))
-            {
-                UserInteractiveFileSave(false,fileName);
-            }
-            else
-            {
-                UserInteractiveFileSave(true, fileName);
-            }
+            UserInteractiveFileSave(!NotTempFileName(fileName), fileName);
         }
 
         private static bool NotTempFileName(string fileName)
@@ -429,7 +415,6 @@ namespace Notepad.UI
             if (targetFileName == string.Empty)
             {
                 return;
-
             }
 
             var rtfControl = _notepadController.GetRTFControl();
