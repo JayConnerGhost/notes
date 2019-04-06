@@ -328,6 +328,13 @@ namespace Notepad.UI
             return fileInformationModel.FileName;
         }
 
+        public void UpdateFileName(string newFileName)
+        {
+            var selectedTabPageIndex = GetSelectedTabPageIndex();
+            var fileInformationModel = _fileRegister[selectedTabPageIndex];
+            fileInformationModel.FileName = newFileName;
+        }
+
         private int GetSelectedTabPageIndex()
         {
             var selectedTabTabIndex = MdiInterface.SelectedTab.TabIndex;

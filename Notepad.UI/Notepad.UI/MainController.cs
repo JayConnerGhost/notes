@@ -431,9 +431,11 @@ namespace Notepad.UI
                 return;
 
             }
+
             var rtfControl = _notepadController.GetRTFControl();
 
             rtfControl.SaveFile(targetFileName,RichTextBoxStreamType.RichText);
+            _notepadController.UpdateFileName(targetFileName);
             OpenNewlySavedFile(OpenFile, saveFileDialog1);
 
             if (_notepadController.GetSelectedTabPageTag() != string.Empty) return;
