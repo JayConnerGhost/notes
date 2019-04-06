@@ -388,7 +388,7 @@ namespace Notepad.UI
         private void SaveAs_Click(object sender, EventArgs e)
         {
             _loggingController.Log(MessageType.information, " Save as - file");
-            UserInteractiveFileSave(true);
+            UserInteractiveFileSave(true, _notepadController.GetFileName());
         }
 
         private void SaveFile()
@@ -404,11 +404,11 @@ namespace Notepad.UI
 
             if (NotTempFileName(fileName))
             {
-                UserInteractiveFileSave(false);
+                UserInteractiveFileSave(false,fileName);
             }
             else
             {
-                UserInteractiveFileSave(true);
+                UserInteractiveFileSave(true, fileName);
             }
         }
 
@@ -418,11 +418,12 @@ namespace Notepad.UI
             return !(fileName.Contains(tmpDocumentMarker));
         }
 
-        private void UserInteractiveFileSave(bool OpenFile)
+        private void UserInteractiveFileSave(bool OpenFile, string fileName)
         {
            
             var saveFileDialog1 = new SaveFileDialog
                 {Filter = "rtf files (*.rtf)|*.rtf|All files (*.*)|*.*", Title = "Save a Rich Text File"};
+            saveFileDialog1.FileName = fileName;
             saveFileDialog1.ShowDialog();
             var targetFileName=saveFileDialog1.FileName;
             if (targetFileName == string.Empty)
