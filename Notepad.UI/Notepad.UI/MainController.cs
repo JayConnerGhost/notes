@@ -315,7 +315,7 @@ namespace Notepad.UI
                 Keys.Control | Keys.H));
 
             mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Transfer Ideas", null, new EventHandler(Transfer_Ideas),
-                Keys.Alt | Keys.T));
+                Keys.Control | Keys.T));
 
         }
 
