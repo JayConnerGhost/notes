@@ -88,10 +88,17 @@ namespace Notepad.UI
             var tableLayout = new TableLayoutPanel {ColumnCount = 1, RowCount = 2,Dock = DockStyle.Fill};
             tableLayout.Controls.Add(itemList,0,1);
             var buttonLayout = new FlowLayoutPanel {FlowDirection = FlowDirection.LeftToRight,Height = 25,Dock = DockStyle.Top};
-            var addButton = new Button(){Text="Add"};
+
+            var checkedAllButton = new Button() { Text = "X", Width = 30, Font = new Font(FontFamily.GenericSerif, 10, FontStyle.Bold), TextAlign = ContentAlignment.TopCenter };
+
+            checkedAllButton.Click += CheckedAllButton_Click;
+           
+            buttonLayout.Controls.Add(checkedAllButton);
+
+            var addButton = new Button(){Text="+",Width = 30,Font = new Font(FontFamily.GenericSerif,10,FontStyle.Bold),TextAlign = ContentAlignment.TopCenter};
             addButton.Click += AddButton_Click;
             buttonLayout.Controls.Add(addButton);
-            var deleteButton = new Button(){Text = "Delete"};
+            var deleteButton = new Button(){Text = "-", Width = 30, Font = new Font(FontFamily.GenericSerif, 10, FontStyle.Bold), TextAlign = ContentAlignment.TopCenter };
             deleteButton.Click += DeleteButton_Click;
             buttonLayout.Controls.Add(deleteButton);
             tableLayout.Controls.Add(buttonLayout,0,1);
@@ -100,6 +107,26 @@ namespace Notepad.UI
             area.TabPages.Add(tabPage);
             itemList.View = View.List;
             
+        }
+
+        private void CheckedAllButton_Click(object sender, System.EventArgs e)
+        {
+            var listView = ((ListView)GetIdeaList(_area));
+
+            if (listView.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listViewCheckedItem in listView.CheckedItems)
+                {
+                    listViewCheckedItem.Checked = false;
+                }
+
+                return;
+            }
+
+            foreach (ListViewItem listViewItem in listView.Items)
+            {
+                listViewItem.Checked = true;
+            }
         }
 
         private void ItemList_DoubleClick(object sender, System.EventArgs e)

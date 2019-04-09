@@ -87,10 +87,16 @@ namespace Notepad.Adapters
             return ideas;
         }
 
+        public string convertQuotes(string str)
+        {
+            return str.Replace("'", "''");
+        }
+
 
         public int CreateIdea(string ideaDescription)
         {
-            var sql = $"insert into Ideas (description) values('{ideaDescription}')";
+            var finalItemDescription= convertQuotes(ideaDescription);
+               var sql = $"insert into Ideas (description) values('{finalItemDescription}')";
      
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -110,7 +116,7 @@ namespace Notepad.Adapters
         private int GetId(string ideaDescription)
         {
             var id = 0;
-            var SqlId = $"select id from Ideas where description='{ideaDescription}' ORDER BY rowid DESC ";
+            var SqlId = $"select id from Ideas where description='{convertQuotes(ideaDescription)}' ORDER BY rowid DESC ";
             using (var connection2 = new SQLiteConnection(_connectionString))
             {
                 connection2.Open();
