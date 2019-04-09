@@ -46,7 +46,16 @@ namespace Notepad.UI
         {
             var tmpDocumentMarker = ConfigurationManager.AppSettings["tmpFileMarker"];
             var tabPage = new TabPage { Dock = DockStyle.Fill };
+           
+            //code in here to add rich text bar
+           // var toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+           // var toolStrip1 = new System.Windows.Forms.ToolStrip();
+          //  tabPage.Controls.Add(toolStripContainer1);
+          //  toolStripContainer1.Dock = DockStyle.Top;
+          //  toolStripContainer1.Height = 20;
+         //  toolStripContainer1.TopToolStripPanel.Controls.Add(toolStrip1);
             tabPage.Controls.Add(AddTextControl());
+
             MdiInterface.TabPages.Add(tabPage);
             var fileName = $"{tmpDocumentMarker}{tabPage.TabIndex}";
             AddToFileRegister(tabPage,fileName, fileName);
@@ -98,6 +107,7 @@ namespace Notepad.UI
 
         private RichTextBox AddTextControl()
         {
+            
             Text = new RichTextBox()
             {
                 Dock = DockStyle.Fill, Multiline = true, AcceptsTab = true, AllowDrop = true,

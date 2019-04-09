@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
@@ -57,6 +58,25 @@ namespace Notepad.UI
             var table = area.TabPages[1].Controls[0];
             var ideaList = table.Controls[0];
             return ideaList;
+        }
+
+        public string[] GetIdeaList()
+        {
+            var ideas = ((ListView)GetIdeaList(_area)).Items;
+            var textIdeas = TransformIdeas(ideas);
+            return textIdeas.ToArray();
+        }
+
+        private List<string> TransformIdeas(ListView.ListViewItemCollection ideas)
+        {
+            var textIdeas = new List<string>();
+
+            foreach (ListViewItem idea in ideas)
+            {
+                textIdeas.Add(idea.Text.Trim());
+            }
+
+            return textIdeas;
         }
 
         private void BuildUIArea(TabControl area)

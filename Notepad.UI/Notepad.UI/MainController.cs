@@ -314,6 +314,20 @@ namespace Notepad.UI
             mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Search", null, new EventHandler(Search_Click),
                 Keys.Control | Keys.H));
 
+            mnuEdit.DropDownItems.Add(new ToolStripMenuItem("Transfer Ideas", null, new EventHandler(Transfer_Ideas),
+                Keys.Alt | Keys.T));
+
+        }
+
+        private void Transfer_Ideas(object sender, EventArgs e)
+        {
+            var ideaList = _ideaController.GetIdeaList();
+
+            foreach (var idea in ideaList)
+            {
+                _notepadController.GetRTFControl().AppendText($" - {idea}{Environment.NewLine}");
+            }
+         
         }
 
         private void Search_Click(object sender, EventArgs e)

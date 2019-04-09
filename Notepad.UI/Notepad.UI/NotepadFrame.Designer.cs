@@ -68,6 +68,7 @@
             this.pasteToolStripMenuItem,
             this.selectAllToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.contextMenuStrip1.Size = new System.Drawing.Size(123, 92);
             // 
             // toolStripMenuItem1
@@ -111,7 +112,7 @@
             // 
             this.scOuter.Panel2.Controls.Add(this.bottomTabArea);
             this.scOuter.Size = new System.Drawing.Size(806, 431);
-            this.scOuter.SplitterDistance = 277;
+            this.scOuter.SplitterDistance = 280;
             this.scOuter.SplitterWidth = 1;
             this.scOuter.TabIndex = 1;
             // 
@@ -124,7 +125,7 @@
             // splitControlArea.Panel1
             // 
             this.splitControlArea.Panel1.Controls.Add(this.bottomTabs);
-            this.splitControlArea.Size = new System.Drawing.Size(806, 277);
+            this.splitControlArea.Size = new System.Drawing.Size(806, 280);
             this.splitControlArea.SplitterDistance = 268;
             this.splitControlArea.TabIndex = 4;
             // 
@@ -138,7 +139,7 @@
             this.bottomTabs.Name = "bottomTabs";
             this.bottomTabs.Padding = new System.Drawing.Point(1, 1);
             this.bottomTabs.SelectedIndex = 0;
-            this.bottomTabs.Size = new System.Drawing.Size(268, 277);
+            this.bottomTabs.Size = new System.Drawing.Size(268, 280);
             this.bottomTabs.TabIndex = 0;
             // 
             // bottomTabArea
@@ -149,14 +150,14 @@
             this.bottomTabArea.Location = new System.Drawing.Point(0, 0);
             this.bottomTabArea.Name = "bottomTabArea";
             this.bottomTabArea.SelectedIndex = 0;
-            this.bottomTabArea.Size = new System.Drawing.Size(806, 153);
+            this.bottomTabArea.Size = new System.Drawing.Size(806, 150);
             this.bottomTabArea.TabIndex = 0;
             // 
             // loggingTabPage
             // 
             this.loggingTabPage.Location = new System.Drawing.Point(4, 4);
             this.loggingTabPage.Name = "loggingTabPage";
-            this.loggingTabPage.Size = new System.Drawing.Size(798, 127);
+            this.loggingTabPage.Size = new System.Drawing.Size(798, 124);
             this.loggingTabPage.TabIndex = 0;
             this.loggingTabPage.Text = "Log";
             this.loggingTabPage.UseVisualStyleBackColor = true;
