@@ -368,8 +368,23 @@ namespace Notepad.UI
                 Keys.Control | Keys.O));
             mnuFile.DropDownItems.Add(new ToolStripMenuItem("Close", null, new EventHandler(Close_Click),
                 Keys.Control | Keys.X));
+            mnuFile.DropDownItems.Add(new ToolStripMenuItem("Close All Tabs", null, new EventHandler(Close_All_Documents),
+                null));
         }
-        
+
+        private void Close_All_Documents(object sender, EventArgs e)
+        {
+            var tabMenu = (TabControl)_frame.splitControlArea.Panel2.Controls[0];
+            var pages = tabMenu.TabPages;
+            var I = 0;
+            foreach (TabPage tabPage in pages)
+            {
+                I = tabPage.TabIndex;
+                tabMenu.TabPages.Remove(tabPage);
+                _notepadController.RemoveFileFromFileRegister(I);
+            }
+        }
+
         private void Close_Click(object sender, EventArgs e)
         {
            _frame.Close();
