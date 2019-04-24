@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NetSpell.SpellChecker;
-using Notepad.TODO.Tests;
 using Notepad.UI;
 
 namespace Notepad.UI

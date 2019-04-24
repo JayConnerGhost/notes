@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {

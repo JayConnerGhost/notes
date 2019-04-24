@@ -1,6 +1,4 @@
-﻿using Notepad.UI;
-
-namespace Notepad.TODO.Tests
+﻿namespace Notepad.UI
 {
     public interface ILoggingController
     {

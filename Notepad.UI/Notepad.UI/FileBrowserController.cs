@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Collections.Specialized;
-using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {

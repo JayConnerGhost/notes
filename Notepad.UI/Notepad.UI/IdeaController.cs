@@ -5,7 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using Notepad.Services;
 using Notepad.Dtos;
-using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {

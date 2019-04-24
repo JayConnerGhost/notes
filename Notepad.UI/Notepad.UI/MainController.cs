@@ -5,7 +5,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {

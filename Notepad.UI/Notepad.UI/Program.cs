@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using Notepad.Adapters;
 using Notepad.Repositories;
 using Notepad.Services;
-using Notepad.TODO.Tests;
 
 namespace Notepad.UI
 {
