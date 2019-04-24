@@ -149,21 +149,7 @@ namespace Notepad.UI
                 tab_rect.Height - 2 * tab_margin);
             using (StringFormat string_format = new StringFormat())
             {
-//                // Draw the tab # in the upper left corner.
-//                using (Font small_font = new Font(_frame.Font.FontFamily,
-//                    6, FontStyle.Bold))
-//                {
-//                    string_format.Alignment = StringAlignment.Near;
-//                    string_format.LineAlignment = StringAlignment.Near;
-//                    e.Graphics.DrawString(
-//                        e.Index.ToString(),
-//                        small_font,
-//                        txt_brush,
-//                        layout_rect,
-//                        string_format);
-//                }
 
-                // Draw the tab's text centered.
                 using (Font big_font = new Font(_frame.Font, FontStyle.Bold))
                 {
                     string_format.Alignment = StringAlignment.Center;
