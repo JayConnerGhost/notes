@@ -18,6 +18,7 @@ namespace Notepad.UI
         private readonly IdeaController _ideaController;
         private readonly ITodoController _todoController;
         private readonly ILoggingController _loggingController;
+        private readonly BrowserController _browserController;
         private IdeaController _IdeaController;
         private TabControl _Area1Tabs;
 
@@ -29,7 +30,7 @@ namespace Notepad.UI
             FileBrowserController fileBrowserController,
             BrandController brandController,
             NotepadFrame frame, IdeaController ideaController, ITodoController todoController,
-            ILoggingController loggingController)
+            ILoggingController loggingController, BrowserController browserController)
         {
             _notepadController = notepadController;
             _fileBrowserController = fileBrowserController;
@@ -39,6 +40,7 @@ namespace Notepad.UI
             _ideaController = ideaController;
             _todoController = todoController;
             _loggingController = loggingController;
+            _browserController = browserController;
             BuildUserInterface(frame);
             _loggingController.Log(MessageType.information, "MainController constructed");
             _frame.scOuter.Panel2Collapsed = true;
@@ -237,6 +239,13 @@ namespace Notepad.UI
                 Keys.Alt | Keys.S));
             mnuTools.DropDownItems.Add(new ToolStripMenuItem("TODO List", null, new EventHandler(TODO_Click),
                 Keys.Alt | Keys.T));
+            mnuTools.DropDownItems.Add(new ToolStripMenuItem("WebBrowser", null, new EventHandler(WebBrowser_Click),
+                Keys.Alt | Keys.W));
+        }
+
+        private void WebBrowser_Click(object sender, EventArgs e)
+        {
+            _browserController.Show();
         }
 
         private void TODO_Click(object sender, EventArgs e)

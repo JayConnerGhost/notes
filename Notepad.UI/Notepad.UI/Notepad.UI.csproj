@@ -89,6 +89,7 @@
     <Compile Include="AboutDialog.cs" />
     <Compile Include="AddIdeaDialog.cs" />
     <Compile Include="BrandController.cs" />
+    <Compile Include="BrowserController.cs" />
     <Compile Include="DialogForm.cs">
       <SubType>Form</SubType>
     </Compile>

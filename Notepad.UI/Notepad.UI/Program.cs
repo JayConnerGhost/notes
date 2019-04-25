@@ -33,17 +33,19 @@ namespace Notepad.UI
             var brandController = SetupBrandController(notepadController, fileBrowserController, ideaController, loggingController, notepadFrame);
             var todoRepository = new TodoRepository(sqliteDbTodoAdapter);
             var todoController = new TodoController(loggingController, new TodoService(todoRepository),todoFrame);
-            SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController, todoController);
+            var browserController=new BrowserController();
+            SetupMainController(notepadController, fileBrowserController, brandController, notepadFrame, ideaController, loggingController, todoController, browserController);
 
             Application.Run(notepadFrame);
         }
 
         private static void SetupMainController(NotepadController notepadController,
             FileBrowserController fileBrowserController, BrandController brandController, NotepadFrame notepadFrame,
-            IdeaController ideaController, ILoggingController loggingController, ITodoController todoController)
+            IdeaController ideaController, ILoggingController loggingController, ITodoController todoController,
+            BrowserController browserController)
         {
             var mainController = new MainController(notepadController, fileBrowserController, brandController, notepadFrame,
-                ideaController,todoController, loggingController);
+                ideaController,todoController, loggingController, browserController);
             notepadFrame.Controller = mainController;
         }
 
