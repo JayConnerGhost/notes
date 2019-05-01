@@ -10,7 +10,11 @@ namespace Notepad.UI
     {
         public void Show()
         {
-            throw new NotImplementedException();
+          var browserDialog=new DialogForm(new FormInfo("Browser",500, 500));
+
+          
+
+          browserDialog.ShowDialog();
         }
     }
 }
